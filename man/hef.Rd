@@ -4,40 +4,147 @@
 \alias{hef}
 \title{Hierarchical Exponential Family Model}
 \usage{
-hef(model = c("bin_beta"), data, prior = NULL, hpars = NULL, ...)
+hef(n = 1000, model = c("binom_beta"), data, prior = "default",
+  hpars = NULL, param = c("trans", "original"), ...)
 }
 \arguments{
+\item{n}{An integer scalar.  The size of the posterior sample required.}
+
 \item{model}{A character string.  Abbreviated name for the
-response-mixture combination.}
+response-population distribution combination.}
 
-\item{data}{A numeric matrix.  The format depends on \code{model}.}
+\item{data}{A numeric matrix.  The format depends on \code{model}.
+See \strong{Details}.}
 
-\item{prior}{Optional.  If the user wishes to specify their own prior
-then \code{prior} should be an R function that has the arguments
-\code{x} and \code{hpars} and returns the log of the prior.
-The argument \code{x} is the ...
-list of prior function and hyperparemeters
-Provide a convenience function.}
+\item{prior}{The log-prior for the parameters of the hyperprior
+distribution.  If the user wishes to specify their own prior then
+\code{prior} must be an object returned from a call to
+\code{\link{set_user_prior}}.
+If \code{prior} is not supplied then a default prior is used.
+See \strong{Details}.}
 
-\item{hpars}{A vector of hyperparameter values.  Default only?}
+\item{hpars}{A numeric vector.  Used to set parameters (if any) in
+a default prior.}
 
-\item{...}{Further argments to be passed to \code{\link[rust]{ru}}.  Most
-importantly \code{trans} and \code{rotate} (see \strong{Details}), and
-perhaps \code{r}, \code{ep}, \code{a_algor}, \code{b_algor},
-\code{a_method}, \code{b_method}, \code{a_control}, \code{b_control}.
-May also be used to pass the arguments \code{n_grid} and/or \code{ep_bc}
-to \code{\link[rust]{find_lambda}}.}
+\item{param}{A character scalar.
+If \code{param = "trans"} (the default) then the marginal posterior
+for of hyperparameter vector \eqn{psi} is parameterised in a way
+designed to improve the efficiency of sampling from this posterior.
+If \code{param = "original"} the original parameterisation is used.
+The former tends to make the optimisations involved in the
+ratio-of-uniforms algorithm more stable and to increase the probability
+of acceptance, but at the expense of slower function evaluations.}
+
+\item{...}{Optional further arguments to be passed to
+\code{\link[rust]{ru}}.}
+}
+\value{
+An object (list) of class \code{"hef"}, which has the same
+  structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
+  In particular, the columns of the \code{n}-row matrix \code{sim_vals}
+  contain the simulated vaues of \eqn{psi}.
+  In addition this list contains the arguments \code{model}, \code{data},
+  \code{prior} detailed above and an \code{n} by \eqn{J} matrix
+  \code{theta_sim_vals}: column j contains the simulated values of
+  (the first component of) \eqn{\thetaj}.  If \eqn{\thetaj} has a
+  second component then the simulated values are given in
+  \code{theta_2_sim_vals}.
 }
 \description{
-Samples from the posterior distribution of hierarchical models in
-which the response distribution is in the exponential family
-with a canonical mixing distribution.
-The user can either choose hyperparameter values of a default prior
-distribution or specify their own prior distribution.
+Samples from the posterior distribution of the parameters of
+certain hierarchical exponential family models.  Conditional on
+population-specific parameter vectors \eqn{\theta}1, ..., \eqn{\theta}J
+the observed \emph{response} data \eqn{y}1, ..., \eqn{y}J within each
+population are modelled as random samples from a distribution in an
+exponential family. The population parameters \eqn{\theta}1, ...,
+\eqn{\theta}J are modelled as random samples from a common
+\emph{population distribution}, chosen to be conditionally conjugate
+to the response distribution, with \emph{hyperparameter} vector \eqn{\phi}.
+Conditionally on \eqn{\theta}1, ..., \eqn{\theta}J, \eqn{y}1, ..., \eqn{y}J
+are independent of each other and are independent of \eqn{\psi}.
+A \emph{hyperprior} is placed on \eqn{\psi}.  The user can either
+choose parameter values of a default hyperprior or specify their own
+hyperprior.
+}
+\details{
+The \code{\link[rust]{ru}} function is used to draw a random sample
+  from the marginal posterior of the hyperparameter vector \eqn{\psi}.
+  Then, conditional on these values, population parameters are sampled
+  directly from the conditional posterior density of
+  \eqn{\theta}1, ..., \eqn{\theta}J given \eqn{\psi} and the data.
+
+  We outline each \code{model}, specify the format of the
+  \code{data}, give the default (log-)priors (up to an additive constant)
+  and detail the choices of ratio-of-uniforms parameterisation
+  \code{param}.
+
+\strong{Binomial-beta:} For \eqn{j = 1, ..., J},
+  \eqn{Yj | \thetaj} are i.i.d binomial\eqn{(nj, \thetaj)},
+  where
+  \eqn{\thetaj} are i.i.d. beta\eqn{(\alpha, \beta)},
+  so \eqn{\thetaj} is the probability of success in group \eqn{j}
+  and \eqn{\psi = (\alpha, \beta)}.
+  \code{data} is a 2-column matrix: the numbers of successes in column 1
+  and the corresponding numbers of trials (column 2).
+
+\emph{Priors:}
+
+\code{prior = "bda"} (the default):
+\eqn{log \pi(\alpha, \beta) = - 2.5 log(\alpha + \beta),
+  \alpha > 0, \beta > 0.} [See Section 5.3 of Gelman et al. (2013).]
+
+\code{prior = "exp"}:
+\eqn{log \pi(\alpha, \beta) = -(\lambda1 \alpha + \lambda2 \beta),
+  \alpha > 0, \beta > 0.}
+where \eqn{(\lambda1, \lambda2)} is specified using \code{hpars}.
+
+\emph{Parameterisations for sampling:}
+
+ \code{param = "original"} is (\eqn{\alpha, \beta}),
+ \code{param = "trans"} (the default) is
+\eqn{ \phi1 = logit(\mu) = log(\alpha/\beta), \phi2 = log(\alpha+\beta), }
+where \eqn{\mu = \alpha/(\alpha+\beta)}.
+See Section 5.3 of Gelman et al. (2013).
 }
 \examples{
-bb_data <- sim_bin_beta(n = 10, size = 20, alpha = 2, beta = 2)
-bb_res <- hef(model = "bin_beta", data = bb_data)
-plot(bb_res)
+############################ Binomial-Beta #################################
 
+# ------------------------- Rat tumor data ------------------------------- #
+
+# Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale
+rat_res <- hef(model = "binom_beta", data = rat)
+plot(rat_res)
+plot(rat_res, ru_scale = TRUE)
+summary(rat_res)
+
+# Default prior, sampling on (rotated) (alpha, beta) scale
+rat_res <- hef(model = "binom_beta", data = rat, param = "original")
+plot(rat_res)
+plot(rat_res, ru_scale = TRUE)
+summary(rat_res)
+
+# To produce a plot akin to Figure 5.3 of Gelman et al. (2013) we
+# (a) Use the same prior for (alpha, beta)
+# (b) Don't use axis rotation (rotate = FALSE)
+# (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)
+# (d) Note that the mode is relocated to (0, 0) in the plot
+rat_res <- hef(model = "binom_beta", data = rat, rotate = FALSE)
+plot(rat_res, ru_scale = TRUE)
+# This is the estimated location of the posterior mode
+rat_res$f_mode
+
+# User prior, with parameters (equivalent to prior = "exp")
+user_prior <- function(x, hpars) {
+  return(dexp(x[1], hpars[1], log = TRUE) + dexp(x[2], hpars[2], log = TRUE))
+}
+user_prior <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
+rat_res <- hef(model = "binom_beta", data = rat, prior = user_prior)
+plot(rat_res)
+summary(rat_res)
+}
+\references{
+Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
+ Vehtari, A. and Rubin, D. B. (2013) \emph{Bayesian Data Analysis}.
+ Chapman & Hall / CRC.
+  \url{http://www.stat.columbia.edu/~gelman/book}
 }

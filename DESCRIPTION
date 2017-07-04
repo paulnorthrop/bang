@@ -1,16 +1,17 @@
 Package: bang
-Title: Bayesian Analysis with No Gibbs Sampling
-Version: 1.0.0.9000
-Date: 2017-06-27
+Title: Bayesian Analysis, No Gibbs
+Version: 0.0.0.9000
+Date: 2017-07-04
 Authors@R: c(person(c("Paul", "J."), "Northrop", email = "p.northrop@ucl.ac.uk",
   role = c("aut", "cre", "cph")), 
   person(c("Benjamin", "D."), "Hall", email = "benjamin.hall.16@ucl.ac.uk",
   role = c("aut", "cph")))
 Description: Provides functions for the Bayesian analysis of some simple 
-    commonly-used models.  The 'rust' package 
-    <https://cran.r-project.org/package=rust> is used to simulate a random 
-    sample from the required posterior distribution.  See the 'bangs' 
-    website for more information, documentation and examples.
+    commonly-used models, without using Markov Chain Monte Carlo (MCMC) 
+    methods such as Gibbs sampling.  The 'rust' package  
+    <https://cran.r-project.org/package=rust> is used 
+    to simulate a random sample from the required posterior distribution.  
+    See the 'bang' website for more information, documentation and examples.
 Depends: R (>= 3.3.1)
 Imports: stats,
     graphics,
@@ -19,10 +20,11 @@ Imports: stats,
     rust (>= 1.2.2)
 RoxygenNote: 6.0.1
 Suggests: knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
-URL: http://github.com/paulnorthrop/bangs
-BugReports: http://github.com/paulnorthrop/bangs/issues
+URL: http://github.com/paulnorthrop/bang
+BugReports: http://github.com/paulnorthrop/bang/issues
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true

@@ -1,0 +1,108 @@
+#------------------------------- Binomial-beta -------------------------------#
+
+# Calculate sufficient statistics
+
+binomial_data <- function(data, prior) {
+  if (!is.matrix(data) & !is.data.frame(data)) {
+    stop("binom_beta: data must be a matrix or a data frame")
+  }
+  if (ncol(data) != 2) {
+    stop("binom_beta: data must have 2 columns")
+  }
+  n <- data[, 2]
+  if (any(n <= 0)) {
+    stop("binom_beta: the values in data column 2 (n) must be positive")
+  }
+  y <- data[, 1]
+  if (any(y < 0)) {
+    stop("binom_beta: the values in data column 1 (y) must be non-negative")
+  }
+  if (any(y > n)) {
+    stop("binom_beta: in data column 1 (y) cannot exceed column 2 (n), rowwise")
+  }
+  # If a default improper prior is used then check for posterior propriety
+  if (is.character(prior)) {
+    if (prior == "bda" | prior == "default") {
+       if (all(pmin(y, n - y) == 0)) {
+         stop("''bda'': improper posterior unless 0 < y < n at least once")
+       }
+    }
+  }
+  # Calculate the values needed in binom_beta_marginal_loglik
+  ny <- n - y
+  tab_y <- table(y[y > 0])
+  tab_ny <- table(ny[ny > 0])
+  tab_n <- table(n)
+  y_vals <- as.numeric(names(tab_y))
+  w_y <- as.numeric(tab_y)
+  y_mat <- cbind(y_vals, w_y)
+  ny_vals <- as.numeric(names(tab_ny))
+  w_ny <- as.numeric(tab_ny)
+  ny_mat <- cbind(ny_vals, w_ny)
+  n_vals <- as.numeric(names(tab_n))
+  w_n <- as.numeric(tab_n)
+  n_mat <- cbind(n_vals, w_n)
+  #
+  return(list(y_mat = y_mat, ny_mat = ny_mat, n_mat = n_mat))
+}
+
+# Marginal log-likelihood
+# posterior for (alpha, beta) not including the prior for (alpha, beta)
+# Note: we need to be careful to avoid underflow when either or both
+# alpha and beta are very large
+
+binom_beta_marginal_loglik <- function(x, y_mat, ny_mat, n_mat) {
+  if (any(x <= 0)) {
+    return(-Inf)
+  }
+  s <- x[1] + x[2]
+  mu <- x[1] / s
+  f1 <- function(y) {
+    return(sum(log(mu + (y - 1:y) / s)))
+  }
+  t1 <- sum(y_mat[, 2] * vapply(y_mat[, 1], f1, 0))
+  f2 <- function(ny) {
+    return(sum(log(1 - mu + (ny - 1:ny) / s)))
+  }
+  t2 <- sum(ny_mat[, 2] * vapply(ny_mat[, 1], f2, 0))
+  f3 <- function(n) {
+    return(sum(log(1 + (n - 1:n) / s)))
+  }
+  t3 <- sum(n_mat[, 2] * vapply(n_mat[, 1], f3, 0))
+  return(t1 + t2 - t3)
+}
+
+# Obvious coding - used only by testthta to test that
+# binom_beta_marginal_loglik is correct
+
+check_binom_beta_marginal_loglik <- function(x, y, n) {
+  if (any(x <= 0)) {
+    return(-Inf)
+  }
+  return(sum(lbeta(y + x[1], n - y + x[2]) - lbeta(x[1], x[2])))
+}
+
+# Sample from the conditional posterior distribution of the population
+# parameters given the hyperparameters and the data
+
+binom_beta_cond_sim <- function(x, data, n_sim) {
+  alpha <- x[, 1]
+  beta <- x[, 2]
+  y <- data[, 1]
+  n <- data[, 2]
+  len_y <- length(y)
+  theta_sim_vals <- matrix(NA, ncol = len_y, nrow = n_sim)
+  for (i in 1:len_y) {
+    theta_sim_vals[, i] <- rbeta(n_sim, alpha + y[i], beta + n[i] - y[i])
+  }
+  return(list(theta_sim_vals = theta_sim_vals))
+}
+
+# Simulate data from the binomial-beta model
+
+sim_binom_beta <- function(n = 1, size = 1, alpha = 1, beta = 1) {
+  theta <- rbeta(n, alpha, beta)
+  size <- rep_len(size, length(theta))
+  y <- mapply(rbinom, size = size, prob = theta, n = 1)
+  return(cbind(y, n = size))
+}
