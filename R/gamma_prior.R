@@ -51,6 +51,20 @@ gamma_init_ests <- function(data, param) {
   return(init)
 }
 
+# Calculates moment-based estimates of the gamma shape parameter alpha
+# and rate parameter beta
+# detailed on page 407 of Gelfand and Smith (1990)
+
+gs_alpha <- function(data) {
+  n <- length(data[, 1])
+  rate <- data[, 1] / data[, 2]
+  inv_expos <- 1 / data[, 2]
+  m <- mean(rate)
+  v <- stats::var(rate) * (n - 1) / n
+  alpha <- m ^ 2 / (v - m * mean(inv_expos))
+  return(alpha)
+}
+
 # Create list of arguments for ru()
 
 gamma_create_ru_list <- function(model, trans, rotate, param) {
