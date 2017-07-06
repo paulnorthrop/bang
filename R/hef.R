@@ -167,6 +167,8 @@
 #'
 #' pump_res <- hef(model = "pois_gamma", data = pump)
 #' plot(pump_res)
+#' plot(pump_res, ru_scale = TRUE)
+#' summary(pump_res)
 #' @export
 hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
                 data, prior = "default",
@@ -187,6 +189,8 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   loglik_fn <- switch(model,
                       binom_beta = binom_beta_marginal_loglik,
                       pois_gamma = pois_gamma_marginal_loglik)
+  #
+#  gs_init <- gs_alpha(data)
   #
   # Set a model-specific log-posterior
   logpost <- function(x, ds) {
