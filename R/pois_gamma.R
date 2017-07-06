@@ -51,6 +51,7 @@ pois_gamma_cond_sim <- function(x, data, n_sim) {
     theta_sim_vals[, i] <- stats::rgamma(n_sim, shape = alpha + y[i],
                                          rate = beta + off[i])
   }
+  colnames(theta_sim_vals) <- paste("lambda[",1:len_y,"]", sep = "")
   return(list(theta_sim_vals = theta_sim_vals))
 }
 

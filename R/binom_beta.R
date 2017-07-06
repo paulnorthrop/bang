@@ -99,6 +99,7 @@ binom_beta_cond_sim <- function(x, data, n_sim) {
     theta_sim_vals[, i] <- stats::rbeta(n_sim, alpha + y[i],
                                         beta + n[i] - y[i])
   }
+  colnames(theta_sim_vals) <- paste("p[",1:len_y,"]", sep = "")
   return(list(theta_sim_vals = theta_sim_vals))
 }
 

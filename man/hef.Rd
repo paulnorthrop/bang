@@ -79,10 +79,10 @@ The \code{\link[rust]{ru}} function is used to draw a random sample
   \code{param}.
 
 \strong{Binomial-beta:} For \eqn{j = 1, ..., J},
-  \eqn{Yj | \thetaj} are i.i.d binomial\eqn{(nj, \thetaj)},
-  where \eqn{\thetaj} is the probability of success in group \eqn{j}
+  \eqn{Yj | pj} are i.i.d binomial\eqn{(nj, pj)},
+  where \eqn{pj} is the probability of success in group \eqn{j}
   and \eqn{nj} is the number of trials in group \eqn{j}.
-  \eqn{\thetaj} are i.i.d. beta\eqn{(\alpha, \beta)}, so
+  \eqn{pj} are i.i.d. beta\eqn{(\alpha, \beta)}, so
   and \eqn{\psi = (\alpha, \beta)}.
   \code{data} is a 2-column matrix: the numbers of successes in column 1
   and the corresponding numbers of trials in column 2.
@@ -111,13 +111,13 @@ where the respective shape (\eqn{s1}, \eqn{s2}) and rate
 See Section 5.3 of Gelman et al. (2013).
 
 \strong{Poisson-gamma:} For \eqn{j = 1, ..., J},
-  \eqn{Yj | \thetaj} are i.i.d Poisson\eqn{(ej\thetaj)},
+  \eqn{Yj | \lambdaj} are i.i.d Poisson\eqn{(ej\lambdaj)},
   where
   \eqn{ej} is the \emph{exposure} in group \eqn{j}, based on the
   total length of observation time and/or size of the population at
-  risk of the event of interest and \eqn{\thetaj} is the mean number
+  risk of the event of interest and \eqn{\lambdaj} is the mean number
   of events per unit of exposure.
-  \eqn{\thetaj} are i.i.d. gamma\eqn{(\alpha, \beta)}, so
+  \eqn{\lambdaj} are i.i.d. gamma\eqn{(\alpha, \beta)}, so
   \eqn{\psi = (\alpha, \beta)}.
   \code{data} is a 2-column matrix: the counts \eqn{yj} in column 1
   and the corresponding exposures \eqn{ej} in column 2.
