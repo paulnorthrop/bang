@@ -42,7 +42,7 @@ check_prior <- function(prior, model, hpars) {
     if (model == "pois_gamma") {
       prior$prior <- switch(prior_name,
                             default = gamma_gamma_prior,
-                            exp = gamma_gamma_prior)
+                            gamma = gamma_gamma_prior)
       if (prior_name == "gamma" | prior_name == "default") {
         prior$hpars <- hpars
         if (is.null(hpars)) {
@@ -57,6 +57,7 @@ check_prior <- function(prior, model, hpars) {
   } else {
       stop("A user-defined prior must be set using set_user_prior()")
   }
+  #
   return(prior)
 }
 
