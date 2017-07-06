@@ -106,8 +106,8 @@ where the respective shape (\eqn{s1}, \eqn{s2}) and rate
 
  \code{param = "original"} is (\eqn{\alpha, \beta}),
  \code{param = "trans"} (the default) is
-\eqn{ \phi1 = logit(\mu) = log(\alpha/\beta), \phi2 = log(\alpha+\beta),}
-where \eqn{\mu = \alpha/(\alpha+\beta)}.
+\eqn{\phi1 = logit(\alpha/(\alpha+\beta)) = log(\alpha/\beta),
+  \phi2 = log(\alpha+\beta)}.
 See Section 5.3 of Gelman et al. (2013).
 
 \strong{Poisson-gamma:} For \eqn{j = 1, ..., J},
@@ -137,7 +137,7 @@ where the respective shape (\eqn{s1}, \eqn{s2}) and rate
 
  \code{param = "original"} is (\eqn{\alpha, \beta}),
  \code{param = "trans"} (the default) is
-\eqn{ \phi1 = log(\mu) = log(\alpha/\beta), \phi2 = log(\beta).}
+\eqn{\phi1 = log(\alpha/\beta), \phi2 = log(\beta).}
 }
 \examples{
 ############################ Binomial-Beta #################################
@@ -177,8 +177,10 @@ summary(rat_res)
 
 ############################ Poisson-gamma #################################
 
-#sim_pois <- sim_pois_gamma(n = 100, alpha = 10, beta = 1)
-#pois_res <- hef(model = "pois_gamma", data = sim_pois)
+# ------------------------ Pump failure data ------------------------------ #
+
+pump_res <- hef(model = "pois_gamma", data = pump)
+plot(pump_res)
 }
 \references{
 Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
