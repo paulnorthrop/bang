@@ -9,8 +9,8 @@ binomial_data <- function(data, prior) {
   if (ncol(data) != 2) {
     stop("binom_beta: data must have 2 columns")
   }
-  if (!is.integer(data)) {
-    stop("binom_beta: the data must be integers")
+  if (any(!is_wholenumber(data))) {
+    stop("binom_beta: the data must be whole numbers")
   }
   n <- data[, 2]
   if (any(n <= 0)) {
