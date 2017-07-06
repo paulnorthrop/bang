@@ -32,7 +32,7 @@ check_prior <- function(prior, model, hpars) {
                             default = beta_bda_prior,
                             bda = beta_bda_prior,
                             gamma = beta_gamma_prior)
-      if (prior_name == "exp") {
+      if (prior_name == "gamma") {
         prior$hpars <- hpars
         if (is.null(hpars)) {
           prior$hpars <- beta_gamma_hpars()
@@ -43,7 +43,7 @@ check_prior <- function(prior, model, hpars) {
       prior$prior <- switch(prior_name,
                             default = gamma_gamma_prior,
                             exp = gamma_gamma_prior)
-      if (prior_name == "exp" | prior_name == "default") {
+      if (prior_name == "gamma" | prior_name == "default") {
         prior$hpars <- hpars
         if (is.null(hpars)) {
           prior$hpars <- gamma_gamma_hpars()
