@@ -180,9 +180,6 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   #
   # Create a list that defines the prior and any parameters in the prior
   prior <- check_prior(prior, model, hpars)
-  print(prior)
-  print(prior$prior)
-  print(prior[-1])
   #
   # Set the function to calculate the log-likelihood
   loglik_fn <- switch(model,
@@ -227,7 +224,6 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   # specified in ...
   ru_args$n_grid <- NULL
   ru_args$ep_bc <- NULL
-  init <- 1.1
   for_ru <- c(list(logf = logpost, ds = ds), fr, list(init = init, n = n),
               ru_args)
   #
