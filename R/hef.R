@@ -238,7 +238,6 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
                     pois_gamma = gamma_log_j)
     for_ru <- c(for_ru, list(phi_to_theta = phi_to_theta, log_j = log_j))
   }
-  print(for_ru)
   res <- do.call(rust::ru, for_ru)
   #
   # Sample from the conditional posterior distribution of the population
