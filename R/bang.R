@@ -54,12 +54,13 @@ NULL
 #' thousands of hours.
 #'
 #' @format A matrix 10 rows and 2 columns.
-#' @source Table 3 of Gelfand, A. E. and Smith, A. F. M. (1990).
+#' @source Table 3 of Gaver, D. P. and O'Muircheartaigh, I. G. (1987).
+#'   See also Gelfand, A. E. and Smith, A. F. M. (1990).
 #' @references Gaver, D. P. and O'Muircheartaigh, I. G. (1987)
-#'   Robust Empirical Bayes Analyses of Event Rates \emph{Technometrics},
+#'   Robust Empirical Bayes Analyses of Event Rates. \emph{Technometrics},
 #'   \strong{29}, 1-15. \url{https://doi.org/10.1080/00401706.1987.10488178}
 #' @references Gelfand, A. E. and Smith, A. F. M. (1990)
-#' Sampling-Based Approaches to Calculating Marginal Densities
+#' Sampling-Based Approaches to Calculating Marginal Densities.
 #' \emph{Journal of the American Statistical Association}, \strong{85}(410),
 #' 398-409. \url{https://doi.org/10.1080/01621459.1990.10476213}
 #'
