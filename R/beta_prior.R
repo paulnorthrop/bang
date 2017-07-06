@@ -13,8 +13,8 @@ beta_bda_prior <- function(x) {
 # Independent gamma priors on alpha and beta
 
 beta_gamma_prior <- function(x, hpars) {
-  return(dgamma(x[1], shape = hpars[1], rate = hpars[2], log = TRUE) +
-           dgamma(x[2], shape = hpars[3], rate = hpars[4], log = TRUE))
+  return(stats::dgamma(x[1], shape = hpars[1], rate = hpars[2], log = TRUE) +
+           stats::dgamma(x[2], shape = hpars[3], rate = hpars[4], log = TRUE))
 }
 
 # Default hyperparameters for the exponential prior:
@@ -49,7 +49,7 @@ beta_init_ests <- function(data, param) {
   # Estimate mean and standard deviation
   # Use method of moments to estimate alpha and beta
   mp <- mean(prob)
-  vp <- var(prob)
+  vp <- stats::var(prob)
   if (vp < mp * (1 - mp)) {
     mult <- (mp * (1 - mp) / vp - 1)
     alpha <- mp * mult

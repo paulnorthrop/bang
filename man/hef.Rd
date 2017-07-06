@@ -177,8 +177,8 @@ summary(rat_res)
 
 ############################ Poisson-gamma #################################
 
-sim_pois <- sim_pois_gamma(n = 100, alpha = 10, beta = 1)
-pois_res <- hef(model = "pois_gamma", data = sim_pois)
+#sim_pois <- sim_pois_gamma(n = 100, alpha = 10, beta = 1)
+#pois_res <- hef(model = "pois_gamma", data = sim_pois)
 }
 \references{
 Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,

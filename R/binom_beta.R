@@ -96,7 +96,8 @@ binom_beta_cond_sim <- function(x, data, n_sim) {
   len_y <- length(y)
   theta_sim_vals <- matrix(NA, ncol = len_y, nrow = n_sim)
   for (i in 1:len_y) {
-    theta_sim_vals[, i] <- rbeta(n_sim, alpha + y[i], beta + n[i] - y[i])
+    theta_sim_vals[, i] <- stats::rbeta(n_sim, alpha + y[i],
+                                        beta + n[i] - y[i])
   }
   return(list(theta_sim_vals = theta_sim_vals))
 }
@@ -104,8 +105,8 @@ binom_beta_cond_sim <- function(x, data, n_sim) {
 # Simulate data from the binomial-beta model
 
 sim_binom_beta <- function(n = 1, size = 1, alpha = 1, beta = 1) {
-  theta <- rbeta(n, alpha, beta)
+  theta <- stats::rbeta(n, alpha, beta)
   size <- rep_len(size, length(theta))
-  y <- mapply(rbinom, size = size, prob = theta, n = 1)
+  y <- mapply(stats::rbinom, size = size, prob = theta, n = 1)
   return(cbind(y, n = size))
 }

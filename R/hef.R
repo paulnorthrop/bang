@@ -163,8 +163,8 @@
 #'
 #' ############################ Poisson-gamma #################################
 #'
-#' sim_pois <- sim_pois_gamma(n = 100, alpha = 10, beta = 1)
-#' pois_res <- hef(model = "pois_gamma", data = sim_pois)
+#' #sim_pois <- sim_pois_gamma(n = 100, alpha = 10, beta = 1)
+#' #pois_res <- hef(model = "pois_gamma", data = sim_pois)
 #' @export
 hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
                 data, prior = "default",
@@ -180,6 +180,9 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   #
   # Create a list that defines the prior and any parameters in the prior
   prior <- check_prior(prior, model, hpars)
+  print(prior)
+  print(prior$prior)
+  print(prior[-1])
   #
   # Set the function to calculate the log-likelihood
   loglik_fn <- switch(model,
@@ -224,6 +227,7 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   # specified in ...
   ru_args$n_grid <- NULL
   ru_args$ep_bc <- NULL
+  init[2] <- 2.2
   for_ru <- c(list(logf = logpost, ds = ds), fr, list(init = init, n = n),
               ru_args)
   #

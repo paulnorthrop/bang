@@ -21,6 +21,7 @@
 #' @docType package
 #' @name bang
 #' @import methods
+#' @importFrom graphics plot
 NULL
 
 #' Rat tumor data
