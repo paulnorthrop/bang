@@ -29,6 +29,8 @@ beta_gamma_hpars <- function() {
 # theta = (alpha, beta)
 
 beta_phi_to_theta <- function(phi) {
+  print("HERE")
+  print(phi)
   apb <- exp(phi[2])
   beta <- apb / (1 + exp(phi[1]))
   return(c(apb - beta, beta))
