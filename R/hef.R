@@ -227,7 +227,7 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   # specified in ...
   ru_args$n_grid <- NULL
   ru_args$ep_bc <- NULL
-  init[2] <- 2.2
+  init <- 2.2
   for_ru <- c(list(logf = logpost, ds = ds), fr, list(init = init, n = n),
               ru_args)
   #
