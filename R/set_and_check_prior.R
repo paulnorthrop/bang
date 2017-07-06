@@ -10,7 +10,7 @@
 #' @param ... Further arguments giving the names and values of any
 #'   parameters involved in the function \code{prior}.
 #' @export
-set_user_prior <- function(prior, model = c("binom_beta"), ...) {
+set_user_prior <- function(prior, model = c("binom_beta", "pois_gamma"), ...) {
   if (!is.function(prior)) {
     stop("prior must be a function")
   }
@@ -31,11 +31,22 @@ check_prior <- function(prior, model, hpars) {
       prior$prior <- switch(prior_name,
                             default = beta_bda_prior,
                             bda = beta_bda_prior,
-                            exp = beta_exp_prior)
+                            gamma = beta_gamma_prior)
       if (prior_name == "exp") {
         prior$hpars <- hpars
         if (is.null(hpars)) {
-          prior$hpars <- beta_exp_hpars()
+          prior$hpars <- beta_gamma_hpars()
+        }
+      }
+    }
+    if (model == "pois_gamma") {
+      prior$prior <- switch(prior_name,
+                            default = gamma_gamma_prior,
+                            exp = gamma_gamma_prior)
+      if (prior_name == "exp" | prior_name == "default") {
+        prior$hpars <- hpars
+        if (is.null(hpars)) {
+          prior$hpars <- gamma_gamma_hpars()
         }
       }
     }

@@ -4,7 +4,7 @@
 \name{rat}
 \alias{rat}
 \title{Rat tumor data}
-\format{A data frame with 71 rows and 2 columns.}
+\format{A matrix with 71 rows and 2 columns.}
 \source{
 Table 5.1 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
  Vehtari, A. and Rubin, D. B. (2013) \emph{Bayesian Data Analysis}.
@@ -16,7 +16,7 @@ rat
 }
 \description{
 Tumor incidence in 71 groups of rate from Tarone (1982).
-The \code{rat} data frame has 71 rows and 2 columns.
+The matrix \code{rat} has 71 rows and 2 columns.
 Each row relates to a different group of rats.
 The first column contains the number of rats with tumors.
 The second column contains the total number of rats.

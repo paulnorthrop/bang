@@ -21,6 +21,27 @@ plot.hef <- function(x, y, ...) {
   }
   for_ru <- x
   class(for_ru) <- "ru"
-  plot(for_ru)
+  plot(for_ru, ...)
+}
+
+# =========================== summary.hef ===========================
+
+#' Summarizing hef objects
+#'
+#' \code{summary} method for class "hef"
+#'
+#' @param object an object of class "hef", a result of a call to \code{hef}.
+#' @param ... Additional arguments passed on to \code{\link[rust]{summary.ru}}.
+#' @examples
+#' # Binomial-beta model, rat data
+#' rat_res <- hef(model = "binom_beta", data = rat)
+#' summary(rat_res)
+summary.hef <- function(object, ...) {
+  if (!inherits(object, "hef")) {
+    stop("use only with \"hef\" objects")
+  }
+  for_ru <- object
+  class(for_ru) <- "ru"
+  summary(for_ru, ...)
 }
 

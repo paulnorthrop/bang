@@ -52,12 +52,12 @@
 #'
 #' \strong{Binomial-beta:} For \eqn{j = 1, ..., J},
 #'   \eqn{Yj | \thetaj} are i.i.d binomial\eqn{(nj, \thetaj)},
-#'   where
-#'   \eqn{\thetaj} are i.i.d. beta\eqn{(\alpha, \beta)},
-#'   so \eqn{\thetaj} is the probability of success in group \eqn{j}
+#'   where \eqn{\thetaj} is the probability of success in group \eqn{j}
+#'   and \eqn{nj} is the number of trials in group \eqn{j}.
+#'   \eqn{\thetaj} are i.i.d. beta\eqn{(\alpha, \beta)}, so
 #'   and \eqn{\psi = (\alpha, \beta)}.
 #'   \code{data} is a 2-column matrix: the numbers of successes in column 1
-#'   and the corresponding numbers of trials (column 2).
+#'   and the corresponding numbers of trials in column 2.
 #'
 #' \emph{Priors:}
 #'
@@ -65,18 +65,51 @@
 #' \eqn{log \pi(\alpha, \beta) = - 2.5 log(\alpha + \beta),
 #'   \alpha > 0, \beta > 0.} [See Section 5.3 of Gelman et al. (2013).]
 #'
-#' \code{prior = "exp"}:
-#' \eqn{log \pi(\alpha, \beta) = -(\lambda1 \alpha + \lambda2 \beta),
-#'   \alpha > 0, \beta > 0.}
-#' where \eqn{(\lambda1, \lambda2)} is specified using \code{hpars}.
+#' \code{prior = "gamma"}: independent gamma priors on \eqn{\alpha}
+#' and \eqn{\beta}, i.e.
+#' \eqn{log \pi(\alpha, \beta) =
+#'   (s1 - 1)log\alpha - r1 \alpha +
+#'   (s2 - 1)log\beta - r2 \beta,  \alpha > 0, \beta > 0.}
+#' where the respective shape (\eqn{s1}, \eqn{s2}) and rate
+#' (\eqn{r1}, \eqn{r2}) parameters are specified using
+#' \code{hpars} = \eqn{(s1, r1, s2, r2)}.
 #'
 #' \emph{Parameterisations for sampling:}
 #'
 #'  \code{param = "original"} is (\eqn{\alpha, \beta}),
 #'  \code{param = "trans"} (the default) is
-#' \eqn{ \phi1 = logit(\mu) = log(\alpha/\beta), \phi2 = log(\alpha+\beta), }
+#' \eqn{ \phi1 = logit(\mu) = log(\alpha/\beta), \phi2 = log(\alpha+\beta),}
 #' where \eqn{\mu = \alpha/(\alpha+\beta)}.
 #' See Section 5.3 of Gelman et al. (2013).
+#'
+#' \strong{Poisson-gamma:} For \eqn{j = 1, ..., J},
+#'   \eqn{Yj | \thetaj} are i.i.d Poisson\eqn{(ej\thetaj)},
+#'   where
+#'   \eqn{ej} is the \emph{exposure} in group \eqn{j}, based on the
+#'   total length of observation time and/or size of the population at
+#'   risk of the event of interest and \eqn{\thetaj} is the mean number
+#'   of events per unit of exposure.
+#'   \eqn{\thetaj} are i.i.d. gamma\eqn{(\alpha, \beta)}, so
+#'   \eqn{\psi = (\alpha, \beta)}.
+#'   \code{data} is a 2-column matrix: the counts \eqn{yj} in column 1
+#'   and the corresponding exposures \eqn{ej} in column 2.
+#'
+#' \emph{Priors:}
+#'
+#' \code{prior = "gamma"} (the default): independent gamma priors
+#'   on \eqn{\alpha} and \eqn{\beta}, i.e.
+#' \eqn{log \pi(\alpha, \beta) =
+#'   (s1 - 1)log\alpha - r1 \alpha +
+#'   (s2 - 1)log\beta - r2 \beta,  \alpha > 0, \beta > 0.}
+#' where the respective shape (\eqn{s1}, \eqn{s2}) and rate
+#' (\eqn{r1}, \eqn{r2}) parameters are specified using
+#' \code{hpars} = \eqn{(s1, r1, s2, r2)}.
+#'
+#' \emph{Parameterisations for sampling:}
+#'
+#'  \code{param = "original"} is (\eqn{\alpha, \beta}),
+#'  \code{param = "trans"} (the default) is
+#' \eqn{ \phi1 = log(\mu) = log(\alpha/\beta), \phi2 = log(\beta).}
 #' @return An object (list) of class \code{"hef"}, which has the same
 #'   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
 #'   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
@@ -127,8 +160,14 @@
 #' rat_res <- hef(model = "binom_beta", data = rat, prior = user_prior)
 #' plot(rat_res)
 #' summary(rat_res)
+#'
+#' ############################ Poisson-gamma #################################
+#'
+#' sim_pois <- sim_pois_gamma(n = 100, alpha = 10, beta = 1)
+#' pois_res <- hef(model = "pois_gamma", data = sim_pois)
 #' @export
-hef <- function(n = 1000, model = c("binom_beta"), data, prior = "default",
+hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
+                data, prior = "default",
                 hpars = NULL, param = c("trans", "original"), ...) {
   model <- match.arg(model)
   param <- match.arg(param)
@@ -136,14 +175,16 @@ hef <- function(n = 1000, model = c("binom_beta"), data, prior = "default",
   # Calculate the data summaries required in the posterior
   # and check for posterior propriety, where possible
   ds <- switch(model,
-               binom_beta = binomial_data(data, prior))
+               binom_beta = binomial_data(data, prior),
+               pois_gamma = poisson_data(data, prior))
   #
   # Create a list that defines the prior and any parameters in the prior
   prior <- check_prior(prior, model, hpars)
   #
   # Set the function to calculate the log-likelihood
   loglik_fn <- switch(model,
-                      binom_beta = binom_beta_marginal_loglik)
+                      binom_beta = binom_beta_marginal_loglik,
+                      pois_gamma = pois_gamma_marginal_loglik)
   #
   # Set a model-specific log-posterior
   logpost <- function(x, ds) {
@@ -169,13 +210,15 @@ hef <- function(n = 1000, model = c("binom_beta"), data, prior = "default",
   }
   # Calculate initial estimates
   init <- switch(model,
-                 binom_beta = beta_init_ests(data, param = param))
+                 binom_beta = beta_init_ests(data, param = param),
+                 pois_gamma = gamma_init_ests(data, param = param))
   #
   # Create list of objects to send to function ru()
   fr_list <- list(model = model, trans = ru_args$trans,
                   rotate = ru_args$rotate, param = param)
   fr <- switch(model,
-               binom_beta = do.call(beta_create_ru_list, fr_list))
+               binom_beta = do.call(beta_create_ru_list, fr_list),
+               pois_gamma = do.call(gamma_create_ru_list, fr_list))
   #
   # Set ru_args$n_grid and ru_args$ep_bc to NULL just in case they have been
   # specified in ...
@@ -188,9 +231,11 @@ hef <- function(n = 1000, model = c("binom_beta"), data, prior = "default",
   # and the log-Jacobian of this transformation.
   if (param == "trans") {
     phi_to_theta <- switch(model,
-                           binom_beta = beta_phi_to_theta)
+                           binom_beta = beta_phi_to_theta,
+                           pois_gamma = gamma_phi_to_theta)
     log_j <- switch(model,
-                    binom_beta = beta_log_j)
+                    binom_beta = beta_log_j,
+                    pois_gamma = gamma_log_j)
     for_ru <- c(for_ru, list(phi_to_theta = phi_to_theta, log_j = log_j))
   }
   res <- do.call(rust::ru, for_ru)
@@ -199,7 +244,8 @@ hef <- function(n = 1000, model = c("binom_beta"), data, prior = "default",
   # parameters given the hyperparameters and the data
   #
   temp <- switch(model,
-                 binom_beta = binom_beta_cond_sim(res$sim_vals, data, n))
+                 binom_beta = binom_beta_cond_sim(res$sim_vals, data, n),
+                 pois_gamma = pois_gamma_cond_sim(res$sim_vals, data, n))
   res <- c(res, temp)
   #
   # Add information about the model, the data and the prior

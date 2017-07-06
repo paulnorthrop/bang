@@ -9,6 +9,9 @@ binomial_data <- function(data, prior) {
   if (ncol(data) != 2) {
     stop("binom_beta: data must have 2 columns")
   }
+  if (!is.integer(data)) {
+    stop("binom_beta: the data must be integers")
+  }
   n <- data[, 2]
   if (any(n <= 0)) {
     stop("binom_beta: the values in data column 2 (n) must be positive")
@@ -72,7 +75,7 @@ binom_beta_marginal_loglik <- function(x, y_mat, ny_mat, n_mat) {
   return(t1 + t2 - t3)
 }
 
-# Obvious coding - used only by testthta to test that
+# Obvious coding - used only by testthat to test that
 # binom_beta_marginal_loglik is correct
 
 check_binom_beta_marginal_loglik <- function(x, y, n) {

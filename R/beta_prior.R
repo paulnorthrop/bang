@@ -1,5 +1,5 @@
 # Default priors
-# Admissibity of x is checked in call to binom_beta_marginal_loglik
+# Admissibity of x is checked in the call to the log-likelihood
 # so we don't need to check it again here.
 # Also useful in case the user supplies their own prior and doesn't check this.
 
@@ -10,16 +10,18 @@ beta_bda_prior <- function(x) {
   return(-2.5 * log(x[1] + x[2]))
 }
 
-# Independent exponential priors on alpha and beta
+# Independent gamma priors on alpha and beta
 
-beta_exp_prior <- function(x, hpars) {
-  return(dexp(x[1], hpars[1], log = TRUE) + dexp(x[2], hpars[2], log = TRUE))
+beta_gamma_prior <- function(x, hpars) {
+  return(dgamma(x[1], shape = hpars[1], rate = hpars[2], log = TRUE) +
+           dgamma(x[2], shape = hpars[3], rate = hpars[4], log = TRUE))
 }
 
-# Default hyperparameters for the exponential prior
+# Default hyperparameters for the exponential prior:
+# independent exponentials, each with mean 100.
 
-beta_exp_hpars <- function() {
-  return(c(0.01, 0.01))
+beta_gamma_hpars <- function() {
+  return(c(1, 0.01, 1, 0.01))
 }
 
 # Transformation from

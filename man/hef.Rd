@@ -4,8 +4,8 @@
 \alias{hef}
 \title{Hierarchical Exponential Family Model}
 \usage{
-hef(n = 1000, model = c("binom_beta"), data, prior = "default",
-  hpars = NULL, param = c("trans", "original"), ...)
+hef(n = 1000, model = c("binom_beta", "pois_gamma"), data,
+  prior = "default", hpars = NULL, param = c("trans", "original"), ...)
 }
 \arguments{
 \item{n}{An integer scalar.  The size of the posterior sample required.}
@@ -80,12 +80,12 @@ The \code{\link[rust]{ru}} function is used to draw a random sample
 
 \strong{Binomial-beta:} For \eqn{j = 1, ..., J},
   \eqn{Yj | \thetaj} are i.i.d binomial\eqn{(nj, \thetaj)},
-  where
-  \eqn{\thetaj} are i.i.d. beta\eqn{(\alpha, \beta)},
-  so \eqn{\thetaj} is the probability of success in group \eqn{j}
+  where \eqn{\thetaj} is the probability of success in group \eqn{j}
+  and \eqn{nj} is the number of trials in group \eqn{j}.
+  \eqn{\thetaj} are i.i.d. beta\eqn{(\alpha, \beta)}, so
   and \eqn{\psi = (\alpha, \beta)}.
   \code{data} is a 2-column matrix: the numbers of successes in column 1
-  and the corresponding numbers of trials (column 2).
+  and the corresponding numbers of trials in column 2.
 
 \emph{Priors:}
 
@@ -93,18 +93,51 @@ The \code{\link[rust]{ru}} function is used to draw a random sample
 \eqn{log \pi(\alpha, \beta) = - 2.5 log(\alpha + \beta),
   \alpha > 0, \beta > 0.} [See Section 5.3 of Gelman et al. (2013).]
 
-\code{prior = "exp"}:
-\eqn{log \pi(\alpha, \beta) = -(\lambda1 \alpha + \lambda2 \beta),
-  \alpha > 0, \beta > 0.}
-where \eqn{(\lambda1, \lambda2)} is specified using \code{hpars}.
+\code{prior = "gamma"}: independent gamma priors on \eqn{\alpha}
+and \eqn{\beta}, i.e.
+\eqn{log \pi(\alpha, \beta) =
+  (s1 - 1)log\alpha - r1 \alpha +
+  (s2 - 1)log\beta - r2 \beta,  \alpha > 0, \beta > 0.}
+where the respective shape (\eqn{s1}, \eqn{s2}) and rate
+(\eqn{r1}, \eqn{r2}) parameters are specified using
+\code{hpars} = \eqn{(s1, r1, s2, r2)}.
 
 \emph{Parameterisations for sampling:}
 
  \code{param = "original"} is (\eqn{\alpha, \beta}),
  \code{param = "trans"} (the default) is
-\eqn{ \phi1 = logit(\mu) = log(\alpha/\beta), \phi2 = log(\alpha+\beta), }
+\eqn{ \phi1 = logit(\mu) = log(\alpha/\beta), \phi2 = log(\alpha+\beta),}
 where \eqn{\mu = \alpha/(\alpha+\beta)}.
 See Section 5.3 of Gelman et al. (2013).
+
+\strong{Poisson-gamma:} For \eqn{j = 1, ..., J},
+  \eqn{Yj | \thetaj} are i.i.d Poisson\eqn{(ej\thetaj)},
+  where
+  \eqn{ej} is the \emph{exposure} in group \eqn{j}, based on the
+  total length of observation time and/or size of the population at
+  risk of the event of interest and \eqn{\thetaj} is the mean number
+  of events per unit of exposure.
+  \eqn{\thetaj} are i.i.d. gamma\eqn{(\alpha, \beta)}, so
+  \eqn{\psi = (\alpha, \beta)}.
+  \code{data} is a 2-column matrix: the counts \eqn{yj} in column 1
+  and the corresponding exposures \eqn{ej} in column 2.
+
+\emph{Priors:}
+
+\code{prior = "gamma"} (the default): independent gamma priors
+  on \eqn{\alpha} and \eqn{\beta}, i.e.
+\eqn{log \pi(\alpha, \beta) =
+  (s1 - 1)log\alpha - r1 \alpha +
+  (s2 - 1)log\beta - r2 \beta,  \alpha > 0, \beta > 0.}
+where the respective shape (\eqn{s1}, \eqn{s2}) and rate
+(\eqn{r1}, \eqn{r2}) parameters are specified using
+\code{hpars} = \eqn{(s1, r1, s2, r2)}.
+
+\emph{Parameterisations for sampling:}
+
+ \code{param = "original"} is (\eqn{\alpha, \beta}),
+ \code{param = "trans"} (the default) is
+\eqn{ \phi1 = log(\mu) = log(\alpha/\beta), \phi2 = log(\beta).}
 }
 \examples{
 ############################ Binomial-Beta #################################
@@ -141,6 +174,11 @@ user_prior <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
 rat_res <- hef(model = "binom_beta", data = rat, prior = user_prior)
 plot(rat_res)
 summary(rat_res)
+
+############################ Poisson-gamma #################################
+
+sim_pois <- sim_pois_gamma(n = 100, alpha = 10, beta = 1)
+pois_res <- hef(model = "pois_gamma", data = sim_pois)
 }
 \references{
 Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
