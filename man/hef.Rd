@@ -181,6 +181,8 @@ summary(rat_res)
 
 pump_res <- hef(model = "pois_gamma", data = pump)
 plot(pump_res)
+plot(pump_res, ru_scale = TRUE)
+summary(pump_res)
 }
 \references{
 Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
