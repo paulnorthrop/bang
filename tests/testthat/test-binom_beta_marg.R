@@ -21,7 +21,7 @@ binom_beta_test_fn <- function(x, data) {
   # Returns:
   #   A list with two components:
   #   obvious : the obvious coding based on lbeta()
-  #   clever  : the cleveer, but less obvious coding
+  #   clever  : the cleverer, but less obvious coding
   #
   data_list <- binomial_data(data, prior = "dummy")
   y_mat <- data_list$y_mat
