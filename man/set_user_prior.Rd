@@ -4,7 +4,8 @@
 \alias{set_user_prior}
 \title{Set a user-defined prior}
 \usage{
-set_user_prior(prior, model = c("binom_beta", "pois_gamma"), ...)
+set_user_prior(prior, model = c("binom_beta", "pois_gamma", "anova"),
+  anova_d = 2, ...)
 }
 \arguments{
 \item{prior}{An R function.}
