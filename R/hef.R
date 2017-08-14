@@ -18,24 +18,31 @@
 #' @param n An integer scalar.  The size of the posterior sample required.
 #' @param model A character string.  Abbreviated name for the
 #'   response-population distribution combination.
+#'   For a hierarchical normal model see \code{\link{hanova1}}
+#'   (hierarchical one-way analysis of variance (ANOVA)).
 #' @param data A numeric matrix.  The format depends on \code{model}.
 #'   See \strong{Details}.
 #' @param prior The log-prior for the parameters of the hyperprior
 #'   distribution.  If the user wishes to specify their own prior then
 #'   \code{prior} must be an object returned from a call to
 #'   \code{\link{set_user_prior}}.
+#'   Otherwise, \code{prior} is a character scalar giving the name of the
+#'   required in-built prior.
 #'   If \code{prior} is not supplied then a default prior is used.
 #'   See \strong{Details}.
 #' @param hpars A numeric vector.  Used to set parameters (if any) in
-#'   a default prior.
+#'   an in-built prior.
 #' @param param A character scalar.
 #'   If \code{param = "trans"} (the default) then the marginal posterior
-#'   for of hyperparameter vector \eqn{psi} is parameterised in a way
+#'   of hyperparameter vector \eqn{psi} is parameterised in a way
 #'   designed to improve the efficiency of sampling from this posterior.
 #'   If \code{param = "original"} the original parameterisation is used.
 #'   The former tends to make the optimisations involved in the
 #'   ratio-of-uniforms algorithm more stable and to increase the probability
 #'   of acceptance, but at the expense of slower function evaluations.
+#' @param init A numeric vector of length 2.  Optional initial estimates
+#'   for the search for the mode of the posterior density of the
+#'   hyperparameter vector \eqn{\psi}.
 #' @param ... Optional further arguments to be passed to
 #'   \code{\link[rust]{ru}}.
 #' @details
@@ -113,18 +120,17 @@
 #' @return An object (list) of class \code{"hef"}, which has the same
 #'   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
 #'   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
-#'   contain the simulated vaues of \eqn{psi}.
+#'   contain the simulated vaues of \eqn{\psi}.
 #'   In addition this list contains the arguments \code{model}, \code{data},
 #'   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
 #'   \code{theta_sim_vals}: column j contains the simulated values of
-#'   (the first component of) \eqn{\thetaj}.  If \eqn{\thetaj} has a
-#'   second component then the simulated values are given in
-#'   \code{theta_2_sim_vals}.
+#'   (the first component of) \eqn{\thetaj}.
 #' @references Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
 #'  Vehtari, A. and Rubin, D. B. (2013) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.
 #'   \url{http://www.stat.columbia.edu/~gelman/book}
-
+#' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of
+#'   variance (ANOVA).
 #' @examples
 #' ############################ Binomial-Beta #################################
 #'
@@ -171,8 +177,8 @@
 #' summary(pump_res)
 #' @export
 hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
-                data, prior = "default",
-                hpars = NULL, param = c("trans", "original"), ...) {
+                data, prior = "default", hpars = NULL,
+                param = c("trans", "original"), init = NULL, ...) {
   model <- match.arg(model)
   param <- match.arg(param)
   #
@@ -215,9 +221,18 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
     ru_args$rotate <- TRUE
   }
   # Calculate initial estimates
-  init <- switch(model,
-                 binom_beta = beta_init_ests(data, param = param),
-                 pois_gamma = gamma_init_ests(data, param = param))
+  if (is.null(init)) {
+    init <- switch(model,
+                   binom_beta = beta_init_ests(data, param = param),
+                   pois_gamma = gamma_init_ests(data, param = param))
+  } else {
+    if (length(init) != 2) {
+      warning("init is not of length 2, so it is not used")
+      init <- switch(model,
+                     binom_beta = beta_init_ests(data, param = param),
+                     pois_gamma = gamma_init_ests(data, param = param))
+    }
+  }
   #
   # Create list of objects to send to function ru()
   fr_list <- list(model = model, trans = ru_args$trans,
@@ -257,6 +272,7 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   res$model <- model
   res$data <- data
   res$prior <- prior
+  res$ru <- 1:2
   class(res) <- "hef"
   return(res)
 }

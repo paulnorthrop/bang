@@ -5,13 +5,16 @@
 \title{Hierarchical Exponential Family Model}
 \usage{
 hef(n = 1000, model = c("binom_beta", "pois_gamma"), data,
-  prior = "default", hpars = NULL, param = c("trans", "original"), ...)
+  prior = "default", hpars = NULL, param = c("trans", "original"),
+  init = NULL, ...)
 }
 \arguments{
 \item{n}{An integer scalar.  The size of the posterior sample required.}
 
 \item{model}{A character string.  Abbreviated name for the
-response-population distribution combination.}
+response-population distribution combination.
+For a hierarchical normal model see \code{\link{hanova1}}
+(hierarchical one-way analysis of variance (ANOVA)).}
 
 \item{data}{A numeric matrix.  The format depends on \code{model}.
 See \strong{Details}.}
@@ -20,20 +23,26 @@ See \strong{Details}.}
 distribution.  If the user wishes to specify their own prior then
 \code{prior} must be an object returned from a call to
 \code{\link{set_user_prior}}.
+Otherwise, \code{prior} is a character scalar giving the name of the
+required in-built prior.
 If \code{prior} is not supplied then a default prior is used.
 See \strong{Details}.}
 
 \item{hpars}{A numeric vector.  Used to set parameters (if any) in
-a default prior.}
+an in-built prior.}
 
 \item{param}{A character scalar.
 If \code{param = "trans"} (the default) then the marginal posterior
-for of hyperparameter vector \eqn{psi} is parameterised in a way
+of hyperparameter vector \eqn{psi} is parameterised in a way
 designed to improve the efficiency of sampling from this posterior.
 If \code{param = "original"} the original parameterisation is used.
 The former tends to make the optimisations involved in the
 ratio-of-uniforms algorithm more stable and to increase the probability
 of acceptance, but at the expense of slower function evaluations.}
+
+\item{init}{A numeric vector of length 2.  Optional initial estimates
+for the search for the mode of the posterior density of the
+hyperparameter vector \eqn{\psi}.}
 
 \item{...}{Optional further arguments to be passed to
 \code{\link[rust]{ru}}.}
@@ -42,13 +51,11 @@ of acceptance, but at the expense of slower function evaluations.}
 An object (list) of class \code{"hef"}, which has the same
   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
-  contain the simulated vaues of \eqn{psi}.
+  contain the simulated vaues of \eqn{\psi}.
   In addition this list contains the arguments \code{model}, \code{data},
   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
   \code{theta_sim_vals}: column j contains the simulated values of
-  (the first component of) \eqn{\thetaj}.  If \eqn{\thetaj} has a
-  second component then the simulated values are given in
-  \code{theta_2_sim_vals}.
+  (the first component of) \eqn{\thetaj}.
 }
 \description{
 Samples from the posterior distribution of the parameters of
@@ -189,4 +196,8 @@ Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
  Vehtari, A. and Rubin, D. B. (2013) \emph{Bayesian Data Analysis}.
  Chapman & Hall / CRC.
   \url{http://www.stat.columbia.edu/~gelman/book}
+}
+\seealso{
+\code{\link{hanova1}} for hierarchical one-way analysis of
+  variance (ANOVA).
 }
