@@ -52,7 +52,8 @@ to \code{\link{set_user_prior}}.}
 normal prior for \eqn{\mu}.  Only used if an in-built prior is used
 or if \code{anova_d = 2} is supplied in a call to
 \code{\link{set_user_prior}} to set a user-defined prior.
-To set an improper uniform prior for \eqn{\mu} use \code{sigma0 = Inf}.}
+The default, \code{sigma0 = Inf}, sets an improper uniform prior
+for \eqn{\mu}.}
 
 \item{...}{Optional further arguments to be passed to
 \code{\link[rust]{ru}}.}
@@ -93,8 +94,11 @@ plot(res26_2, type = "ru", ru_scale = TRUE)
 # Plot of sampled values of (mu, sigma_alpha, sigma)
 plot(res26_2)
 
-# Sample posterior quantiles
+# Posterior sample quantiles
 round(t(apply(res26_2$sim_vals, 2, quantile, probs = probs)), 2)
+
+# Ratio-of-uniforms information and posterior sample summaries
+summary(res26_2)
 
 # ======= Coagulation time data, from Table 11.2 Gelman et al (2014) =======
 

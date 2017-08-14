@@ -75,8 +75,11 @@
 #' # Plot of sampled values of (mu, sigma_alpha, sigma)
 #' plot(res26_2)
 #'
-#' # Sample posterior quantiles
+#' # Posterior sample quantiles
 #' round(t(apply(res26_2$sim_vals, 2, quantile, probs = probs)), 2)
+#'
+#' # Ratio-of-uniforms information and posterior sample summaries
+#' summary(res26_2)
 #'
 #' # ======= Coagulation time data, from Table 11.2 Gelman et al (2014) =======
 #'
