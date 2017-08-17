@@ -112,7 +112,8 @@ NULL
 #'     \item{Column 1, index: }{anomoly of 2020-2049 mean relative to 1970-1999
 #'       mean.}
 #'     \item{Column 2, GCM: }{Abbreviated name of General Circulation Model.}
-#'     \item{Column 3, RCP: }{Representative Concentration Pathway.}
+#'     \item{Column 3, RCP: }{Representative Concentration Pathway. One of
+#'       rcp26, rcp45, rcp60, rcp85}
 #'     \item{Column 4, run: }{Simulation run number.}
 #'  }
 #' @source The raw data from which the indices are calculated are monthly
@@ -159,7 +160,8 @@ NULL
 #'     \item{Column 1, index: }{anomoly of 2069-2098 mean relative to 1970-1999
 #'       mean.}
 #'     \item{Column 2, GCM: }{Abbreviated name of General Circulation Model.}
-#'     \item{Column 3, RCP: }{Representative Concentration Pathway.}
+#'     \item{Column 3, RCP: }{Representative Concentration Pathway. One of
+#'       rcp26, rcp45, rcp60, rcp85}
 #'     \item{Column 4, run: }{Simulation run number.}
 #'  }
 #' @source The raw data from which the indices are calculated are monthly
