@@ -46,8 +46,10 @@ x <- x_mom
 # At some point (i.e. for large enough alpha and/or beta) the obvious
 # code will break down, but it hasn't done this yet!
 
-for (i in -10:10) {
-  for (j in -10:10) {
+my_vec <- 2 * (-5:5)
+my_vec <- 3 * (-4:4)
+for (i in my_vec) {
+  for (j in my_vec) {
     x[1] <- x_mom[1] ^ i
     x[2] <- x_mom[2] ^ j
     c_val <- binom_beta_test_fn(x, rat)
