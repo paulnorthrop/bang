@@ -14,7 +14,7 @@ hanova1(n = 1000, resp, fac, prior = "default", hpars = NULL,
 \item{resp}{A numeric vector.  Response values.}
 
 \item{fac}{A vector of class \link{factor} indicating the group from
-which the correspnding element of \code{resp} orgiinates.
+which the correspnding element of \code{resp} originates.
 Must have the same length as \code{resp}.}
 
 \item{prior}{The log-prior for the parameters of the hyperprior
