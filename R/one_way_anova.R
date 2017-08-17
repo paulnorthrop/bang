@@ -209,8 +209,8 @@ hanova1 <- function(n = 1000, resp, fac, prior = "default", hpars = NULL,
   if (anova_d == 2) {
     mvfun <- function(va, ve) {
       si2 <- va + ve / ds$ni
-      mui_vec <- c(mu0, ds$ybari)
-      sigma2i_inv_vec <- 1 / c(sigma0 ^ 2, si2)
+      mui_vec <- c(ds$mu0, ds$ybari)
+      sigma2i_inv_vec <- 1 / c(ds$sigma0 ^ 2, si2)
       s0 <- sum(sigma2i_inv_vec)
       s1 <- sum(mui_vec * sigma2i_inv_vec)
       m <- s1 / s0
@@ -303,12 +303,12 @@ log_marg_lik_anova <- function(x, I, ni, ndot, ybari, s) {
   # in a 1-way random effects ANOVA model
   #
   # Args:
-  #   x        : mu, sigma_alpha, sigma
-  #   I        :
-  #   ni       :
-  #   ndot     :
-  #   ybari    :
-  #   s        :
+  #   x        : (mu, sigma_alpha, sigma)
+  #   I        : number of groups (levels of the explanatory factor)
+  #   ni       : vector of the numbers of observations in group i, i=1,...,I
+  #   ndot     : sum of the ni (total number of observations)
+  #   ybari    : mean of the observations in group i, i=1,...,I
+  #   s        : sum of the squares of the differences between y_ij and ybari
   #
   # Returns:
   #   the value of the log of the marginal posterior
@@ -323,7 +323,6 @@ log_marg_lik_anova <- function(x, I, ni, ndot, ybari, s) {
               sum((mu - ybari) ^ 2 / si2)) / 2
   return(log_lik)
 }
-
 
 # ============================= log_marg_lik_anova ============================
 
@@ -383,7 +382,7 @@ init1anova <- function(y) {
   return(init)
 }
 
-# ================================= init1anova ================================
+# ============================== make_resp_matrix =============================
 
 make_resp_matrix <- function(resp, fac) {
   #
