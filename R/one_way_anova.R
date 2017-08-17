@@ -9,7 +9,7 @@
 #' @param n A numeric scalar.  The size of posterior sample required.
 #' @param resp A numeric vector.  Response values.
 #' @param fac A vector of class \link{factor} indicating the group from
-#'   which the correspnding element of \code{resp} orgiinates.
+#'   which the correspnding element of \code{resp} originates.
 #'   Must have the same length as \code{resp}.
 #' @param prior The log-prior for the parameters of the hyperprior
 #'   distribution.  If the user wishes to specify their own prior then
@@ -386,6 +386,21 @@ init1anova <- function(y) {
 # ================================= init1anova ================================
 
 make_resp_matrix <- function(resp, fac) {
+  #
+  # Create a matrix in which each row contains the response data for
+  # a separate level of the factor fac.
+  #
+  # Args:
+  #   resp : A numeric vector.  Response values.
+  #   fac  : A vector of class factor indicating the group from
+  #          which the correspnding element of resp originates.
+  #          Must have the same length as resp.
+  # Returns:
+  #   A numeric matrix with number of rwos equal to the number of
+  #   levels of the factor face and number of columns equal to the largest
+  #   number of observations across the levels of fac.  Rows are padded with
+  #   NAs as necessary.
+  #
   fac_names <- unique(fac)
   nlevels <- length(fac_names)
   max_rep <- max(table(fac))
