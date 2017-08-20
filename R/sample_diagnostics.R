@@ -49,8 +49,8 @@
 #' @seealso \code{\link[rust]{plot.ru}} for arguments that may be passed
 #'   via ...., in particular \code{ru_scale}.
 #' @export
-plot.hef <- function(x, y, type = c("hyper", "pop_sim", "pop_dens", "ru"),
-                     which_pop = 1, which_theta = 1, super = TRUE, ...) {
+plot.hef <- function(x, y, ..., type = c("hyper", "pop_sim", "pop_dens", "ru"),
+                     which_pop = 1, which_theta = 1, super = TRUE) {
   if (!inherits(x, "hef")) {
     stop("use only with \"hef\" objects")
   }

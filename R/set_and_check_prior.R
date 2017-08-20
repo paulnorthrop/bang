@@ -14,8 +14,8 @@
 #' @param ... Further arguments giving the names and values of any
 #'   parameters involved in the function \code{prior}.
 #' @export
-set_user_prior <- function(prior, model = c("binom_beta", "pois_gamma",
-                                            "anova"), anova_d = 2, ...) {
+set_user_prior <- function(prior, ..., model = c("binom_beta", "pois_gamma",
+                                            "anova"), anova_d = 2) {
   if (!is.function(prior)) {
     stop("prior must be a function")
   }

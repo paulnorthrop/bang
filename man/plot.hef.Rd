@@ -4,13 +4,16 @@
 \alias{plot.hef}
 \title{Plot diagnostics for a hef object}
 \usage{
-\method{plot}{hef}(x, y, type = c("hyper", "pop_sim", "pop_dens", "ru"),
-  which_pop = 1, which_theta = 1, super = TRUE, ...)
+\method{plot}{hef}(x, y, ..., type = c("hyper", "pop_sim", "pop_dens", "ru"),
+  which_pop = 1, which_theta = 1, super = TRUE)
 }
 \arguments{
 \item{x}{an object of class "hef", a result of a call to \code{ru}.}
 
 \item{y}{Not used.}
+
+\item{...}{Additional arguments passed to \code{\link[rust]{plot.ru}},
+\code{\link[graphics]{hist}} or \code{\link[graphics]{pairs}}.}
 
 \item{type}{A character scalar.
 
@@ -44,9 +47,6 @@ Only relevant if \eqn{\theta} has length greater than one.}
 \item{super}{A logical scalar.  If \code{type = "pop_dens"} then
 \code{super} indicates whether the density estimates should be
 superimposed in one graph or appear in separate graphs.}
-
-\item{...}{Additional arguments passed to \code{\link[rust]{plot.ru}},
-\code{\link[graphics]{hist}} or \code{\link[graphics]{pairs}}.}
 }
 \description{
 \code{plot} method for class "hef".  Calls \code{\link[rust]{plot.ru}}.

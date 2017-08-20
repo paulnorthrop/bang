@@ -4,9 +4,9 @@
 \alias{hef}
 \title{Hierarchical Exponential Family Model}
 \usage{
-hef(n = 1000, model = c("binom_beta", "pois_gamma"), data,
+hef(n = 1000, model = c("binom_beta", "pois_gamma"), data, ...,
   prior = "default", hpars = NULL, param = c("trans", "original"),
-  init = NULL, ...)
+  init = NULL)
 }
 \arguments{
 \item{n}{An integer scalar.  The size of the posterior sample required.}
@@ -18,6 +18,9 @@ For a hierarchical normal model see \code{\link{hanova1}}
 
 \item{data}{A numeric matrix.  The format depends on \code{model}.
 See \strong{Details}.}
+
+\item{...}{Optional further arguments to be passed to
+\code{\link[rust]{ru}}.}
 
 \item{prior}{The log-prior for the parameters of the hyperprior
 distribution.  If the user wishes to specify their own prior then
@@ -43,9 +46,6 @@ of acceptance, but at the expense of slower function evaluations.}
 \item{init}{A numeric vector of length 2.  Optional initial estimates
 for the search for the mode of the posterior density of the
 hyperparameter vector \eqn{\psi}.}
-
-\item{...}{Optional further arguments to be passed to
-\code{\link[rust]{ru}}.}
 }
 \value{
 An object (list) of class \code{"hef"}, which has the same

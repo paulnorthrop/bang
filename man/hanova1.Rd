@@ -4,9 +4,8 @@
 \alias{hanova1}
 \title{Posterior sampling for a 1-way hierarchical ANOVA}
 \usage{
-hanova1(n = 1000, resp, fac, prior = "default", hpars = NULL,
-  param = c("trans", "original"), init = NULL, mu0 = 0, sigma0 = Inf,
-  ...)
+hanova1(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
+  param = c("trans", "original"), init = NULL, mu0 = 0, sigma0 = Inf)
 }
 \arguments{
 \item{n}{A numeric scalar.  The size of posterior sample required.}
@@ -16,6 +15,9 @@ hanova1(n = 1000, resp, fac, prior = "default", hpars = NULL,
 \item{fac}{A vector of class \link{factor} indicating the group from
 which the correspnding element of \code{resp} originates.
 Must have the same length as \code{resp}.}
+
+\item{...}{Optional further arguments to be passed to
+\code{\link[rust]{ru}}.}
 
 \item{prior}{The log-prior for the parameters of the hyperprior
 distribution.  If the user wishes to specify their own prior then
@@ -54,9 +56,6 @@ or if \code{anova_d = 2} is supplied in a call to
 \code{\link{set_user_prior}} to set a user-defined prior.
 The default, \code{sigma0 = Inf}, sets an improper uniform prior
 for \eqn{\mu}.}
-
-\item{...}{Optional further arguments to be passed to
-\code{\link[rust]{ru}}.}
 }
 \value{
 An object (list) of class \code{"hef"}, which has the same

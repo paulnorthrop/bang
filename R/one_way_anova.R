@@ -109,9 +109,9 @@
 #'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.
 #' @export
-hanova1 <- function(n = 1000, resp, fac, prior = "default", hpars = NULL,
+hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
                     param = c("trans", "original"), init = NULL,
-                    mu0 = 0, sigma0 = Inf, ...) {
+                    mu0 = 0, sigma0 = Inf) {
   if (length(resp) != length(fac)) {
     stop("resp and fac must have the same length")
   }

@@ -4,17 +4,17 @@
 \alias{set_user_prior}
 \title{Set a user-defined prior}
 \usage{
-set_user_prior(prior, model = c("binom_beta", "pois_gamma", "anova"),
-  anova_d = 2, ...)
+set_user_prior(prior, ..., model = c("binom_beta", "pois_gamma", "anova"),
+  anova_d = 2)
 }
 \arguments{
 \item{prior}{An R function.}
 
-\item{model}{A character string.  Abbreviated name for the
-response-mixture combination.}
-
 \item{...}{Further arguments giving the names and values of any
 parameters involved in the function \code{prior}.}
+
+\item{model}{A character string.  Abbreviated name for the
+response-mixture combination.}
 }
 \description{
 Describe

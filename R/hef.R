@@ -177,8 +177,8 @@
 #' summary(pump_res)
 #' @export
 hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
-                data, prior = "default", hpars = NULL,
-                param = c("trans", "original"), init = NULL, ...) {
+                data, ..., prior = "default", hpars = NULL,
+                param = c("trans", "original"), init = NULL) {
   model <- match.arg(model)
   param <- match.arg(param)
   #
