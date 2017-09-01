@@ -13,11 +13,11 @@ Description: Provides functions for the Bayesian analysis of some simple
     to simulate a random sample from the required posterior distribution.  
     See the 'bang' website for more information, documentation and examples.
 Depends: R (>= 3.3.1)
-Imports: stats,
-    graphics,
+Imports: graphics,
     methods,
-    utils,
-    rust (>= 1.2.2)
+    rust (>= 1.2.2),
+    stats,
+    utils
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,
