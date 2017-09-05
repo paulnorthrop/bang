@@ -4,7 +4,7 @@
 \name{bang}
 \alias{bang}
 \alias{bang-package}
-\title{bang: Bayesian Analysis with No Gibbs Sampling}
+\title{bang: Bayesian Analysis, No Gibbs}
 \description{
 Performs Bayesian analyses using some simple commonly-used models.
 The multivariate generalized ratio-of-uniforms method is used to simulate

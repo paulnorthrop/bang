@@ -1,4 +1,4 @@
-#' bang: Bayesian Analysis with No Gibbs Sampling
+#' bang: Bayesian Analysis, No Gibbs
 #'
 #' Performs Bayesian analyses using some simple commonly-used models.
 #' The multivariate generalized ratio-of-uniforms method is used to simulate
@@ -90,8 +90,8 @@ NULL
 #' Coupled Model Intercomparison Project (CMIP5).
 #'
 #' The dataframe \code{temp1} data frame has 270 rows and 4 columns.
-#' Each row relates to a climate projection run from a particular
-#' General Circulation Model (GCM) under a particular
+#' Each row relates to a climate projection run from one of 38 different
+#' General Circulation Models (GCMs) under a particular
 #' Representative Concentration Pathway (RCP).
 #' Use \code{table(temp1[, c("GCM", "RCP")])} to see the numbers of
 #' runs under each RCP for each GCM.
@@ -137,9 +137,9 @@ NULL
 #' to late 21st century (2069-2098) based on data produced by the Fifth
 #' Coupled Model Intercomparison Project (CMIP5).
 #'
-#' The dataframe \code{temp1} data frame has 270 rows and 4 columns.
-#' Each row relates to a climate projection run from a particular
-#' General Circulation Model (GCM) under a particular
+#' The dataframe \code{temp2} data frame has 270 rows and 4 columns.
+#' Each row relates to a climate projection run from one of 38 different
+#' General Circulation Models (GCMs) under a particular
 #' Representative Concentration Pathway (RCP).
 #' Use \code{table(temp2[, c("GCM", "RCP")])} to see the numbers of
 #' runs under each RCP for each GCM.
