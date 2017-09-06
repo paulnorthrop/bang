@@ -34,7 +34,7 @@
 #'   an in-built prior.
 #' @param param A character scalar.
 #'   If \code{param = "trans"} (the default) then the marginal posterior
-#'   of hyperparameter vector \eqn{psi} is parameterised in a way
+#'   of hyperparameter vector \eqn{\psi} is parameterised in a way
 #'   designed to improve the efficiency of sampling from this posterior.
 #'   If \code{param = "original"} the original parameterisation is used.
 #'   The former tends to make the optimisations involved in the
