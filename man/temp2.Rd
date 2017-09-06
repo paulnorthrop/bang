@@ -50,8 +50,8 @@ Column 4 is the simualtion run number.
 \references{
 Northrop, P.J. and R.E. Chandler (2014). Quantifying
   Sources of Uncertainty in Projections of Future Climate.
-  \emph{Journal of Climate}, \strong{27}, 8793-8808,
-  \url{https://doi.org/10.1175/JCLI-D-14-00265.1}.
+  \emph{Journal of Climate}, \strong{27}, 8793-8808.
+  \url{https://doi.org/10.1175/JCLI-D-14-00265.1}
 
 Van Vuuren, D. P., Edmonds, J., Kainuma, M., Riahi, K.
   Thomson, A., Hibbard, K., Hurtt, G. C., Kram, T., Krey, V.,

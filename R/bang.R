@@ -34,7 +34,7 @@ NULL
 #'
 #' @format A matrix with 71 rows and 2 columns.
 #' @source Table 5.1 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
-#'  Vehtari, A. and Rubin, D. B. (2013) \emph{Bayesian Data Analysis}.
+#'  Vehtari, A. and Rubin, D. B. (2013) \emph{Bayesian Data Analysis},
 #'  Chapman & Hall / CRC.
 #'   \url{http://www.stat.columbia.edu/~gelman/book/data/rats.asc}
 #' @references Tarone, R. E. (1982) The use of historical information in
@@ -122,8 +122,8 @@ NULL
 #'   on 4/3/2015.
 #' @references Northrop, P.J. and R.E. Chandler (2014). Quantifying
 #'   Sources of Uncertainty in Projections of Future Climate.
-#'   \emph{Journal of Climate}, \strong{27}, 8793-8808,
-#'   \url{https://doi.org/10.1175/JCLI-D-14-00265.1}.
+#'   \emph{Journal of Climate}, \strong{27}, 8793-8808.
+#'   \url{https://doi.org/10.1175/JCLI-D-14-00265.1}
 #' @references Van Vuuren, D. P., Edmonds, J., Kainuma, M., Riahi, K.
 #'   Thomson, A., Hibbard, K., Hurtt, G. C., Kram, T., Krey, V.,
 #'   Lamarque, J.-F. (2011). The representative concentration pathways:
@@ -170,8 +170,8 @@ NULL
 #'   on 4/3/2015.
 #' @references Northrop, P.J. and R.E. Chandler (2014). Quantifying
 #'   Sources of Uncertainty in Projections of Future Climate.
-#'   \emph{Journal of Climate}, \strong{27}, 8793-8808,
-#'   \url{https://doi.org/10.1175/JCLI-D-14-00265.1}.
+#'   \emph{Journal of Climate}, \strong{27}, 8793-8808.
+#'   \url{https://doi.org/10.1175/JCLI-D-14-00265.1}
 #' @references Van Vuuren, D. P., Edmonds, J., Kainuma, M., Riahi, K.
 #'   Thomson, A., Hibbard, K., Hurtt, G. C., Kram, T., Krey, V.,
 #'   Lamarque, J.-F. (2011). The representative concentration pathways:
