@@ -6,16 +6,27 @@
 
 #' Set a user-defined prior
 #'
-#' Describe
+#' Constructs a user-define prior distribution for use as the argument
+#' \code{prior} in \code{\link{hef}} or \code{\link{hanova1}}.
 #'
-#' @param prior An R function.
-#' @param model A character string.  Abbreviated name for the
-#'   response-mixture combination.
+#' @param prior An R function returning \strong{the log of} the prior density
+#'   for of (perhaps a subset of) the hyperparameter vector \eqn{\psi}.
 #' @param ... Further arguments giving the names and values of any
 #'   parameters involved in the function \code{prior}.
+#' @param model A character string.  Abbreviated name for the
+#'   response-mixture combination.
+#' @param anova_d An integer scalar.  Only relevant if \code{model = anova}.
+#'   If \code{anova_d = 2} then \code{prior} must return the log-prior
+#'   density for the standard deviations \eqn{(\sigma_\alpha, \sigma)}
+#'   and a normal prior with mean \code{mu0} and standard deviation
+#'   \code{sigma0} is used for \eqn{\mu}.  The values of \code{mu0 = 0} and
+#'   \code{sigma0 = Inf} are set in the call to \code{hanova1}, with default
+#'   values \code{mu0 = 0} and \code{sigma0 = Inf}.
+#'   If \code{anova_d = 3} then \code{prior} must return the log-prior
+#'   density for \eqn{(\mu, \sigma_\alpha, \sigma)}.
 #' @export
 set_user_prior <- function(prior, ..., model = c("binom_beta", "pois_gamma",
-                                            "anova"), anova_d = 2) {
+                                                 "anova"), anova_d = 2) {
   if (!is.function(prior)) {
     stop("prior must be a function")
   }

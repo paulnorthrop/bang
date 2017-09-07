@@ -1,7 +1,7 @@
 Package: bang
 Title: Bayesian Analysis, No Gibbs
 Version: 0.0.0.9000
-Date: 2017-07-04
+Date: 2017-09-07
 Authors@R: c(person(c("Paul", "J."), "Northrop", email = "p.northrop@ucl.ac.uk",
   role = c("aut", "cre", "cph")), 
   person(c("Benjamin", "D."), "Hall", email = "benjamin.hall.16@ucl.ac.uk",
@@ -11,6 +11,8 @@ Description: Provides functions for the Bayesian analysis of some simple
     methods such as Gibbs sampling.  The 'rust' package  
     <https://cran.r-project.org/package=rust> is used 
     to simulate a random sample from the required posterior distribution.  
+    At the moment three conjugate hierarchical models are available:
+    beta-binomial, gamma-Poisson and a 1-way Analysis of Variance (ANOVA).
     See the 'bang' website for more information, documentation and examples.
 Depends: R (>= 3.3.1)
 Imports: graphics,
