@@ -12,6 +12,10 @@ vignette: >
 bibliography: bang.bib
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
 The *bang* package simulates from the posterior distributions involved in certain Bayesian models.  See the vignette [Introducing bang: Bayesian Analysis, No Gibbs](bang-vignette.html) for more information.  In this vignette we consider the hierarchical 1-way Analysis of variance (ANOVA) model:
 \begin{equation*}
 Y_{ij} = \mu + \alpha_i + \epsilon_{ij} = \theta_i + \epsilon_{ij}, \quad\mbox{for} \,\, i = 1, \ldots, I, \, j = 1, \ldots, n_i, 

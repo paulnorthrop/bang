@@ -18,6 +18,8 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 
 The **bang** package uses the **rust** package [@rust] to produce random samples, using the generalized ratio-of-uniforms method, from the posterior distributions involved in certain Bayesian models.  **rust** was originally created to perform this role in the package **revdbayes** [@revdbayes], which deals with basic extreme value models with only 2 or 3 parameters.  The aim of **bang** is to tackle further models.  
 
+See also the vignettes [Hierarchical 1-way Analysis of Variance](bang-anova-vignette.html) and [Conjugate Hierarchical Models](bang-hef-vignette.html).
+
 ## The generalized ratio-of-uniforms method as an alternative to MCMC
 
 The ratio-of-uniforms method is an acceptance-rejection type algorithm whose efficiency decreases quickly as the dimension of the target distribution increases.  Therefore, it may not be a feasible method of sampling directly from a distribution with the order of 10 parameters.  However, for some models it is possible to factorize the joint posterior density into a product of a marginal posterior density for a low-dimensional set of parameters and conditional posteriors densities of the other parameters given the parameters in this set.  In such cases we can sample values from the marginal posterior and then sample from the conditional posteriors given these values.  The examples considered in the first release of **bang** are hierarchical models in which the marginal density is not of a simple form (so we use **rust** to sample from it) but the conditional densities are of a simple form and we can simulate from them using standard simulation algorithms.
@@ -28,7 +30,7 @@ Only in some simple special cases is it possible to find algebraically the dimen
 
 Direct simulation methods like the ratio-of-uniforms methods will not replace MCMC as a general method for simulating from posterior densities.  However, they may provide a useful alternative for some commonly-used models.
 
-## An example: hierarchical binomial-beta model
+## An example: hierarchical beta-binomial model
 
 As a brief example we use the analysis of the `rat tumor' data presented in Section 5.3 of @BDA2014 based on a hierarchical binomial-beta model.   This example is considered in more detail in the vignette [Hierarchical Binomial-Beta Model](bang-binomial-beta-vignette.html).  The following code reproduces (up to a shift in origin) the content of Figure 5.3 of @BDA2014.
 
@@ -39,7 +41,7 @@ library(bang)
 # (b) Don't use axis rotation (rotate = FALSE)
 # (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)
 # (d) Note that the mode is relocated to (0, 0) in the plot
-rat_res <- hef(model = "binom_beta", data = rat, rotate = FALSE, n = 10000)
+rat_res <- hef(model = "beta_binom", data = rat, rotate = FALSE, n = 10000)
 plot(rat_res, ru_scale = TRUE)
 # This is the estimated posterior mode, which agrees with Figure 5.3 of Gelman et al. (2014)
 rat_res$f_mode

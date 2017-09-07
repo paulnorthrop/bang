@@ -1,0 +1,29 @@
+---
+title: "Conjugate Hierarchical Models"
+author: "Paul Northrop"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Conjugate Hierarchical Models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: bang.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
+The *bang* package simulates from the posterior distributions involved in certain Bayesian models.  See the vignette [Introducing bang: Bayesian Analysis, No Gibbs](bang-vignette.html) for more information.  In this vignette we consider the 
+
+## Beta-binomial model
+
+## Gamma-Poisson Model
+
+## References
+
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({  "HTML-CSS": { minScaleAdjust: 125, availableFonts: [] }  });
+</script>
