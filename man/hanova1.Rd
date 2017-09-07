@@ -33,22 +33,22 @@ an in-built prior.}
 
 \item{param}{A character scalar.
 If \code{param = "trans"} (the default) then the marginal posterior
-of hyperparameter vector \eqn{psi} is parameterised in a way
-designed to improve the efficiency of sampling from this posterior.
-See \strong{Details}.
-If \code{param = "original"} the original parameterisation is used.
+of hyperparameter vector \eqn{psi} is reparameterised in terms of
+\eqn{\log\sigma_\alpha, \log\sigma}.
+If \code{param = "original"} the original parameterisation,
+i.e. \eqn{\sigma_\alpha, \sigma} is used.
 The former tends to make the optimisations involved in the
 ratio-of-uniforms algorithm more stable and to increase the probability
 of acceptance, but at the expense of slower function evaluations.}
 
 \item{init}{A numeric vector. Optional initial estimates sent to
-\code{\link[rust]{ru}} for the search for the mode of the posterior
+\code{\link[rust]{ru}} in the search for the mode of the posterior
 density of (perhaps a subset of) the hyperparameter vector \eqn{\psi}.
 If an in-built prior is used then \code{ru} is used to sample from the
 marginal posterior density of \eqn{(\sigma_\alpha, \sigma)}, so
-\code{init} must have length 2.  Otherwise, \code{init} is of
-length 2 or 3 depending on the argument \code{anova_d} supplied
-to \code{\link{set_user_prior}}.}
+\code{init} must have length 2.  Otherwise, \code{init} has length
+equal to the argument \code{anova_d} supplied to
+\code{\link{set_user_prior}}.}
 
 \item{mu0, sigma0}{A numeric scalar.  Mean and standard deviation of a
 normal prior for \eqn{\mu}.  Only used if an in-built prior is used
@@ -72,6 +72,15 @@ Uses the \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
 package to simulate from the posterior distribution of the parameters
 of a 1-way hierarchical ANOVA model.
 }
+\details{
+The \code{\link[rust]{ru}} function is used to draw a random sample
+  from the marginal posterior of the hyperparameter vector \eqn{\psi}.
+  Then, conditional on these values, population parameters are sampled
+  directly from the conditional posterior density of
+  \eqn{\theta}1, ..., \eqn{\theta}J given \eqn{\psi} and the data.
+  See the vignette("revdbayes-anova-vignette", package = "bang")
+  for details.
+}
 \examples{
 # ======= Late 21st Century Global Temperature Data =======
 
@@ -94,6 +103,7 @@ plot(res26_2, type = "ru", ru_scale = TRUE)
 plot(res26_2)
 
 # Posterior sample quantiles
+probs <- c(2.5, 25, 50, 75, 97.5) / 100
 round(t(apply(res26_2$sim_vals, 2, quantile, probs = probs)), 2)
 
 # Ratio-of-uniforms information and posterior sample summaries
@@ -117,7 +127,6 @@ coag2 <- hanova1(resp = coagulation[, 1], fac = coagulation[, 2],
                param = "original", r = 1)
 
 # Values to compare to those in Table 11.3 of Gelman et al (2014)
-probs <- c(2.5, 25, 50, 75, 97.5) / 100
 all1 <- cbind(coag1$theta_sim_vals, coag1$sim_vals)
 all2 <- cbind(coag2$theta_sim_vals, coag2$sim_vals)
 round(t(apply(all1, 2, quantile, probs = probs)), 1)
