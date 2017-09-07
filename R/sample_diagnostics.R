@@ -38,8 +38,8 @@
 #' @param ... Additional arguments passed to \code{\link[rust]{plot.ru}},
 #'   \code{\link[graphics]{hist}} or \code{\link[graphics]{pairs}}.
 #' @examples
-#' # Binomial-beta model, rat data
-#' rat_res <- hef(model = "binom_beta", data = rat)
+#' # Beta-binomial model, rat data
+#' rat_res <- hef(model = "beta_binom", data = rat)
 #' # Hyperparameters alpha and beta
 #' plot(rat_res)
 #' plot(rat_res, ru_scale = TRUE)
@@ -74,23 +74,23 @@ plot.hef <- function(x, y, ..., type = c("hyper", "pop_sim", "pop_dens", "ru"),
     var_names <- colnames(x$theta_sim_vals)[which_pop]
     if (length(which_pop) == 1) {
       if (is.null(user_args$xlab)) {
-        hist(plot_data, prob = TRUE, main = "", xlab = "", ...)
+        graphics::hist(plot_data, prob = TRUE, main = "", xlab = "", ...)
         if (!is.null(var_names)) {
           graphics::title(xlab = parse(text = var_names))
         }
       } else {
-        hist(plot_data, prob = TRUE, main = "", ...)
+        graphics::hist(plot_data, prob = TRUE, main = "", ...)
       }
     } else {
       if (is.null(user_args$labels)) {
-        pairs(plot_data, labels = parse(text = var_names), ...)
+        graphics::pairs(plot_data, labels = parse(text = var_names), ...)
       } else {
-        pairs(plot_data, ...)
+        graphics::pairs(plot_data, ...)
       }
     }
 #  } else {
-#    # Poisson-gamma
-#    if (x$model == "pois_gamma") {
+#    # Gamma-Poisson
+#    if (x$model == "gamma_pois") {
 #      alpha <- x$sim_vals[, 1]
 #      beta <- x$sim_vals[, 2]
 #      y <- data[, 1]
@@ -112,8 +112,8 @@ plot.hef <- function(x, y, ..., type = c("hyper", "pop_sim", "pop_dens", "ru"),
 #' @param object an object of class "hef", a result of a call to \code{hef}.
 #' @param ... Additional arguments passed on to \code{\link[rust]{summary.ru}}.
 #' @examples
-#' # Binomial-beta model, rat data
-#' rat_res <- hef(model = "binom_beta", data = rat)
+#' # Beta-binomial model, rat data
+#' rat_res <- hef(model = "beta_binom", data = rat)
 #' summary(rat_res)
 summary.hef <- function(object, ...) {
   if (!inherits(object, "hef")) {

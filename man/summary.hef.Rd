@@ -15,7 +15,7 @@
 \code{summary} method for class "hef"
 }
 \examples{
-# Binomial-beta model, rat data
-rat_res <- hef(model = "binom_beta", data = rat)
+# Beta-binomial model, rat data
+rat_res <- hef(model = "beta_binom", data = rat)
 summary(rat_res)
 }

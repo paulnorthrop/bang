@@ -52,8 +52,8 @@ superimposed in one graph or appear in separate graphs.}
 \code{plot} method for class "hef".  Calls \code{\link[rust]{plot.ru}}.
 }
 \examples{
-# Binomial-beta model, rat data
-rat_res <- hef(model = "binom_beta", data = rat)
+# Beta-binomial model, rat data
+rat_res <- hef(model = "beta_binom", data = rat)
 # Hyperparameters alpha and beta
 plot(rat_res)
 plot(rat_res, ru_scale = TRUE)
