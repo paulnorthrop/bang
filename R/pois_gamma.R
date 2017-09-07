@@ -1,22 +1,22 @@
-#------------------------------- Binomial-beta -------------------------------#
+#------------------------------- Beta-binomial -------------------------------#
 
 # Calculate sufficient statistics
 
 poisson_data <- function(data) {
   if (!is.matrix(data) & !is.data.frame(data)) {
-    stop("pois_gamma: data must be a matrix or a data frame")
+    stop("gamma_pois: data must be a matrix or a data frame")
   }
   if (ncol(data) != 2) {
-    stop("pois_gamma: data must have 2 columns")
+    stop("gamma_pois: data must have 2 columns")
   }
   if (any(data[, 1] < 0)) {
-    stop("pois_gamma: the values in column 1 must be non-negative")
+    stop("gamma_pois: the values in column 1 must be non-negative")
   }
   if (any(!is_wholenumber(data[, 1]))) {
-    stop("binom_beta: the data must be whole numbers")
+    stop("gamma_pois: the data must be whole numbers")
   }
   if (any(data[, 2] <= 0)) {
-    stop("pois_gamma: the values in column 2 must be positive")
+    stop("gamma_pois: the values in column 2 must be positive")
   }
   y <- data[, 1]
   y_gt_0 <- y[y > 0]
@@ -29,7 +29,7 @@ poisson_data <- function(data) {
 # Note: we need to be careful to avoid underflow when either or both
 # alpha and beta are very large
 
-pois_gamma_marginal_loglik <- function(x, y, off, sum_y, y_gt_0) {
+gamma_pois_marginal_loglik <- function(x, y, off, sum_y, y_gt_0) {
   if (any(x <= 0)) {
     return(-Inf)
   }
@@ -40,7 +40,7 @@ pois_gamma_marginal_loglik <- function(x, y, off, sum_y, y_gt_0) {
 # Sample from the conditional posterior distribution of the population
 # parameters given the hyperparameters and the data
 
-pois_gamma_cond_sim <- function(x, data, n_sim) {
+gamma_pois_cond_sim <- function(x, data, n_sim) {
   alpha <- x[, 1]
   beta <- x[, 2]
   y <- data[, 1]
@@ -55,9 +55,9 @@ pois_gamma_cond_sim <- function(x, data, n_sim) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
-# Simulate data from the Poisson-gamma model
+# Simulate data from the Gamma-Poisson model
 
-sim_pois_gamma <- function(n = 1, alpha = 1, beta = 1, off = 1) {
+sim_gamma_pois <- function(n = 1, alpha = 1, beta = 1, off = 1) {
   if (length(off) != 1 & length(off) != n) {
     stop("off must be scalar or a vector of length n")
   }

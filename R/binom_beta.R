@@ -1,27 +1,27 @@
-#------------------------------- Binomial-beta -------------------------------#
+#------------------------------- Beta-binomial -------------------------------#
 
 # Calculate sufficient statistics
 
 binomial_data <- function(data, prior) {
   if (!is.matrix(data) & !is.data.frame(data)) {
-    stop("binom_beta: data must be a matrix or a data frame")
+    stop("beta_binom: data must be a matrix or a data frame")
   }
   if (ncol(data) != 2) {
-    stop("binom_beta: data must have 2 columns")
+    stop("beta_binom: data must have 2 columns")
   }
   if (any(!is_wholenumber(data))) {
-    stop("binom_beta: the data must be whole numbers")
+    stop("beta_binom: the data must be whole numbers")
   }
   n <- data[, 2]
   if (any(n <= 0)) {
-    stop("binom_beta: the values in data column 2 (n) must be positive")
+    stop("beta_binom: the values in data column 2 (n) must be positive")
   }
   y <- data[, 1]
   if (any(y < 0)) {
-    stop("binom_beta: the values in data column 1 (y) must be non-negative")
+    stop("beta_binom: the values in data column 1 (y) must be non-negative")
   }
   if (any(y > n)) {
-    stop("binom_beta: in data column 1 (y) cannot exceed column 2 (n), rowwise")
+    stop("beta_binom: in data column 1 (y) cannot exceed column 2 (n), rowwise")
   }
   # If a default improper prior is used then check for posterior propriety
   if (is.character(prior)) {
@@ -31,7 +31,7 @@ binomial_data <- function(data, prior) {
        }
     }
   }
-  # Calculate the values needed in binom_beta_marginal_loglik
+  # Calculate the values needed in beta_binom_marginal_loglik
   ny <- n - y
   tab_y <- table(y[y > 0])
   tab_ny <- table(ny[ny > 0])
@@ -54,7 +54,7 @@ binomial_data <- function(data, prior) {
 # Note: we need to be careful to avoid underflow when either or both
 # alpha and beta are very large
 
-binom_beta_marginal_loglik <- function(x, y_mat, ny_mat, n_mat) {
+beta_binom_marginal_loglik <- function(x, y_mat, ny_mat, n_mat) {
   if (any(x <= 0)) {
     return(-Inf)
   }
@@ -76,9 +76,9 @@ binom_beta_marginal_loglik <- function(x, y_mat, ny_mat, n_mat) {
 }
 
 # Obvious coding - used only by testthat to test that
-# binom_beta_marginal_loglik is correct
+# beta_binom_marginal_loglik is correct
 
-check_binom_beta_marginal_loglik <- function(x, y, n) {
+check_beta_binom_marginal_loglik <- function(x, y, n) {
   if (any(x <= 0)) {
     return(-Inf)
   }
@@ -88,7 +88,7 @@ check_binom_beta_marginal_loglik <- function(x, y, n) {
 # Sample from the conditional posterior distribution of the population
 # parameters given the hyperparameters and the data
 
-binom_beta_cond_sim <- function(x, data, n_sim) {
+beta_binom_cond_sim <- function(x, data, n_sim) {
   alpha <- x[, 1]
   beta <- x[, 2]
   y <- data[, 1]
@@ -103,9 +103,9 @@ binom_beta_cond_sim <- function(x, data, n_sim) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
-# Simulate data from the binomial-beta model
+# Simulate data from the beta-binomial model
 
-sim_binom_beta <- function(n = 1, size = 1, alpha = 1, beta = 1) {
+sim_beta_binom <- function(n = 1, size = 1, alpha = 1, beta = 1) {
   theta <- stats::rbeta(n, alpha, beta)
   size <- rep_len(size, length(theta))
   y <- mapply(stats::rbinom, size = size, prob = theta, n = 1)

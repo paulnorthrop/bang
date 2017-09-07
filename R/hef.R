@@ -34,7 +34,7 @@
 #'   an in-built prior.
 #' @param param A character scalar.
 #'   If \code{param = "trans"} (the default) then the marginal posterior
-#'   of hyperparameter vector \eqn{\psi} is parameterised in a way
+#'   of hyperparameter vector \eqn{\psi} is reparameterised in a way
 #'   designed to improve the efficiency of sampling from this posterior.
 #'   If \code{param = "original"} the original parameterisation is used.
 #'   The former tends to make the optimisations involved in the
@@ -57,7 +57,7 @@
 #'   and detail the choices of ratio-of-uniforms parameterisation
 #'   \code{param}.
 #'
-#' \strong{Binomial-beta:} For \eqn{j = 1, ..., J},
+#' \strong{Beta-binomial:} For \eqn{j = 1, ..., J},
 #'   \eqn{Yj | pj} are i.i.d binomial\eqn{(nj, pj)},
 #'   where \eqn{pj} is the probability of success in group \eqn{j}
 #'   and \eqn{nj} is the number of trials in group \eqn{j}.
@@ -89,7 +89,7 @@
 #'   \phi2 = log(\alpha+\beta)}.
 #' See Section 5.3 of Gelman et al. (2013).
 #'
-#' \strong{Poisson-gamma:} For \eqn{j = 1, ..., J},
+#' \strong{Gamma-Poisson:} For \eqn{j = 1, ..., J},
 #'   \eqn{Yj | \lambdaj} are i.i.d Poisson\eqn{(ej\lambdaj)},
 #'   where
 #'   \eqn{ej} is the \emph{exposure} in group \eqn{j}, based on the
@@ -132,18 +132,18 @@
 #' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of
 #'   variance (ANOVA).
 #' @examples
-#' ############################ Binomial-Beta #################################
+#' ############################ Beta-binomial #################################
 #'
 #' # ------------------------- Rat tumor data ------------------------------- #
 #'
 #' # Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale
-#' rat_res <- hef(model = "binom_beta", data = rat)
+#' rat_res <- hef(model = "beta_binom", data = rat)
 #' plot(rat_res)
 #' plot(rat_res, ru_scale = TRUE)
 #' summary(rat_res)
 #'
 #' # Default prior, sampling on (rotated) (alpha, beta) scale
-#' rat_res <- hef(model = "binom_beta", data = rat, param = "original")
+#' rat_res <- hef(model = "beta_binom", data = rat, param = "original")
 #' plot(rat_res)
 #' plot(rat_res, ru_scale = TRUE)
 #' summary(rat_res)
@@ -153,7 +153,7 @@
 #' # (b) Don't use axis rotation (rotate = FALSE)
 #' # (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)
 #' # (d) Note that the mode is relocated to (0, 0) in the plot
-#' rat_res <- hef(model = "binom_beta", data = rat, rotate = FALSE)
+#' rat_res <- hef(model = "beta_binom", data = rat, rotate = FALSE)
 #' plot(rat_res, ru_scale = TRUE)
 #' # This is the estimated location of the posterior mode
 #' rat_res$f_mode
@@ -163,20 +163,20 @@
 #'   return(dexp(x[1], hpars[1], log = TRUE) + dexp(x[2], hpars[2], log = TRUE))
 #' }
 #' user_prior <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
-#' rat_res <- hef(model = "binom_beta", data = rat, prior = user_prior)
+#' rat_res <- hef(model = "beta_binom", data = rat, prior = user_prior)
 #' plot(rat_res)
 #' summary(rat_res)
 #'
-#' ############################ Poisson-gamma #################################
+#' ############################ Gamma-Poisson #################################
 #'
 #' # ------------------------ Pump failure data ------------------------------ #
 #'
-#' pump_res <- hef(model = "pois_gamma", data = pump)
+#' pump_res <- hef(model = "gamma_pois", data = pump)
 #' plot(pump_res)
 #' plot(pump_res, ru_scale = TRUE)
 #' summary(pump_res)
 #' @export
-hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
+hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
                 data, ..., prior = "default", hpars = NULL,
                 param = c("trans", "original"), init = NULL) {
   model <- match.arg(model)
@@ -185,16 +185,16 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   # Calculate the data summaries required in the posterior
   # and check for posterior propriety, where possible
   ds <- switch(model,
-               binom_beta = binomial_data(data, prior),
-               pois_gamma = poisson_data(data))
+               beta_binom = binomial_data(data, prior),
+               gamma_pois = poisson_data(data))
   #
   # Create a list that defines the prior and any parameters in the prior
   prior <- check_prior(prior, model, hpars)
   #
   # Set the function to calculate the log-likelihood
   loglik_fn <- switch(model,
-                      binom_beta = binom_beta_marginal_loglik,
-                      pois_gamma = pois_gamma_marginal_loglik)
+                      beta_binom = beta_binom_marginal_loglik,
+                      gamma_pois = gamma_pois_marginal_loglik)
   #
 #  gs_init <- gs_alpha(data)
   #
@@ -223,14 +223,14 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   # Calculate initial estimates
   if (is.null(init)) {
     init <- switch(model,
-                   binom_beta = beta_init_ests(data, param = param),
-                   pois_gamma = gamma_init_ests(data, param = param))
+                   beta_binom = beta_init_ests(data, param = param),
+                   gamma_pois = gamma_init_ests(data, param = param))
   } else {
     if (length(init) != 2) {
       warning("init is not of length 2, so it is not used")
       init <- switch(model,
-                     binom_beta = beta_init_ests(data, param = param),
-                     pois_gamma = gamma_init_ests(data, param = param))
+                     beta_binom = beta_init_ests(data, param = param),
+                     gamma_pois = gamma_init_ests(data, param = param))
     }
   }
   #
@@ -238,8 +238,8 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   fr_list <- list(model = model, trans = ru_args$trans,
                   rotate = ru_args$rotate, param = param)
   fr <- switch(model,
-               binom_beta = do.call(beta_create_ru_list, fr_list),
-               pois_gamma = do.call(gamma_create_ru_list, fr_list))
+               beta_binom = do.call(beta_create_ru_list, fr_list),
+               gamma_pois = do.call(gamma_create_ru_list, fr_list))
   #
   # Set ru_args$n_grid and ru_args$ep_bc to NULL just in case they have been
   # specified in ...
@@ -252,11 +252,11 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   # and the log-Jacobian of this transformation.
   if (param == "trans") {
     phi_to_theta <- switch(model,
-                           binom_beta = beta_phi_to_theta,
-                           pois_gamma = gamma_phi_to_theta)
+                           beta_binom = beta_phi_to_theta,
+                           gamma_pois = gamma_phi_to_theta)
     log_j <- switch(model,
-                    binom_beta = beta_log_j,
-                    pois_gamma = gamma_log_j)
+                    beta_binom = beta_log_j,
+                    gamma_pois = gamma_log_j)
     for_ru <- c(for_ru, list(phi_to_theta = phi_to_theta, log_j = log_j))
   }
   res <- do.call(rust::ru, for_ru)
@@ -264,8 +264,8 @@ hef <- function(n = 1000, model = c("binom_beta", "pois_gamma"),
   # Sample from the conditional posterior distribution of the population
   # parameters given the hyperparameters and the data
   temp <- switch(model,
-                 binom_beta = binom_beta_cond_sim(res$sim_vals, data, n),
-                 pois_gamma = pois_gamma_cond_sim(res$sim_vals, data, n))
+                 beta_binom = beta_binom_cond_sim(res$sim_vals, data, n),
+                 gamma_pois = gamma_pois_cond_sim(res$sim_vals, data, n))
   res <- c(res, temp)
   #
   # Add information about the model, the data and the prior
