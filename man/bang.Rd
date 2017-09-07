@@ -8,23 +8,35 @@
 \description{
 Performs Bayesian analyses using some simple commonly-used models.
 The multivariate generalized ratio-of-uniforms method is used to simulate
-random samples from the requied posterior distribution.
+random samples from the required posterior distribution.
 The user can either choose hyperparameter values of a default prior
 distribution or specify their own prior distribution.
 }
 \details{
-Add some details here.
+Currently three conjugate hierarchical models are available:
+beta-binomial, gamma-Poisson and 1-way Analysis of Variance (ANOVA).
+The function \code{\link{hef}} produces random posterior samples from for the
+beta-binomial and gamma-Poisson models.  The function \code{\link{hanova1}}
+does this for the 1-way Analysis of Variance (ANOVA).
+The 'rust' package  <https://cran.r-project.org/package=rust> is used to
+produce these samples.
+
+See
+vignette("bang-vignette", package = "bang") for a brief introduction
+to the package and
+vignette("revdbayes-anova-hef", package = "bang") and
+vignette("revdbayes-anova-vignette", package = "bang") for illustrations
+of the use of the \code{hef} and \code{hanova1} functions.
 }
 \references{
-Northrop, P. J. (2016). rust: Ratio-of-Uniforms Simulation with
-  Transformation. R package version 1.2.2.
+Northrop, P. J. (2017). rust: Ratio-of-Uniforms Simulation with
+  Transformation. R package version 1.2.3.
   \url{https://cran.r-project.org/package=rust}.
 }
 \seealso{
-The \code{\link[rust]{ru}} and \code{\link[rust]{ru_rcpp}}
-  functions in the \code{\link{rust}} package for details of the arguments
-  that can be passed to \code{ru} via \code{rpost} and for the form of the
-  object (of class "evprior") returned from \code{rpost}, which has the same
-  structure as an object (of class "ru") returned by \code{ru} and
-  \code{ru_rcpp}.
+The \code{\link[rust]{ru}} function in the \code{\link{rust}}
+  package for details of the arguments that can be passed to \code{ru} via
+  \code{hef} or \code{hanova1}.
+
+\code{\link{set_user_prior}} to set a user-defined prior.
 }
