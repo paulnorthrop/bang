@@ -1,20 +1,17 @@
-# For an ANOVA model set the dimension of the prior:
-#  1-way: 2 for a prior for (sigma_alpha, sigma) only
-#         3 for a prior for (mu, sigma_alpha, sigma)
-
 # ========================== set_user_prior ===================================
 
 #' Set a user-defined prior
 #'
-#' Constructs a user-define prior distribution for use as the argument
+#' Constructs a user-defined prior distribution for use as the argument
 #' \code{prior} in \code{\link{hef}} or \code{\link{hanova1}}.
 #'
 #' @param prior An R function returning \strong{the log of} the prior density
 #'   for of (perhaps a subset of) the hyperparameter vector \eqn{\psi}.
 #' @param ... Further arguments giving the names and values of any
 #'   parameters involved in the function \code{prior}.
-#' @param model A character string.  Abbreviated name for the
-#'   response-mixture combination.
+#' @param model A character string.  Abbreviated name of the model:
+#'   "beta_binom" for beta-binomial, "gamma_pois" for gamma-Poisson,
+#'   "anova1" for 1-way ANOVA.
 #' @param anova_d An integer scalar.  Only relevant if \code{model = anova}.
 #'   If \code{anova_d = 2} then \code{prior} must return the log-prior
 #'   density for the standard deviations \eqn{(\sigma_\alpha, \sigma)}
@@ -25,15 +22,18 @@
 #'   If \code{anova_d = 3} then \code{prior} must return the log-prior
 #'   density for \eqn{(\mu, \sigma_\alpha, \sigma)}.
 #' @export
-set_user_prior <- function(prior, ..., model = c("binom_beta", "pois_gamma",
-                                                 "anova"), anova_d = 2) {
+set_user_prior <- function(prior, ..., model = c("beta_binom", "gamma_pois",
+                                                 "anova1"), anova_d = 2) {
   if (!is.function(prior)) {
     stop("prior must be a function")
   }
   model <- match.arg(model)
-  prior$anova_d <- anova_d
   # Return a list and add additional arguments from ....
-  temp <- list(prior = prior, ...)
+  if (model == "anova1") {
+    temp <- list(prior = prior, ..., anova_d = anova_d)
+  } else {
+    temp <- list(prior = prior, ...)
+  }
   return(structure(temp, class = "bang_prior", model = model))
 }
 
@@ -62,8 +62,8 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
         }
       }
     }
-    # Binomial-beta
-    if (model == "binom_beta") {
+    # Beta-binomial
+    if (model == "beta_binom") {
       prior$prior <- switch(prior_name,
                             default = beta_bda_prior,
                             bda = beta_bda_prior,
@@ -76,7 +76,7 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
       }
     }
     # Poisson-gamma
-    if (model == "pois_gamma") {
+    if (model == "gamma_pois") {
       prior$prior <- switch(prior_name,
                             default = gamma_gamma_prior,
                             gamma = gamma_gamma_prior)
