@@ -12,7 +12,7 @@ my_tol <- 1e-5
 
 three_d_case_fn <- function(x, alpha, resp, fac) {
   #
-  # Calculates the value of the binomial-beta marginal log-likelihood
+  # Calculates the value of the beta-binomial marginal log-likelihood
   # at x = (alpha, beta) based on data matrix data using the obvious
   # coding and non-obvious coding.
   #
@@ -115,7 +115,7 @@ three_d_test_fn(data = coagulation, test_string = "Coagulation Data")
 
 two_d_case_fn <- function(x, alpha, resp, fac) {
   #
-  # Calculates the value of the binomial-beta marginal log-likelihood
+  # Calculates the value of the beta-binomial marginal log-likelihood
   # at x = (alpha, beta) based on data matrix data using the obvious
   # coding and non-obvious coding.
   #
