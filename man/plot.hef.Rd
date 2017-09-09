@@ -13,15 +13,23 @@
 \item{y}{Not used.}
 
 \item{...}{Additional arguments passed to \code{\link[rust]{plot.ru}},
-\code{\link[graphics]{hist}} or \code{\link[graphics]{pairs}}.}
+\code{\link[graphics]{hist}} or \code{\link[graphics]{pairs}}.
+In particular, \code{ru_scale = TRUE} produces a plot using the
+parameterisation used for ratio-of-uniforms sampling.}
 
 \item{type}{A character scalar.
 
-  If \code{type = "hyper"} then the posterior sample of hyperparameter
-  values is plotted using \code{\link[rust]{plot.ru}}.
+  If \code{type = "hyper"} then the posterior sample of \emph{all}
+  hyperparameter values in \eqn{\phi} is plotted using
+  \code{\link[rust]{plot.ru}}.
 
   If \code{type = "ru"} then only the posterior sample generated using
   \code{\link[rust]{ru}} is plotted using \code{\link[rust]{plot.ru}}.
+  This produces a different plot to \code{type = "hyper"} if \code{ru}
+  is used only on a subset of \eqn{\phi}.  For example, this may be
+  the case if \code{x} is the result of a call to \code{\link{hanova1}}.
+  See vignette("revdbayes-anova-vignette", package = "bang") for
+  information.
 
   If \code{type = "pop_sim"} then sample(s) of the population-specific
   parameter vector \eqn{\theta} are plotted.  The population(s) included
@@ -37,8 +45,8 @@
   estimates appear on one plot or in separate plots.}
 
 \item{which_pop}{An integer vector.  If \code{type = "pop_sim"} or
-\code{type = "pop_dens"} \code{which_pop} indicates which populations
-to include in the plot.}
+\code{type = "pop_dens"} then \code{which_pop} indicates which
+populations to include in the plot.}
 
 \item{which_theta}{An integer vector indicating which component of
 of the population-specific parameter vector \eqn{\theta} to plot.
@@ -49,17 +57,24 @@ Only relevant if \eqn{\theta} has length greater than one.}
 superimposed in one graph or appear in separate graphs.}
 }
 \description{
-\code{plot} method for class "hef".  Calls \code{\link[rust]{plot.ru}}.
+\code{plot} method for class "hef".
 }
 \examples{
 # Beta-binomial model, rat data
 rat_res <- hef(model = "beta_binom", data = rat)
+
 # Hyperparameters alpha and beta
 plot(rat_res)
+# Parameterisation used for sampling
 plot(rat_res, ru_scale = TRUE)
-# Population-specific parameter samples
+
+# Population-specific posterior samples
 plot(rat_res, type = "pop_sim")
 plot(rat_res, type = "pop_sim", which_pop = c(1, 10))
+
+# Population-specific posterior densities
+plot(rat_res, type = "pop_dens")
+plot(rat_res, type = "pop_dens", which_pop = c(1, 10))
 }
 \seealso{
 \code{\link[rust]{plot.ru}} for arguments that may be passed
