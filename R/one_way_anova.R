@@ -24,7 +24,7 @@
 #' @param param A character scalar.
 #'   If \code{param = "trans"} (the default) then the marginal posterior
 #'   of hyperparameter vector \eqn{psi} is reparameterised in terms of
-#'   \eqn{log\sigma_\alpha, log\sigma}.
+#'   \eqn{log \sigma_\alpha, log \sigma}.
 #'   If \code{param = "original"} the original parameterisation,
 #'   i.e. \eqn{\sigma_\alpha, \sigma} is used.
 #'   The former tends to make the optimisations involved in the
