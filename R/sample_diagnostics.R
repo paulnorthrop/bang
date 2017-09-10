@@ -48,7 +48,7 @@
 #'   \code{\link[graphics]{legend}} in the position indicated by
 #'   the character scalar \code{legend_position}.
 #' @examples
-#' # Beta-binomial model, rat data
+#' # Beta-binomial model, rat data ------------
 #' rat_res <- hef(model = "beta_binom", data = rat)
 #'
 #' # Hyperparameters alpha and beta
@@ -64,7 +64,18 @@
 #'
 #' # Population-specific posterior samples: one plot
 #' plot(rat_res, params = "pop", plot_type = "dens", which_pop = pops,
-#'      one_plot = TRUE)
+#'      one_plot = TRUE, add_legend = TRUE)
+#'
+#' # Gamma-Poisson model, pump data ------------
+#' pump_res <- hef(model = "gamma_pois", data = pump)
+#'
+#' # Hyperparameters alpha and beta
+#' plot(pump_res)
+#'
+#' # Choose pumps with extreme sample rates
+#' pops <- c(which.min(pump[, 1] / pump[, 2]), which.max(pump[, 1] / pump[, 2]))
+#' plot(pump_res, params = "pop", plot_type = "dens", which_pop = pops)
+#'
 #' @seealso \code{\link[rust]{plot.ru}} for arguments that may be passed
 #'   via ...., in particular \code{ru_scale}.
 #' @export
@@ -151,7 +162,8 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
   # If we need estimates of marginal posterior densities
   if (plot_type == "dens" || plot_type == "both") {
     post_dens <- switch(x$model,
-                        beta_binom = pde_beta_binom(x, which_pop))
+                        beta_binom = pde_beta_binom(x, which_pop),
+                        gamma_pois = pde_gamma_pois(x, which_pop))
   }
   # Set the number of rows and columns in the plot
   rc <- n2mfrow(n_pop)
@@ -202,21 +214,9 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
     graphics::par(def.par)
   }
   return(invisible())
-#  } else {
-#    # Gamma-Poisson
-#    if (x$model == "gamma_pois") {
-#      alpha <- x$sim_vals[, 1]
-#      beta <- x$sim_vals[, 2]
-#      y <- data[, 1]
-#      off <- data[, 2]
-#      i <- which_pop
-#      temp <- range(x$theta_sim_vals[, i])
-#      temp <- seq(temp[1], temp[2], len = 101)
-#      stats::dgamma(temp, shape = alpha + y[i], rate = beta + off[i])
-#    }
 }
 
-# ============================== n2mfrow ==============================
+# ================================= n2mfrow ===================================
 
 n2mfrow <- function (nr.plots) {
   if (nr.plots <= 3)
@@ -228,7 +228,7 @@ n2mfrow <- function (nr.plots) {
   else c(nrow <- ceiling(sqrt(nr.plots)), ceiling(nr.plots/nrow))
 }
 
-# =========================== post_dens_est ===========================
+# =============================== pde_beta_binom ==============================
 
 pde_beta_binom <- function(x, which_pop) {
   alpha <- x$sim_vals[, 1]
@@ -242,10 +242,37 @@ pde_beta_binom <- function(x, which_pop) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_p <- max(min(plot_data), ep)
   max_p <- min(max(plot_data), 1 - ep)
-  h_vals <- seq(min_p, max_p, len = 100)
+  h_vals <- seq(min_p, max_p, len = 1000)
   # Function to estimate the posterior density for a given population
   pdfxi <- function(x, pop) {
     mean(stats::dbeta(x, alpha + yy[pop], beta + nn[pop] - yy[pop]))
+  }
+  density_matrix <- matrix(NA, ncol = ncol(plot_data), nrow = length(h_vals))
+  # Loop over which_pop
+  for (i in 1:length(which_pop)) {
+    density_matrix[, i] <- vapply(h_vals, pdfxi, 0, pop = which_pop[i])
+  }
+  return(list(xx = h_vals, yy = density_matrix))
+}
+
+# =============================== pde_gamma_pois ==============================
+
+pde_gamma_pois <- function(x, which_pop) {
+  alpha <- x$sim_vals[, 1]
+  beta <- x$sim_vals[, 2]
+  # Counts
+  y <- x$data[, 1]
+  # Offset
+  off <- x$data[, 2]
+  # Set the (common) ranges of values on the horizontal axes
+  ep <- 1e-6
+  plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
+  min_val <- max(min(plot_data), ep)
+  max_val <- max(plot_data)
+  h_vals <- seq(min_val, max_val, len = 1000)
+  # Function to estimate the posterior density for a given population
+  pdfxi <- function(x, pop) {
+    mean(stats::dgamma(x, shape = alpha + y[pop], rate = beta + off[pop]))
   }
   density_matrix <- matrix(NA, ncol = ncol(plot_data), nrow = length(h_vals))
   # Loop over which_pop

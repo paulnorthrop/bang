@@ -63,7 +63,7 @@ the character scalar \code{legend_position}.}
 \code{plot} method for class "hef".
 }
 \examples{
-# Beta-binomial model, rat data
+# Beta-binomial model, rat data ------------
 rat_res <- hef(model = "beta_binom", data = rat)
 
 # Hyperparameters alpha and beta
@@ -79,7 +79,18 @@ plot(rat_res, params = "pop", plot_type = "both", which_pop = pops)
 
 # Population-specific posterior samples: one plot
 plot(rat_res, params = "pop", plot_type = "dens", which_pop = pops,
-     one_plot = TRUE)
+     one_plot = TRUE, add_legend = TRUE)
+
+# Gamma-Poisson model, pump data ------------
+pump_res <- hef(model = "gamma_pois", data = pump)
+
+# Hyperparameters alpha and beta
+plot(pump_res)
+
+# Choose pumps with extreme sample rates
+pops <- c(which.min(pump[, 1] / pump[, 2]), which.max(pump[, 1] / pump[, 2]))
+plot(pump_res, params = "pop", plot_type = "dens", which_pop = pops)
+
 }
 \seealso{
 \code{\link[rust]{plot.ru}} for arguments that may be passed
