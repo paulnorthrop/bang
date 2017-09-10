@@ -4,8 +4,9 @@
 \alias{plot.hef}
 \title{Plot diagnostics for a hef object}
 \usage{
-\method{plot}{hef}(x, y, ..., type = c("hyper", "pop_sim", "pop_dens", "ru"),
-  which_pop = 1, which_theta = 1, super = TRUE)
+\method{plot}{hef}(x, y, ..., params = c("hyper", "ru", "pop"),
+  which_pop = 1, plot_type = c("sim", "dens", "both", "pairs"),
+  rows = NULL)
 }
 \arguments{
 \item{x}{an object of class "hef", a result of a call to \code{ru}.}
@@ -17,44 +18,43 @@
 In particular, \code{ru_scale = TRUE} produces a plot using the
 parameterisation used for ratio-of-uniforms sampling.}
 
-\item{type}{A character scalar.
+\item{params}{A character scalar that determines to which parameters the
+ plots relate.
+\itemize{
+  \item{"hyper": }{the posterior sample of \emph{all} hyperparameter
+    values in \eqn{\phi} is plotted using \code{\link[rust]{plot.ru}}.}
+  \item{"ru": }{then only the posterior sample generated using
+    \code{\link[rust]{ru}} is plotted using \code{\link[rust]{plot.ru}}.
+    This produces a different plot to \code{params = "hyper"} if \code{ru}
+    is used only on a subset of \eqn{\phi}.  For example, this may be
+    the case if \code{x} is the result of a call to \code{\link{hanova1}}.
+    See vignette("revdbayes-anova-vignette", package = "bang") for
+    information.}
+  \item{"pop": }{posterior samples and/or densities of the
+    population-specific parameter \eqn{\theta} are plotted.  The
+    population(s) included are determined by \code{which_pop} and the
+    type of plot is determined by \code{plot_type}.}
+}}
 
-  If \code{type = "hyper"} then the posterior sample of \emph{all}
-  hyperparameter values in \eqn{\phi} is plotted using
-  \code{\link[rust]{plot.ru}}.
+\item{which_pop}{An integer vector.  If \code{params = "pop"} then
+\code{which_pop} indicates which populations to include in the plot.}
 
-  If \code{type = "ru"} then only the posterior sample generated using
-  \code{\link[rust]{ru}} is plotted using \code{\link[rust]{plot.ru}}.
-  This produces a different plot to \code{type = "hyper"} if \code{ru}
-  is used only on a subset of \eqn{\phi}.  For example, this may be
-  the case if \code{x} is the result of a call to \code{\link{hanova1}}.
-  See vignette("revdbayes-anova-vignette", package = "bang") for
-  information.
+\item{plot_type}{A character scalar that determines the type of plot
+ produced when \code{params = "pop"}.
+\itemize{
+  \item{"sim": }{histograms of the posterior samples
+    of \eqn{\theta} for the populations in \code{which_pop}.}
+  \item{"dens": }{estimates of the marginal posterior
+    densities of \eqn{\theta} for the populations in \code{which_pop}.}
+  \item{"both": }{both the histograms and estimated posterior densities.}
+  \item{"pairs": }{pairwise scatter plots of the posterior samples of
+    \eqn{\theta} for the populations in \code{which_pop}, which must have
+    length greater than one.}
+}}
 
-  If \code{type = "pop_sim"} then sample(s) of the population-specific
-  parameter vector \eqn{\theta} are plotted.  The population(s) included
-  are determined by \code{which_pop}.  If \code{which_pop} has length
-  one a histogram is produced using \code{\link[graphics]{hist}}.
-  Otherwise, pairwise scatter plots are produced using
-  \code{\link[graphics]{pairs}}
-
-  If \code{type = "pop_dens"} then posterior density estimates of
-  population-specific parameter(s) are plotted. The population(s)
-  included are determined by \code{which_pop}.
-  The value of \code{super} determines whether or not these density
-  estimates appear on one plot or in separate plots.}
-
-\item{which_pop}{An integer vector.  If \code{type = "pop_sim"} or
-\code{type = "pop_dens"} then \code{which_pop} indicates which
-populations to include in the plot.}
-
-\item{which_theta}{An integer vector indicating which component of
-of the population-specific parameter vector \eqn{\theta} to plot.
-Only relevant if \eqn{\theta} has length greater than one.}
-
-\item{super}{A logical scalar.  If \code{type = "pop_dens"} then
-\code{super} indicates whether the density estimates should be
-superimposed in one graph or appear in separate graphs.}
+\item{rows}{A numeric scalar.  If \code{plot_type} is either \code{"sim"},
+\code{"dens"} or \code{"both"} then this sets the number of rows of plots.
+If this is not supplied then it is set internally.}
 }
 \description{
 \code{plot} method for class "hef".
@@ -69,12 +69,12 @@ plot(rat_res)
 plot(rat_res, ru_scale = TRUE)
 
 # Population-specific posterior samples
-plot(rat_res, type = "pop_sim")
-plot(rat_res, type = "pop_sim", which_pop = c(1, 10))
+plot(rat_res, params = "pop", plot_type = "both")
+plot(rat_res, params = "pop", plot_type = "both", which_pop = c(1, 2, 10))
 
 # Population-specific posterior densities
-plot(rat_res, type = "pop_dens")
-plot(rat_res, type = "pop_dens", which_pop = c(1, 10))
+plot(rat_res, params = "pop")
+plot(rat_res, params = "pop", which_pop = c(1, 10))
 }
 \seealso{
 \code{\link[rust]{plot.ru}} for arguments that may be passed

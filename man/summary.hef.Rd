@@ -4,7 +4,7 @@
 \alias{summary.hef}
 \title{Summarizing hef objects}
 \usage{
-\method{summary}{hef}(object, ..., type = c("hyper", "pop"),
+\method{summary}{hef}(object, ..., params = c("hyper", "pop"),
   which_pop = 1:ncol(object$theta_sim_vals))
 }
 \arguments{
@@ -12,16 +12,16 @@
 
 \item{...}{Additional arguments passed on to \code{\link[rust]{summary.ru}}.}
 
-\item{type}{A character scalar.
+\item{params}{A character scalar.
 
-  If \code{type = "hyper"} then the posterior samples of all hyperparameter
+  If \code{params = "hyper"} then the posterior samples of all hyperparameter
   values in \eqn{\phi} are summarised using, using
   \code{\link[rust]{summary.ru}}.
 
-  If \code{type = "pop"} then only posterior samples of the populations
+  If \code{params = "pop"} then only posterior samples of the populations
   specifed in \code{which_pop} are summarised.}
 
-\item{which_pop}{An integer vector.  If \code{type = "pop"} then
+\item{which_pop}{An integer vector.  If \code{params = "pop"} then
 \code{which_pop} indicates which populations, i.e. which columns
 of \code{object$theta_sim_vals} to summarise, using
 \code{\link{summary}}.  The default is all populations.}
@@ -37,5 +37,5 @@ rat_res <- hef(model = "beta_binom", data = rat)
 summary(rat_res)
 
 # Posterior summaries of the binomial probability for rats 1 to 3
-summary(rat_res, type = "pop", which_pop = 1:3)
+summary(rat_res, params = "pop", which_pop = 1:3)
 }
