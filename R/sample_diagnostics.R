@@ -154,11 +154,17 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
       lines(y$xx, y$yy[, i], ...)
     }
   }
-  switch(plot_type,
+  # Avoid leaving the function with daft value of pin in par if the plotting
+  # fails because there are too many plots
+  temp <- try(switch(plot_type,
          sim = pairwise_hist(plot_data, ...),
          dens = pairwise_dens(post_dens, ...),
-         both = pairwise_hist_dens(plot_data, post_dens, ...))
-  graphics::par(def.par)
+         both = pairwise_hist_dens(plot_data, post_dens, ...)),
+         silent = FALSE)
+  if (inherits(temp, "try-error")) {
+    graphics::par(def.par)
+  }
+  return(invisible())
 #  } else {
 #    # Gamma-Poisson
 #    if (x$model == "gamma_pois") {
