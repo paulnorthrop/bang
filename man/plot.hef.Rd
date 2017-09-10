@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{hef}(x, y, ..., params = c("hyper", "ru", "pop"),
   which_pop = 1, plot_type = c("sim", "dens", "both", "pairs"),
-  rows = NULL)
+  one_plot = FALSE, add_legend = FALSE, legend_position = "topright")
 }
 \arguments{
 \item{x}{an object of class "hef", a result of a call to \code{ru}.}
@@ -52,9 +52,12 @@ parameterisation used for ratio-of-uniforms sampling.}
     length greater than one.}
 }}
 
-\item{rows}{A numeric scalar.  If \code{plot_type} is either \code{"sim"},
-\code{"dens"} or \code{"both"} then this sets the number of rows of plots.
-If this is not supplied then it is set internally.}
+\item{one_plot, add_legend, legend_position}{Only relevant if
+\code{plot_type = "dens"}.  If \code{one_plot = TRUE} then the estimated
+marginal posterior densities are plotted in the same graph and if
+\code{add_legend = TRUE} then a legend is added to this plot using
+\code{\link[graphics]{legend}} in the position indicated by
+the character scalar \code{legend_position}.}
 }
 \description{
 \code{plot} method for class "hef".
@@ -68,13 +71,15 @@ plot(rat_res)
 # Parameterisation used for sampling
 plot(rat_res, ru_scale = TRUE)
 
-# Population-specific posterior samples
-plot(rat_res, params = "pop", plot_type = "both")
-plot(rat_res, params = "pop", plot_type = "both", which_pop = c(1, 2, 10))
+# Choose rats with extreme sample probabilities
+pops <- c(which.min(rat[, 1] / rat[, 2]), which.max(rat[, 1] / rat[, 2]))
 
-# Population-specific posterior densities
-plot(rat_res, params = "pop")
-plot(rat_res, params = "pop", which_pop = c(1, 10))
+# Population-specific posterior samples: separate plots
+plot(rat_res, params = "pop", plot_type = "both", which_pop = pops)
+
+# Population-specific posterior samples: one plot
+plot(rat_res, params = "pop", plot_type = "dens", which_pop = pops,
+     one_plot = TRUE)
 }
 \seealso{
 \code{\link[rust]{plot.ru}} for arguments that may be passed

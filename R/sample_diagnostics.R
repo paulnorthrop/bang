@@ -41,9 +41,12 @@
 #'      \eqn{\theta} for the populations in \code{which_pop}, which must have
 #'      length greater than one.}
 #'  }
-#' @param rows A numeric scalar.  If \code{plot_type} is either \code{"sim"},
-#'   \code{"dens"} or \code{"both"} then this sets the number of rows of plots.
-#'   If this is not supplied then it is set internally.
+#' @param one_plot,add_legend,legend_position Only relevant if
+#'   \code{plot_type = "dens"}.  If \code{one_plot = TRUE} then the estimated
+#'   marginal posterior densities are plotted in the same graph and if
+#'   \code{add_legend = TRUE} then a legend is added to this plot using
+#'   \code{\link[graphics]{legend}} in the position indicated by
+#'   the character scalar \code{legend_position}.
 #' @examples
 #' # Beta-binomial model, rat data
 #' rat_res <- hef(model = "beta_binom", data = rat)
@@ -53,20 +56,23 @@
 #' # Parameterisation used for sampling
 #' plot(rat_res, ru_scale = TRUE)
 #'
-#' # Population-specific posterior samples
-#' plot(rat_res, params = "pop", plot_type = "both")
-#' plot(rat_res, params = "pop", plot_type = "both", which_pop = c(1, 2, 10))
+#' # Choose rats with extreme sample probabilities
+#' pops <- c(which.min(rat[, 1] / rat[, 2]), which.max(rat[, 1] / rat[, 2]))
 #'
-#' # Population-specific posterior densities
-#' plot(rat_res, params = "pop")
-#' plot(rat_res, params = "pop", which_pop = c(1, 10))
+#' # Population-specific posterior samples: separate plots
+#' plot(rat_res, params = "pop", plot_type = "both", which_pop = pops)
+#'
+#' # Population-specific posterior samples: one plot
+#' plot(rat_res, params = "pop", plot_type = "dens", which_pop = pops,
+#'      one_plot = TRUE)
 #' @seealso \code{\link[rust]{plot.ru}} for arguments that may be passed
 #'   via ...., in particular \code{ru_scale}.
 #' @export
 plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
                      which_pop = 1,
                      plot_type = c("sim", "dens", "both", "pairs"),
-                     rows = NULL) {
+                     one_plot = FALSE, add_legend = FALSE,
+                     legend_position = "topright") {
   if (!inherits(x, "hef")) {
     stop("use only with \"hef\" objects")
   }
@@ -101,7 +107,12 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
     my_xlab <- rep_len(user_args$xlab, n_pop)
   } else {
     var_names <- colnames(x$theta_sim_vals)[which_pop]
-    my_xlab <- parse(text = var_names)
+    if (one_plot) {
+      len_name <- nchar(var_names[1])
+      my_xlab <- parse(text = substr(var_names, 1, len_name - 3))
+    } else {
+      my_xlab <- parse(text = var_names)
+    }
   }
   if (!is.null(user_args$ylab)) {
     my_ylab <- rep_len(user_args$ylab, n_pop)
@@ -112,6 +123,21 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
     my_main <- rep_len(user_args$main, n_pop)
   } else {
     my_main = rep("", n_pop)
+  }
+  if (!is.null(user_args$legend)) {
+    my_legend <- rep_len(user_args$legend, n_pop)
+  } else {
+    my_legend <- parse(text = var_names)
+  }
+  if (!is.null(user_args$lty)) {
+    my_lty <- rep_len(user_args$lty, n_pop)
+  } else {
+    my_lty <- 1:n_pop
+  }
+  if (!is.null(user_args$lty)) {
+    my_col <- rep_len(user_args$col, n_pop)
+  } else {
+    my_col <- 1:n_pop
   }
   # Pairs
   if (plot_type == "pairs") {
@@ -128,9 +154,7 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
                         beta_binom = pde_beta_binom(x, which_pop))
   }
   # Set the number of rows and columns in the plot
-  if (is.null(rows)) {
-    rc <- n2mfrow(n_pop)
-  }
+  rc <- n2mfrow(n_pop)
   def.par <- graphics::par(no.readonly = TRUE)
   graphics::par(mfrow = rc)
   pairwise_hist <- function(x, ..., xlab, ylab, main) {
@@ -139,10 +163,22 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
                      ylab = my_ylab[i], ...)
     }
   }
-  pairwise_dens <- function(x, ..., xlab, ylab, main) {
-    for (i in 1:n_pop) {
-      graphics::matplot(x$xx, x$yy[, i], type = "l", main = my_main[i],
-                        xlab = my_xlab[i], ylab = my_ylab[i], ...)
+  pairwise_dens <- function(x, one_plot, add_legend, ..., xlab, ylab, main) {
+    if (one_plot) {
+      graphics::par(mfrow = c(1, 1))
+      graphics::matplot(x$xx, x$yy, type = "l", main = my_main[1],
+                        xlab = my_xlab[1], ylab = my_ylab[1], ...)
+      fn_my_legend <- function(x, legend, ..., lty, col) {
+        legend(x = x, legend = legend, lty = my_lty, col = my_col, ...)
+      }
+      if (add_legend) {
+        fn_my_legend(x = legend_position, legend = my_legend, ...)
+      }
+    } else {
+      for (i in 1:n_pop) {
+        graphics::matplot(x$xx, x$yy[, i], type = "l", main = my_main[i],
+                          xlab = my_xlab[i], ylab = my_ylab[i], ...)
+      }
     }
   }
   pairwise_hist_dens <- function(x, y, ..., xlab, ylab, main) {
@@ -158,7 +194,8 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
   # fails because there are too many plots
   temp <- try(switch(plot_type,
          sim = pairwise_hist(plot_data, ...),
-         dens = pairwise_dens(post_dens, ...),
+         dens = pairwise_dens(post_dens, one_plot = one_plot,
+                              add_legend = add_legend, ...),
          both = pairwise_hist_dens(plot_data, post_dens, ...)),
          silent = FALSE)
   if (inherits(temp, "try-error")) {
