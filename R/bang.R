@@ -40,8 +40,8 @@ NULL
 #' Tumor incidence in 71 groups of rate from Tarone (1982).
 #' The matrix \code{rat} has 71 rows and 2 columns.
 #' Each row relates to a different group of rats.
-#' The first column contains the number of rats with tumors.
-#' The second column contains the total number of rats.
+#' The first column (\code{y}) contains the number of rats with tumors.
+#' The second column (\code{n}) contains the total number of rats.
 #'
 #' @format A matrix with 71 rows and 2 columns.
 #' @source Table 5.1 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,

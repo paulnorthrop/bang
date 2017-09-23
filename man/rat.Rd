@@ -18,8 +18,8 @@ rat
 Tumor incidence in 71 groups of rate from Tarone (1982).
 The matrix \code{rat} has 71 rows and 2 columns.
 Each row relates to a different group of rats.
-The first column contains the number of rats with tumors.
-The second column contains the total number of rats.
+The first column (\code{y}) contains the number of rats with tumors.
+The second column (\code{n}) contains the total number of rats.
 }
 \references{
 Tarone, R. E. (1982) The use of historical information in
