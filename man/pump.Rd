@@ -14,9 +14,6 @@ pump
 }
 \description{
 Data on pump failures from Gaver, D. P. and O'Muircheartaigh, I. G. (1987).
-}
-\details{
-Tumor incidence in 71 groups of rate from Tarone (1982).
 The matrix \code{pump} has 10 rows and 2 columns.
 Each row relates to a different pump system.
 The first column contains the number of pump failures.
