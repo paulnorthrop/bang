@@ -16,9 +16,39 @@ bibliography: bang.bib
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 ```
 
-The *bang* package simulates from the posterior distributions involved in certain Bayesian models.  See the vignette [Introducing bang: Bayesian Analysis, No Gibbs](bang-vignette.html) for more information.  In this vignette we consider the 
+The *bang* package simulates from the posterior distributions involved in certain Bayesian models.  See the vignette [Introducing bang: Bayesian Analysis, No Gibbs](bang-vignette.html) for more information.  In this vignette we consider the Bayesian analysis of certain conjugate hierarchical models.  We give only a brief outline of the structure of these models.  For a full description see Chapter 5 of @BDA2014.
+
+Suppose that, for $j = 1, \ldots, J$, experiment $j$ of $J$ experiments yields a data vector $Y_j$ and associated parameter vector $\theta_j$.  Conditional on $\theta_j$ the data $Y_j$ are assumed to follow independent response distributions from the exponential family of probability distributions.  A prior distribution $\pi(\theta \mid \psi)$ is placed on the *population parameters* $\theta_1, \ldots, \theta_J$, where $\psi$ is a vector of hyperparameters.  For mathematical convenience $\pi(\theta \mid \psi)$ is selected to be *conditionally conjugate*, that is, conditionally on $\psi$ the posterior distribution of $\theta_j$ of the same type as $\pi(\theta \mid \psi)$.  We consider two examples.
 
 ## Beta-binomial model
+
+We consider the example presented in Section 5.3 of @BDA2014, in which the data [@Tarone1982] in the matrix `rat` are analysed.  These data contain information about an experiment in which, for each of 71 groups of rats, the total number of rats in the group and the numbers of rats who develop a tumor is recorded.  Conditional on $\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots, \theta_J) = (p_1, \ldots, p_J)$ we assume independent binomial distributions for $(Y_1, \ldots, Y_j)$, that is, $Y_j \sim {\rm binomial}(n_j, p_j)$.  We use the conditionally conjugate priors $p_j \sim {\rm Beta}(\alpha, \beta)$, so that $\psi = (\alpha, \beta)$.
+
+The conditional conjagacy of the priors means that the marginal posterior of $(\alpha, \beta)$ given $\boldsymbol{\mathbf{y}} = (y_1, \ldots, y_J)$ can be determined as 
+\[ \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha, \beta) 
+\prod_{j=1}^J \frac{B(y_j + \alpha, n_j - y_j + \beta)}{B(\alpha, \beta)}, \]
+where $\pi(\alpha, \beta)$ is the hyperprior density for $(\alpha, \beta)$. See equation (5.8) @BDA2014.
+To simulate from the full posterior $\pi(\boldsymbol{\mathbf{\theta}}, \alpha, \beta \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}} \mid \alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$ we first sample from $\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$.  Simulation from the conditional posterior distribution of $\boldsymbol{\mathbf{\theta}}$ given $(\alpha, \beta, \boldsymbol{\mathbf{y}})$ is straightforward on noting that 
+\[ \theta_j \mid \alpha, \beta, y_j \sim {\rm Beta}(y_j + \alpha, n_j - y_j + \beta) \]
+and that $\theta_j, j = 1, \ldots, J$ are conditionally independent.
+
+The function `hef` simulates from the full posterior performing simulation from $\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$ using the generalized ratio-of-uniforms method (specifically, the function `ru` in the *rust* package [@rust]).  By default a model-specific transformation of the parameter vector $\psi = (\alpha, \beta)$ is used to improve efficiency.  See the documentation of `hef` for details.
+
+```{r, fig.show='hold', fig.width = 3.45, fig.height = 3.45}
+library(bang)
+# Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale
+rat_res <- hef(model = "beta_binom", data = rat, n = 10000)
+plot(rat_res)
+plot(rat_res, ru_scale = TRUE)
+```
+
+The plot on the left shows the values sampled from the posterior distribution of $(\alpha, \beta)$ with superimposed density contours.  On the right is a similar plot displayed on the scale used for sampling, $(\rho_1, \rho_2)=(\log (\alpha/\beta), \log (\alpha+\beta))$, after relocation of the posterior mode to the origin and rotation and scaling in an attempt to produce near circularity of the density contours.  
+
+The following summary is of properties of the generalized ratio-of uniforms algorithm, in particular the probability of acceptance, and summary statistics of the posterior sample of $(\alpha, \beta)$.
+
+```{r}
+summary(rat_res)
+```
 
 ## Gamma-Poisson Model
 

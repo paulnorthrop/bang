@@ -32,7 +32,7 @@ Direct simulation methods like the ratio-of-uniforms methods will not replace MC
 
 ## An example: hierarchical beta-binomial model
 
-As a brief example we use the analysis of the `rat tumor' data presented in Section 5.3 of @BDA2014 based on a hierarchical binomial-beta model.   This example is considered in more detail in the vignette [Hierarchical Binomial-Beta Model](bang-binomial-beta-vignette.html).  The following code reproduces (up to a shift in origin) the content of Figure 5.3 of @BDA2014.
+As a brief example we use the analysis of the `rat tumor' data presented in Section 5.3 of @BDA2014 based on a hierarchical binomial-beta model.   This example is considered in more detail in the vignette [Conjugate Hierarchical Models](bang-hef-vignette.html).  The following code reproduces (up to a shift in origin) the content of Figure 5.3 of @BDA2014.
 
 ```{r, fig.align = 'center', fig.width = 7, fig.height = 7}
 library(bang)
