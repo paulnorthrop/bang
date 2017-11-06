@@ -15,11 +15,11 @@
 \item{params}{A character scalar.
 
   If \code{params = "hyper"} then the posterior samples of all hyperparameter
-  values in \eqn{\phi} are summarised using, using
-  \code{\link[rust]{summary.ru}}.
+  values in \eqn{\phi} are summarised using \code{\link[rust]{summary.ru}}.
 
   If \code{params = "pop"} then only posterior samples of the populations
-  specifed in \code{which_pop} are summarised.}
+  specifed in \code{which_pop} are summarised.  The summary is returned
+  invisibly.}
 
 \item{which_pop}{An integer vector.  If \code{params = "pop"} then
 \code{which_pop} indicates which populations, i.e. which columns

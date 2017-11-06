@@ -293,11 +293,11 @@ pde_gamma_pois <- function(x, which_pop) {
 #' @param params A character scalar.
 #'
 #'   If \code{params = "hyper"} then the posterior samples of all hyperparameter
-#'   values in \eqn{\phi} are summarised using, using
-#'   \code{\link[rust]{summary.ru}}.
+#'   values in \eqn{\phi} are summarised using \code{\link[rust]{summary.ru}}.
 #'
 #'   If \code{params = "pop"} then only posterior samples of the populations
-#'   specifed in \code{which_pop} are summarised.
+#'   specifed in \code{which_pop} are summarised.  The summary is returned
+#'   invisibly.
 #'
 #' @param which_pop An integer vector.  If \code{params = "pop"} then
 #'   \code{which_pop} indicates which populations, i.e. which columns
@@ -312,6 +312,7 @@ pde_gamma_pois <- function(x, which_pop) {
 #'
 #' # Posterior summaries of the binomial probability for rats 1 to 3
 #' summary(rat_res, params = "pop", which_pop = 1:3)
+#' @export
 summary.hef <- function(object, ..., params = c("hyper", "pop"),
                         which_pop = 1:ncol(object$theta_sim_vals)) {
   if (!inherits(object, "hef")) {
