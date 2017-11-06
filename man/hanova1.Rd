@@ -93,11 +93,11 @@ RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
 res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
 
 # Plot of sampled values of (sigma_alpha, sigma)
-plot(res26_2, type = "ru")
+plot(res26_2)
 
 # Plot of sampled values of (log(sigma_alpha), log(sigma))
 # (centred at (0,0))
-plot(res26_2, type = "ru", ru_scale = TRUE)
+plot(res26_2, ru_scale = TRUE)
 
 # Plot of sampled values of (mu, sigma_alpha, sigma)
 plot(res26_2)

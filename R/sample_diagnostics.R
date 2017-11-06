@@ -199,7 +199,7 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
       my_ylim <- c(0, max(temp$density, y$yy[, i]))
       graphics::hist(x[, i], prob = TRUE, main = my_main[i], xlab = my_xlab[i],
                      ylab = my_ylab[i], ylim = my_ylim, ...)
-      lines(y$xx, y$yy[, i], ...)
+      graphics::lines(y$xx, y$yy[, i], ...)
     }
   }
   # Avoid leaving the function with daft value of pin in par if the plotting

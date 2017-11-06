@@ -55,8 +55,8 @@ We use `hanova1` to sample from the posterior distribution of the parameters bas
 # The response is the index, the explanatory factor is the GCM
 res26_2 <- hanova1(resp = RCP26_2[, "index"], fac = RCP26_2[, "GCM"])
 # Plots relating to the posterior sample of the variance parameters
-plot(res26_2, type = "ru")
-plot(res26_2, type = "ru", ru_scale = TRUE)
+plot(res26_2)
+plot(res26_2, ru_scale = TRUE)
 ```
 
 The plot on the left shows the values sampled from the posterior distribution of $(\sigma_\alpha, \sigma)$ with superimposed density contours.  We see that the posterior distribution is located at values for which $\sigma_\alpha$ is much greater than $\sigma$, by a factor of nearly 10.  On the right is a similar plot displayed on the scale used for sampling, $(\log \sigma_\alpha, \log \sigma)$, after relocation of the posterior mode to the origin and rotation to near circularity of the density contours.
@@ -78,7 +78,7 @@ The generalized ratio-of-uniforms method used by **rust** can fail for heavy-tai
 coag1 <- hanova1(resp = coagulation[, 1], fac = coagulation[, 2], n = 10000)
 coag2 <- hanova1(resp = coagulation[, 1], fac = coagulation[, 2], n = 10000,
                  param = "original", r = 1)
-plot(coag1, type = "ru")
+plot(coag1)
 ```
 
 The heaviness of the upper tail of the marginal posterior density of $\sigma_\alpha$ is evident in the plot.
