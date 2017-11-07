@@ -1,4 +1,4 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+# R  for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 #
 # https://stackoverflow.com/questions/39728709/using-an-alternate-complier-for-travis-ci-r-project-builds
 
