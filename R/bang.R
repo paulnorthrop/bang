@@ -45,7 +45,7 @@ NULL
 #'
 #' @format A matrix with 71 rows and 2 columns.
 #' @source Table 5.1 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
-#'  Vehtari, A. and Rubin, D. B. (2013) \emph{Bayesian Data Analysis},
+#'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis},
 #'  Chapman & Hall / CRC.
 #'   \url{http://www.stat.columbia.edu/~gelman/book/data/rats.asc}
 #' @references Tarone, R. E. (1982) The use of historical information in

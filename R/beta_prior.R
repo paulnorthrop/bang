@@ -3,7 +3,7 @@
 # so we don't need to check it again here.
 # Also useful in case the user supplies their own prior and doesn't check this.
 
-# Prior in Section 5.3 of Gelman et al. (2013) Bayesian Data Analysis.
+# Prior in Section 5.3 of Gelman et al. (2014) Bayesian Data Analysis.
 # Uniform on ( alpha / (alpha + beta), (alpha + beta) ^ (-1/2) )
 
 beta_bda_prior <- function(x) {

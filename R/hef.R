@@ -70,7 +70,7 @@
 #'
 #' \code{prior = "bda"} (the default):
 #' \eqn{log \pi(\alpha, \beta) = - 2.5 log(\alpha + \beta),
-#'   \alpha > 0, \beta > 0.} [See Section 5.3 of Gelman et al. (2013).]
+#'   \alpha > 0, \beta > 0.} [See Section 5.3 of Gelman et al. (2014).]
 #'
 #' \code{prior = "gamma"}: independent gamma priors on \eqn{\alpha}
 #' and \eqn{\beta}, i.e.
@@ -87,7 +87,7 @@
 #'  \code{param = "trans"} (the default) is
 #' \eqn{\phi1 = logit(\alpha/(\alpha+\beta)) = log(\alpha/\beta),
 #'   \phi2 = log(\alpha+\beta)}.
-#' See Section 5.3 of Gelman et al. (2013).
+#' See Section 5.3 of Gelman et al. (2014).
 #'
 #' \strong{Gamma-Poisson:} For \eqn{j = 1, ..., J},
 #'   \eqn{Yj | \lambdaj} are i.i.d Poisson\eqn{(ej\lambdaj)},
@@ -126,7 +126,7 @@
 #'   \code{theta_sim_vals}: column j contains the simulated values of
 #'   (the first component of) \eqn{\thetaj}.
 #' @references Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
-#'  Vehtari, A. and Rubin, D. B. (2013) \emph{Bayesian Data Analysis}.
+#'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.
 #'   \url{http://www.stat.columbia.edu/~gelman/book}
 #' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of
@@ -148,7 +148,7 @@
 #' plot(rat_res, ru_scale = TRUE)
 #' summary(rat_res)
 #'
-#' # To produce a plot akin to Figure 5.3 of Gelman et al. (2013) we
+#' # To produce a plot akin to Figure 5.3 of Gelman et al. (2014) we
 #' # (a) Use the same prior for (alpha, beta)
 #' # (b) Don't use axis rotation (rotate = FALSE)
 #' # (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)
