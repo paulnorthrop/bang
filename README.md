@@ -10,7 +10,7 @@ Provides functions for the Bayesian analysis of some simple commonly-used models
 
 ### A simple example
 
-The `hef` function samples from the posterior distribution of the parameters of certain hierarchical exponential family models. The following code performs essentially the same analysis of the rat tumor data using a beta-binomial hierarchical model that appears in Section 5.3 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B., Vehtari, A. and Rubin, D. B. (2013) Bayesian Data Analysis. Chapman & Hall / CRC. <https://www.stat.columbia.edu/~gelman/book>.
+The `hef` function samples from the posterior distribution of the parameters of certain hierarchical exponential family models. The following code performs essentially the same analysis of the rat tumor data using a beta-binomial hierarchical model that appears in Section 5.3 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B., Vehtari, A. and Rubin, D. B. (2014) Bayesian Data Analysis. Chapman & Hall / CRC. <https://www.stat.columbia.edu/~gelman/book>.
 
 ``` r
 rat_res <- hef(model = "beta_binom", data = rat)
