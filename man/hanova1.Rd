@@ -13,7 +13,7 @@ hanova1(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
 \item{resp}{A numeric vector.  Response values.}
 
 \item{fac}{A vector of class \link{factor} indicating the group from
-which the correspnding element of \code{resp} originates.
+which the corresponding element of \code{resp} originates.
 Must have the same length as \code{resp}.}
 
 \item{...}{Optional further arguments to be passed to
@@ -29,7 +29,9 @@ If \code{prior} is not supplied then a default prior is used.
 See \strong{Details}.}
 
 \item{hpars}{A numeric vector.  Used to set parameters (if any) in
-an in-built prior.}
+an in-built prior.  If \code{prior = cauchy} then \code{hpars} is
+a numeric vector of length 2 giving the respective scale parameters
+of the half-Cauchy priors for \eqn{\sigma_\alpha} and \eqn{\sigma}.}
 
 \item{param}{A character scalar.
 If \code{param = "trans"} (the default) then the marginal posterior
@@ -80,6 +82,35 @@ The \code{\link[rust]{ru}} function is used to draw a random sample
   \eqn{\theta}1, ..., \eqn{\theta}J given \eqn{\psi} and the data.
   See the vignette("revdbayes-anova-vignette", package = "bang")
   for details.
+
+\emph{Priors:}
+
+\code{prior = "bda"} (the default):
+\eqn{\pi(\mu, \sigma_\alpha, \sigma) = 1/\sigma,}
+that is, a uniform prior for \eqn{(\mu, \sigma_\alpha, log \sigma)},
+for \eqn{\sigma_\alpha > 0} and \eqn{\sigma > 0}.
+The data must contain at least 3 groups, that is, \code{fac} must have
+at least 3 levels, for a proper posterior density to be obtained.
+[See Sections 5.7 and  11.6 of Gelman et al. (2014).]
+
+\code{prior = "unif"}:
+\eqn{\pi(\mu, \sigma_\alpha, \sigma) = 1,}
+that is, a uniform prior for \eqn{(\mu, \sigma_\alpha, \sigma)},
+for \eqn{\sigma_\alpha > 0} and \eqn{\sigma > 0}.
+[See Section 11.6 of Gelman et al. (2014).]
+
+\code{prior = "cauchy"}: independent half-Cauchy priors for
+\eqn{\sigma_\alpha} and \eqn{\sigma} with respective scale parameters
+\eqn{A_\alpha} and \eqn{A}, that is,
+\eqn{\pi(\sigma_\alpha, \sigma) =
+  1 / [(1 + \sigma_\alpha^2 / A_\alpha^2) (1 + \sigma^2 / A^2)].}
+[See Gelman (2006).]
+
+\emph{Parameterisations for sampling:}
+
+ \code{param = "original"} is (\eqn{\mu, \sigma_\alpha, \sigma}),
+ \code{param = "trans"} (the default) is
+  \eqn{\phi1 = \mu, \phi2 = log \sigma_\alpha, \phi3 = log \sigma}.
 }
 \examples{
 # ======= Late 21st Century Global Temperature Data =======
@@ -132,9 +163,17 @@ all2 <- cbind(coag2$theta_sim_vals, coag2$sim_vals)
 round(t(apply(all1, 2, quantile, probs = probs)), 1)
 round(t(apply(all2, 2, quantile, probs = probs)), 1)
 
+# Independent half-Cauchy priors for sigma_alpha and sigma
+coag3 <- hanova1(resp = coagulation[, 1], fac = coagulation[, 2],
+                 param = "original", prior = "cauchy", hpars = c(10, 1e6))
+
 }
 \references{
 Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
  Chapman & Hall / CRC.
+
+Gelman, A. (2006) Prior distributions for variance
+  parameters in hierarchical models. \emph{Bayesian Analysis},
+  \strong{1}(3), 515-533. \url{https://doi.org/10.1214/06-BA117A}.
 }

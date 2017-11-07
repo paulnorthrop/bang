@@ -9,7 +9,7 @@
 #' @param n A numeric scalar.  The size of posterior sample required.
 #' @param resp A numeric vector.  Response values.
 #' @param fac A vector of class \link{factor} indicating the group from
-#'   which the correspnding element of \code{resp} originates.
+#'   which the corresponding element of \code{resp} originates.
 #'   Must have the same length as \code{resp}.
 #' @param prior The log-prior for the parameters of the hyperprior
 #'   distribution.  If the user wishes to specify their own prior then
@@ -20,7 +20,9 @@
 #'   If \code{prior} is not supplied then a default prior is used.
 #'   See \strong{Details}.
 #' @param hpars A numeric vector.  Used to set parameters (if any) in
-#'   an in-built prior.
+#'   an in-built prior.  If \code{prior = cauchy} then \code{hpars} is
+#'   a numeric vector of length 2 giving the respective scale parameters
+#'   of the half-Cauchy priors for \eqn{\sigma_\alpha} and \eqn{\sigma}.
 #' @param param A character scalar.
 #'   If \code{param = "trans"} (the default) then the marginal posterior
 #'   of hyperparameter vector \eqn{psi} is reparameterised in terms of
@@ -54,6 +56,36 @@
 #'   \eqn{\theta}1, ..., \eqn{\theta}J given \eqn{\psi} and the data.
 #'   See the vignette("revdbayes-anova-vignette", package = "bang")
 #'   for details.
+#'
+#' \emph{Priors:}
+#'
+#' \code{prior = "bda"} (the default):
+#' \eqn{\pi(\mu, \sigma_\alpha, \sigma) = 1/\sigma,}
+#' that is, a uniform prior for \eqn{(\mu, \sigma_\alpha, log \sigma)},
+#' for \eqn{\sigma_\alpha > 0} and \eqn{\sigma > 0}.
+#' The data must contain at least 3 groups, that is, \code{fac} must have
+#' at least 3 levels, for a proper posterior density to be obtained.
+#' [See Sections 5.7 and  11.6 of Gelman et al. (2014).]
+#'
+#' \code{prior = "unif"}:
+#' \eqn{\pi(\mu, \sigma_\alpha, \sigma) = 1,}
+#' that is, a uniform prior for \eqn{(\mu, \sigma_\alpha, \sigma)},
+#' for \eqn{\sigma_\alpha > 0} and \eqn{\sigma > 0}.
+#' [See Section 11.6 of Gelman et al. (2014).]
+#'
+#' \code{prior = "cauchy"}: independent half-Cauchy priors for
+#' \eqn{\sigma_\alpha} and \eqn{\sigma} with respective scale parameters
+#' \eqn{A_\alpha} and \eqn{A}, that is,
+#' \eqn{\pi(\sigma_\alpha, \sigma) =
+#'   1 / [(1 + \sigma_\alpha^2 / A_\alpha^2) (1 + \sigma^2 / A^2)].}
+#' [See Gelman (2006).]
+#'
+#' \emph{Parameterisations for sampling:}
+#'
+#'  \code{param = "original"} is (\eqn{\mu, \sigma_\alpha, \sigma}),
+#'  \code{param = "trans"} (the default) is
+#'   \eqn{\phi1 = \mu, \phi2 = log \sigma_\alpha, \phi3 = log \sigma}.
+#'
 #' @return An object (list) of class \code{"hef"}, which has the same
 #'   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
 #'   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
@@ -113,9 +145,16 @@
 #' round(t(apply(all1, 2, quantile, probs = probs)), 1)
 #' round(t(apply(all2, 2, quantile, probs = probs)), 1)
 #'
+#' # Independent half-Cauchy priors for sigma_alpha and sigma
+#' coag3 <- hanova1(resp = coagulation[, 1], fac = coagulation[, 2],
+#'                  param = "original", prior = "cauchy", hpars = c(10, 1e6))
+#'
 #' @references Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
 #'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.
+#' @references Gelman, A. (2006) Prior distributions for variance
+#'   parameters in hierarchical models. \emph{Bayesian Analysis},
+#'   \strong{1}(3), 515-533. \url{https://doi.org/10.1214/06-BA117A}.
 #' @export
 hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
                     param = c("trans", "original"), init = NULL,
@@ -400,7 +439,7 @@ make_resp_matrix <- function(resp, fac) {
   # Args:
   #   resp : A numeric vector.  Response values.
   #   fac  : A vector of class factor indicating the group from
-  #          which the correspnding element of resp originates.
+  #          which the corresponding element of resp originates.
   #          Must have the same length as resp.
   # Returns:
   #   A numeric matrix with number of rwos equal to the number of
