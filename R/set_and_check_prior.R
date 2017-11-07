@@ -53,7 +53,7 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
                             default = anova1_bda_prior,
                             bda = anova1_bda_prior,
                             unif = anova1_unif_prior,
-                            cauchy = anova1_norm_cauchy_prior)
+                            cauchy = anova1_cauchy_prior)
       prior$anova_d <- 2
       if (prior_name == "cauchy") {
         prior$hpars <- hpars
