@@ -65,3 +65,32 @@ sim_gamma_pois <- function(n = 1, alpha = 1, beta = 1, off = 1) {
   y <- stats::rpois(n, lambda = off * theta)
   return(y)
 }
+
+# ----------------------------- sim_gamma_pois ------------------------------ #
+
+#' Simulate data from the gamma-Poisson model
+#'
+#' Simulates from the gamma-Poisson model described in \code{\link{hef}}.
+#'
+#' @param J An integer scalar. The number of groups.
+#' @param exposure A numeric scalar or a numeric vector of length \code{J}.
+#'   The exposures in groups 1, ..., \code{J}.
+#' @param alpha,beta Numeric vectors.  The parameters of the
+#'   gamma(\eqn{\alpha, \beta}) distribution for the Poisson rates
+#'   \eqn{\lambda1, ..., \lambdaJ}.
+#' @return A numeric matrix with 2 columns.  The first column, \code{y},
+#'   contains the numbers of events, the second column, \code{exposure},
+#'   the input \code{exposure}.
+#' @examples
+#' # Simulate data that are similar to the pump data
+#' sim_data <- sim_gamma_pois(J = nrow(pump), exposure = pump[, "time"],
+#'                            alpha = 1.2, beta = 2.2)
+#' @export
+sim_gamma_pois <- function(J = 1, alpha = 1, beta = 1, exposure = 1) {
+  if (length(exposure) != 1 & length(exposure) != J) {
+    stop("exposure must be scalar or a vector of length J")
+  }
+  theta <- stats::rgamma(J, shape = alpha, rate = beta)
+  y <- stats::rpois(J, lambda = exposure * theta)
+  return(cbind(y, exposure))
+}
