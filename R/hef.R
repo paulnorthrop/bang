@@ -79,7 +79,8 @@
 #'   (s2 - 1)log\beta - r2 \beta,  \alpha > 0, \beta > 0.}
 #' where the respective shape (\eqn{s1}, \eqn{s2}) and rate
 #' (\eqn{r1}, \eqn{r2}) parameters are specified using
-#' \code{hpars} = \eqn{(s1, r1, s2, r2)}.
+#' \code{hpars} = \eqn{(s1, r1, s2, r2)}.  The default setting is
+#' \code{hpars = c(1, 0.01, 1, 0.01).}
 #'
 #' \emph{Parameterisations for sampling:}
 #'
@@ -110,7 +111,8 @@
 #'   (s2 - 1)log\beta - r2 \beta,  \alpha > 0, \beta > 0.}
 #' where the respective shape (\eqn{s1}, \eqn{s2}) and rate
 #' (\eqn{r1}, \eqn{r2}) parameters are specified using
-#' \code{hpars} = \eqn{(s1, r1, s2, r2)}.
+#' \code{hpars} = \eqn{(s1, r1, s2, r2)}.  The default setting is
+#' \code{hpars = c(1, 0.01, 1, 0.01).}
 #'
 #' \emph{Parameterisations for sampling:}
 #'
