@@ -83,3 +83,49 @@ test_that("beta-binom: in-built gamma = user gamma, param = original", {
                          tolerance = my_tol)
 })
 
+
+# --------------------------- Simulated data -------------------------------- #
+
+# Simulate data, with the same structure as the rat data,
+# but with alpha = beta = 1
+
+sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, 2])
+
+# 1. Default prior
+
+user_prior_fn <- function(x) {
+  if (any(x <= 0)) return(-Inf)
+  return(-2.5 * log(x[1] + x[2]))
+}
+user_prior <- set_user_prior(user_prior_fn)
+
+# (i) sampling on (rotated) (log(mean), log(alpha + beta)) scale
+
+# In-built
+set.seed(my_seed)
+sim_res_a <- hef(model = "beta_binom", data = sim_data, n = my_n)
+# User
+set.seed(my_seed)
+sim_res_b <- hef(model = "beta_binom", data = sim_data, n = my_n,
+                 prior = user_prior)
+
+test_that("beta-binom: sim_data, in-built bda = user bda, param = trans", {
+  testthat::expect_equal(rat_res_a$sim_vals, rat_res_b$sim_vals,
+                         tolerance = my_tol)
+})
+
+# (ii) Default prior, sampling on (alpha, beta) scale
+
+# In-built
+set.seed(my_seed)
+sim_res_a <- hef(model = "beta_binom", data = sim_data, n = my_n,
+                 param = "original")
+# User
+set.seed(my_seed)
+sim_res_b <- hef(model = "beta_binom", data = sim_data, n = my_n,
+                 param = "original", prior = user_prior)
+
+test_that("beta-binom: sim_data, in-built bda = user bda, param = original", {
+  testthat::expect_equal(rat_res_a$sim_vals, rat_res_b$sim_vals,
+                         tolerance = my_tol)
+})

@@ -199,8 +199,6 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
                       beta_binom = beta_binom_marginal_loglik,
                       gamma_pois = gamma_pois_marginal_loglik)
   #
-#  gs_init <- gs_alpha(data)
-  #
   # Set a model-specific log-posterior
   logpost <- function(x, ds) {
     loglik <- do.call(loglik_fn, c(list(x = x), ds))

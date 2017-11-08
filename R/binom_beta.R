@@ -103,11 +103,25 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
-# Simulate data from the beta-binomial model
-
-sim_beta_binom <- function(n = 1, size = 1, alpha = 1, beta = 1) {
-  theta <- stats::rbeta(n, alpha, beta)
-  size <- rep_len(size, length(theta))
+#' Simulate data from the beta-binomial model
+#'
+#' Simulates from the beta-binomial model described in \code{\link{hef}}.
+#'
+#' @param J An integer scalar. The number of groups.
+#' @param size A vector of integers.  The number of trials in the groups
+#'   1, ..., J.  If \code{size} does not have length \code{J} then this is
+#'   forced using \code{\link{rep_len}(size, J)}.
+#' @param alpha,beta Numeric vectors.  The parameters of the
+#'   beta(\eqn{\alpha, \beta}) distribution for the binomial success
+#'   probabilities.
+#' @return A numeric matrix with 2 columns.  The first column, \code{y},
+#'   contains the numbers of successes, the second column, \code{n}, the
+#'   numbers of trials.
+#' @export
+sim_beta_binom <- function(J = 1, size = 1, alpha = 1, beta = 1) {
+  theta <- stats::rbeta(J, alpha, beta)
+#  size <- rep_len(size, length(theta))
+  size <- rep_len(size, J)
   y <- mapply(stats::rbinom, size = size, prob = theta, n = 1)
   return(cbind(y, n = size))
 }
