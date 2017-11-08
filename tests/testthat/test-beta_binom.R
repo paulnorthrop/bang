@@ -86,10 +86,10 @@ test_that("beta-binom: in-built gamma = user gamma, param = original", {
 
 # --------------------------- Simulated data -------------------------------- #
 
-# Simulate data, with the same structure as the rat data,
-# but with alpha = beta = 1
+# Simulate data that are similar to the rat data
 
-sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, 2])
+sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, 2], alpha = 2.4,
+                          beta = 14.3)
 
 # 1. Default prior
 
