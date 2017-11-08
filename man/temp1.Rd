@@ -6,7 +6,7 @@
 \title{Mid 21st Century Global Temperature Projection Data}
 \format{A dataframe with 270 rows and 4 columns.
   \itemize{
-    \item{Column 1, index: }{anomoly of 2020-2049 mean relative to 1970-1999
+    \item{Column 1, index: }{anomaly of 2020-2049 mean relative to 1970-1999
       mean.}
     \item{Column 2, GCM: }{Abbreviated name of General Circulation Model.}
     \item{Column 3, RCP: }{Representative Concentration Pathway. One of
@@ -37,7 +37,7 @@ runs under each RCP for each GCM.
 See Van Vuuren et al (2011) for an overview of RCPs
 and Northrop and Chandler (2014) for analyses of a similar
 older dataset (CMIP3).
-Column 1 contains the anomoly of the mean global temperature over
+Column 1 contains the anomaly of the mean global temperature over
 the time period 2020-2049 relative to the mean global temperature
 over 1970-1999, i.e. the latter subtracted from the former.
 Column 2 contains an abbreviation for the name of the climate modelling

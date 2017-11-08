@@ -9,13 +9,13 @@ sim_beta_binom(J = 1, size = 1, alpha = 1, beta = 1)
 \arguments{
 \item{J}{An integer scalar. The number of groups.}
 
-\item{size}{A vector of integers.  The number of trials in the groups
-1, ..., J.  If \code{size} does not have length \code{J} then this is
-forced using \code{\link{rep_len}(size, J)}.}
+\item{size}{A numeric scalar or a numeric vector of length \code{J}.
+The number of trials in the groups 1, ..., \code{J}.  If \code{size} is a
+scalar then \code{size} is used for all groups.}
 
 \item{alpha, beta}{Numeric vectors.  The parameters of the
 beta(\eqn{\alpha, \beta}) distribution for the binomial success
-probabilities.}
+probabilities \eqn{p1, ..., pJ}.}
 }
 \value{
 A numeric matrix with 2 columns.  The first column, \code{y},
@@ -24,4 +24,9 @@ A numeric matrix with 2 columns.  The first column, \code{y},
 }
 \description{
 Simulates from the beta-binomial model described in \code{\link{hef}}.
+}
+\examples{
+# Simulate data that are similar to the rat data
+sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, "n"], alpha = 2.4,
+                           beta = 14.3)
 }

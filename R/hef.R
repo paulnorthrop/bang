@@ -34,10 +34,10 @@
 #'   an in-built prior.
 #' @param param A character scalar.
 #'   If \code{param = "trans"} (the default) then the marginal posterior
-#'   of hyperparameter vector \eqn{\psi} is reparameterised in a way
+#'   of hyperparameter vector \eqn{\psi} is reparameterized in a way
 #'   designed to improve the efficiency of sampling from this posterior.
-#'   If \code{param = "original"} the original parameterisation is used.
-#'   The former tends to make the optimisations involved in the
+#'   If \code{param = "original"} the original parameterization is used.
+#'   The former tends to make the optimizations involved in the
 #'   ratio-of-uniforms algorithm more stable and to increase the probability
 #'   of acceptance, but at the expense of slower function evaluations.
 #' @param init A numeric vector of length 2.  Optional initial estimates
@@ -54,7 +54,7 @@
 #'
 #'   We outline each \code{model}, specify the format of the
 #'   \code{data}, give the default (log-)priors (up to an additive constant)
-#'   and detail the choices of ratio-of-uniforms parameterisation
+#'   and detail the choices of ratio-of-uniforms parameterization
 #'   \code{param}.
 #'
 #' \strong{Beta-binomial:} For \eqn{j = 1, ..., J},
@@ -82,7 +82,7 @@
 #' \code{hpars} = \eqn{(s1, r1, s2, r2)}.  The default setting is
 #' \code{hpars = c(1, 0.01, 1, 0.01).}
 #'
-#' \emph{Parameterisations for sampling:}
+#' \emph{Parameterizations for sampling:}
 #'
 #'  \code{param = "original"} is (\eqn{\alpha, \beta}),
 #'  \code{param = "trans"} (the default) is
@@ -99,8 +99,8 @@
 #'   of events per unit of exposure.
 #'   \eqn{\lambdaj} are i.i.d. gamma\eqn{(\alpha, \beta)}, so
 #'   \eqn{\psi = (\alpha, \beta)}.
-#'   \code{data} is a 2-column matrix: the counts \eqn{yj} in column 1
-#'   and the corresponding exposures \eqn{ej} in column 2.
+#'   \code{data} is a 2-column matrix: the counts \eqn{yj} of the numbers of
+#'   events in column 1 and the corresponding exposures \eqn{ej} in column 2.
 #'
 #' \emph{Priors:}
 #'
@@ -114,7 +114,7 @@
 #' \code{hpars} = \eqn{(s1, r1, s2, r2)}.  The default setting is
 #' \code{hpars = c(1, 0.01, 1, 0.01).}
 #'
-#' \emph{Parameterisations for sampling:}
+#' \emph{Parameterizations for sampling:}
 #'
 #'  \code{param = "original"} is (\eqn{\alpha, \beta}),
 #'  \code{param = "trans"} (the default) is
@@ -122,7 +122,7 @@
 #' @return An object (list) of class \code{"hef"}, which has the same
 #'   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
 #'   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
-#'   contain the simulated vaues of \eqn{\psi}.
+#'   contain the simulated values of \eqn{\psi}.
 #'   In addition this list contains the arguments \code{model}, \code{data},
 #'   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
 #'   \code{theta_sim_vals}: column j contains the simulated values of
@@ -249,7 +249,7 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
   for_ru <- c(list(logf = logpost, ds = ds), fr, list(init = init, n = n),
               ru_args)
   #
-  # If we use the transformed parameterisation then set the transformation
+  # If we use the transformed parameterization then set the transformation
   # and the log-Jacobian of this transformation.
   if (param == "trans") {
     phi_to_theta <- switch(model,

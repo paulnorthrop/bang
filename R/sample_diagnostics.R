@@ -9,7 +9,7 @@
 #' @param ... Additional arguments passed to \code{\link[rust]{plot.ru}},
 #'   \code{\link[graphics]{hist}} or \code{\link[graphics]{pairs}}.
 #'   In particular, \code{ru_scale = TRUE} produces a plot using the
-#'   parameterisation used for ratio-of-uniforms sampling.
+#'   parameterization used for ratio-of-uniforms sampling.
 #' @param params A character scalar that determines to which parameters the
 #'   plots relate.
 #'  \itemize{
@@ -53,7 +53,7 @@
 #'
 #' # Hyperparameters alpha and beta
 #' plot(rat_res)
-#' # Parameterisation used for sampling
+#' # Parameterization used for sampling
 #' plot(rat_res, ru_scale = TRUE)
 #'
 #' # Choose rats with extreme sample probabilities

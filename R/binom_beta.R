@@ -103,24 +103,32 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
+# ----------------------------- sim_beta_binom ------------------------------ #
+
 #' Simulate data from the beta-binomial model
 #'
 #' Simulates from the beta-binomial model described in \code{\link{hef}}.
 #'
 #' @param J An integer scalar. The number of groups.
-#' @param size A vector of integers.  The number of trials in the groups
-#'   1, ..., J.  If \code{size} does not have length \code{J} then this is
-#'   forced using \code{\link{rep_len}(size, J)}.
+#' @param size A numeric scalar or a numeric vector of length \code{J}.
+#'   The number of trials in the groups 1, ..., \code{J}.  If \code{size} is a
+#'   scalar then \code{size} is used for all groups.
 #' @param alpha,beta Numeric vectors.  The parameters of the
 #'   beta(\eqn{\alpha, \beta}) distribution for the binomial success
-#'   probabilities.
+#'   probabilities \eqn{p1, ..., pJ}.
 #' @return A numeric matrix with 2 columns.  The first column, \code{y},
 #'   contains the numbers of successes, the second column, \code{n}, the
 #'   numbers of trials.
+#' @examples
+#' # Simulate data that are similar to the rat data
+#' sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, "n"], alpha = 2.4,
+#'                            beta = 14.3)
 #' @export
 sim_beta_binom <- function(J = 1, size = 1, alpha = 1, beta = 1) {
+  if (length(size) != 1 & length(size) != J) {
+    stop("size must be scalar or a vector of length J")
+  }
   theta <- stats::rbeta(J, alpha, beta)
-#  size <- rep_len(size, length(theta))
   size <- rep_len(size, J)
   y <- mapply(stats::rbinom, size = size, prob = theta, n = 1)
   return(cbind(y, n = size))

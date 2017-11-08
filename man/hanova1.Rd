@@ -35,11 +35,11 @@ of the half-Cauchy priors for \eqn{\sigma_\alpha} and \eqn{\sigma}.}
 
 \item{param}{A character scalar.
 If \code{param = "trans"} (the default) then the marginal posterior
-of hyperparameter vector \eqn{psi} is reparameterised in terms of
+of hyperparameter vector \eqn{psi} is reparameterized in terms of
 \eqn{log \sigma_\alpha, log \sigma}.
-If \code{param = "original"} the original parameterisation,
+If \code{param = "original"} the original parameterization,
 i.e. \eqn{\sigma_\alpha, \sigma} is used.
-The former tends to make the optimisations involved in the
+The former tends to make the optimizations involved in the
 ratio-of-uniforms algorithm more stable and to increase the probability
 of acceptance, but at the expense of slower function evaluations.}
 
@@ -63,7 +63,7 @@ for \eqn{\mu}.}
 An object (list) of class \code{"hef"}, which has the same
   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
-  contain the simulated vaues of \eqn{\psi}.
+  contain the simulated values of \eqn{\psi}.
   In addition this list contains the arguments \code{model}, \code{data},
   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
   \code{theta_sim_vals}: column j contains the simulated values of
@@ -106,7 +106,7 @@ for \eqn{\sigma_\alpha > 0} and \eqn{\sigma > 0}.
   1 / [(1 + \sigma_\alpha^2 / A_\alpha^2) (1 + \sigma^2 / A^2)].}
 [See Gelman (2006).]
 
-\emph{Parameterisations for sampling:}
+\emph{Parameterizations for sampling:}
 
  \code{param = "original"} is (\eqn{\mu, \sigma_\alpha, \sigma}),
  \code{param = "trans"} (the default) is
