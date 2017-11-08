@@ -45,7 +45,7 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
     prior_name <- prior
     prior <- list()
     # One-way ANOVA
-    if (model == "one_way_anova") {
+    if (model == "anova1") {
       if (prior_name %in% c("default", "bda") & n_groups < 3) {
         stop("Need >= 3 groups for posterior propriety if bda prior used")
       }

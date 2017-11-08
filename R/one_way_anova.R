@@ -174,7 +174,7 @@ hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
   ds <- hanova1_data(y = y_mat)
   #
   # Create a list that defines the prior and any parameters in the prior
-  prior <- check_prior(prior, model = "one_way_anova", hpars, ds$I)
+  prior <- check_prior(prior, model = "anova1", hpars, ds$I)
   # Extract anova_d and then delete it from prior.
   anova_d <- prior$anova_d
   prior$anova_d <- NULL
@@ -274,7 +274,7 @@ hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
   res <- c(res, temp)
   #
   # Add information about the model, the data and the prior
-  res$model <- "one_way_anova"
+  res$model <- "anova1"
   res$resp <- resp
   res$fac <- fac
   res$data <- y_mat

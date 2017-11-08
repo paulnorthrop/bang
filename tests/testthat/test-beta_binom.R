@@ -9,6 +9,7 @@ my_n <- 10
 # 1. Default prior
 
 user_prior_fn <- function(x) {
+  if (any(x <= 0)) return(-Inf)
   return(-2.5 * log(x[1] + x[2]))
 }
 user_prior <- set_user_prior(user_prior_fn)
@@ -23,7 +24,7 @@ set.seed(my_seed)
 rat_res_b <- hef(model = "beta_binom", data = rat, n = my_n,
                  prior = user_prior)
 
-test_that("beta-binom: in-built bda = use bda", {
+test_that("beta-binom: in-built bda = user bda, param = trans", {
   testthat::expect_equal(rat_res_a$sim_vals, rat_res_b$sim_vals,
                          tolerance = my_tol)
 })
@@ -39,11 +40,10 @@ set.seed(my_seed)
 rat_res_b <- hef(model = "beta_binom", data = rat, n = my_n,
                  param = "original", prior = user_prior)
 
-test_that("beta-binom: in-built bda = use bda", {
+test_that("beta-binom: in-built bda = user bda, param = original", {
   testthat::expect_equal(rat_res_a$sim_vals, rat_res_b$sim_vals,
                          tolerance = my_tol)
 })
-
 
 # 2. Gamma prior
 
@@ -62,7 +62,7 @@ set.seed(my_seed)
 rat_res_b <- hef(model = "beta_binom", data = rat, n = my_n,
                  prior = user_prior)
 
-test_that("beta-binom: in-built bda = use bda", {
+test_that("beta-binom: in-built gamma = user gamma, param = trans", {
   testthat::expect_equal(rat_res_a$sim_vals, rat_res_b$sim_vals,
                          tolerance = my_tol)
 })
@@ -78,7 +78,7 @@ set.seed(my_seed)
 rat_res_b <- hef(model = "beta_binom", data = rat, n = my_n,
                  param = "original", prior = user_prior)
 
-test_that("beta-binom: in-built bda = use bda", {
+test_that("beta-binom: in-built gamma = user gamma, param = original", {
   testthat::expect_equal(rat_res_a$sim_vals, rat_res_b$sim_vals,
                          tolerance = my_tol)
 })
