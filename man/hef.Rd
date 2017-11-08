@@ -173,12 +173,13 @@ plot(rat_res, ru_scale = TRUE)
 # This is the estimated location of the posterior mode
 rat_res$f_mode
 
-# User prior, with parameters (equivalent to prior = "exp")
+# User-defined prior, passing parameters
+# (equivalent to prior = "gamma" with hpars = c(1, 0.01, 1, 0.01))
 user_prior <- function(x, hpars) {
   return(dexp(x[1], hpars[1], log = TRUE) + dexp(x[2], hpars[2], log = TRUE))
 }
-user_prior <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
-rat_res <- hef(model = "beta_binom", data = rat, prior = user_prior)
+user_prior_fn <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
+rat_res <- hef(model = "beta_binom", data = rat, prior = user_prior_fn)
 plot(rat_res)
 summary(rat_res)
 
