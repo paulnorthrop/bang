@@ -118,8 +118,8 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
 #'   and the corresponding numbers of trials in column 2.
 #' @param nrep A numeric scalar.  The number of replications of the original
 #'   dataset simulated from the posterior predictive distribution.
-#'   If \code{nrep} is greater than \nrow{theta_sim_vals} then \code{nrep}
-#'   is set equal to \nrow{theta_sim_vals}.
+#'   If \code{nrep} is greater than \code{nrow(theta_sim_vals)} then
+#'   \code{nrep} is set equal to \code{nrow(theta_sim_vals)}.
 #' @return A numeric matrix with \code{nrep} columns.  Each column contains
 #'   a draw from the posterior predictive distribution of the number of
 #'   successes.
