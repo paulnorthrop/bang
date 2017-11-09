@@ -287,8 +287,7 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
   res$prior <- prior
   res$ru <- 1:2
   #
-  # If nrep is not NULL then simulate nrep datasets from the predictive
-  # distribution of
+  # Simulate nrep datasets from the posterior predictive distribution
   if (!is.null(nrep)) {
     nrep <- min(nrep, n)
     res$data_rep <- switch(model,

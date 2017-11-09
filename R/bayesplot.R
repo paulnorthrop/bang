@@ -67,7 +67,7 @@
 #'
 #' # Overlaid density estimates
 #' pp_check(rat_res)
-#' # Overlaid density estimates
+#' # Overlaid distribution function estimates
 #' pp_check(rat_res, fun = "ecdf_overlay")
 #' # Multiple histograms
 #' pp_check(rat_res, fun = "hist", nrep = 8)
@@ -87,7 +87,18 @@
 #' # Overlaid density estimates
 #' pp_check(pump_res)
 #' # Predictive (mean, sd) vs observed (mean, sd)
-#' pp_check(rat_res, fun = "stat_2d", stat = c("mean", "sd"))
+#' pp_check(pump_res, fun = "stat_2d", stat = c("mean", "sd"))
+#'
+#' ###################### One-way Hierarchical ANOVA ##########################
+#'
+#' #----------------- Late 21st Century Global Temperature Data ------------- #
+#'
+#' RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
+#' res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], nrep = 50)
+#' # Overlaid density estimates
+#' pp_check(res26_2)
+#' # Predictive (mean, sd) vs observed (mean, sd)
+#' pp_check(res26_2, fun = "stat_2d", stat = c("mean", "sd"))
 #' @export pp_check
 #' @export
 pp_check.hef <- function(object, fun = NULL, raw = FALSE, nrep = NULL, ...) {

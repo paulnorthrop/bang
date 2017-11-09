@@ -129,3 +129,56 @@ test_that("anova1: in-built unif = user unif, param = original", {
   testthat::expect_equal(res26_2_a$sim_vals, res26_2_b$sim_vals,
                          tolerance = my_tol)
 })
+
+# --------------------------- Simulated data -------------------------------- #
+
+# Simulate one draw from the posterior predictive distribution based on
+# the rat data
+
+rat_res <- hef(model = "beta_binom", data = rat)
+sim_data <- sim_pred_beta_binom(rat_res$theta_sim_vals, rat, 1)
+sim_data <- cbind(sim_data, rat[, 2])
+
+RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
+res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
+sim_resp <- sim_pred_hanova1(res26_2$theta_sim_vals, res26_2$sim_vals,
+                             RCP26_2[, 2], 1)
+
+# 1. Default (bda) prior
+
+user_prior_fn <- function(x) {
+  if (any(x <= 0)) return(-Inf)
+  return(-log(x[2]))
+}
+user_prior <- set_user_prior(user_prior_fn, model = "anova1")
+
+# (i) sampling on (rotated) (log(mean), log(alpha + beta)) scale
+
+# In-built
+set.seed(my_seed)
+sim_res_a <- hanova1(resp = sim_resp, fac = RCP26_2[, 2], n = my_n)
+# User
+set.seed(my_seed)
+sim_res_b <- hanova1(resp = sim_resp, fac = RCP26_2[, 2], n = my_n,
+                     prior = user_prior)
+
+test_that("anova1: sim_data, in-built bda = user bda, param = trans", {
+  testthat::expect_equal(sim_res_a$sim_vals, sim_res_b$sim_vals,
+                         tolerance = my_tol)
+})
+
+# (ii) Default prior, sampling on (alpha, beta) scale
+
+# In-built
+set.seed(my_seed)
+sim_res_a <- hanova1(resp = sim_resp, fac = RCP26_2[, 2], n = my_n,
+                     param = "original")
+# User
+set.seed(my_seed)
+sim_res_b <- hanova1(resp = sim_resp, fac = RCP26_2[, 2], n = my_n,
+                     param = "original", prior = user_prior)
+
+test_that("anova1: sim_data, in-built bda = user bda, param = original", {
+  testthat::expect_equal(sim_res_a$sim_vals, sim_res_b$sim_vals,
+                         tolerance = my_tol)
+})

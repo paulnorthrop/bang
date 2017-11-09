@@ -46,6 +46,12 @@
 #'   \code{\link{set_user_prior}} to set a user-defined prior.
 #'   The default, \code{sigma0 = Inf}, sets an improper uniform prior
 #'   for \eqn{\mu}.
+#' @param nrep A numeric scalar.  If \code{nrep} is not \code{NULL} then
+#'   \code{nrep} gives the number of replications of the original dataset
+#'   simulated from the posterior predictive distribution.
+#'   Each replication is based on one of the samples from the posterior
+#'   distribution.  Therefore, \code{nrep} must not be greater than \code{n}.
+#'   In that event \code{nrep} is set equal to \code{n}.
 #' @param ... Optional further arguments to be passed to
 #'   \code{\link[rust]{ru}}.
 #' @details
@@ -158,7 +164,7 @@
 #' @export
 hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
                     param = c("trans", "original"), init = NULL,
-                    mu0 = 0, sigma0 = Inf) {
+                    mu0 = 0, sigma0 = Inf, nrep = NULL) {
   if (length(resp) != length(fac)) {
     stop("resp and fac must have the same length")
   }
@@ -277,12 +283,21 @@ hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
   res$model <- "anova1"
   res$resp <- resp
   res$fac <- fac
-  res$data <- y_mat
+  res$data_mat <- y_mat
+  res$data <- cbind(resp, fac)
   res$prior <- prior
   if (anova_d == 2) {
     res$ru <- 2:3
   } else {
     res$ru <- 1:3
+  }
+  # Simulate nrep datasets from the posterior predictive distribution
+  if (!is.null(nrep)) {
+    nrep <- min(nrep, n)
+    res$data_rep <- sim_pred_hanova1(res$theta_sim_vals, res$sim_vals, fac,
+                                     nrep)
+    # Transpose, so that the replicates are in the rows
+    res$data_rep <- t(res$data_rep)
   }
   class(res) <- "hef"
   return(res)
@@ -508,3 +523,51 @@ three_d_one_way_anova_phi_to_theta <- function(phi) {
   return(c(phi[1], exp(phi[2:3])))
 }
 
+# ---------------------------- sim_pred_hanova1 ----------------------------- #
+
+#' Simulate from a one-way hierarchical ANOVA posterior predictive distribution
+#'
+#' Simulates \code{nrep} draws from the posterior predictive distribution
+#' of the one-way hierarchical ANOVA model described in \code{\link{hanova1}}.
+#' This function is called within \code{\link{hanova1}} when the argument
+#' \code{nrep} is supplied.
+#' @param theta_sim_vals A numeric matrix with \code{length(fac)} columns.
+#'   Each row of \code{theta_sim_vals} contains normal means simulated from
+#'   their posterior distribution.
+#' @param sim_vals A numeric matrix with \code{length(fac)} columns.
+#'   Each row of \code{sim_vals} contains normal standard deviations \eqn{\sigma}
+#'   simulated from their posterior distribution.
+#' @param fac The argument \code{fac} to \code{\link{hanova1}}, that is,
+#'   a vector of class \link{factor} indicating group membership.
+#' @param nrep A numeric scalar.  The number of replications of the original
+#'   dataset simulated from the posterior predictive distribution.
+#'   If \code{nrep} is greater than \code{nrow(theta_sim_vals)} then
+#'   \code{nrep} is set equal to \code{nrow(theta_sim_vals)}.
+#' @return A numeric matrix with \code{nrep} columns.  Each column contains
+#'   a draw from the posterior predictive distribution of the number of
+#'   successes.
+#' @examples
+#' RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
+#' res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
+#' sim_pred <- sim_pred_hanova1(res26_2$theta_sim_vals, res26_2$sim_vals,
+#'                              RCP26_2[, 2], 50)
+#' @export
+sim_pred_hanova1 <- function(theta_sim_vals, sim_vals, fac, nrep) {
+  nrep <- min(nrep, nrow(theta_sim_vals))
+  # Extract the first nrep rows from the posterior sample of thetas
+  thetas <- theta_sim_vals[1:nrep, , drop = FALSE]
+  # Extract the first nrep values in the posterior sample of sigma
+  sigma <- sim_vals[1:nrep, "sigma", drop = FALSE]
+  # Combine thetas and sigmas
+  sigma_and_thetas <- cbind(sigma, thetas)
+  # Count the numbers of observations of each level of fac
+  n_replicates <- as.numeric(table(fac))
+  # Remove any zeros
+  n_replicates <- n_replicates[n_replicates > 0]
+  # Function to simulate one set of data
+  norm_fn <- function(x) {
+    mu_vec <- rep(x[-1], times = n_replicates)
+    return(stats::rnorm(n = length(mu_vec), mean = mu_vec, sd = x[1]))
+  }
+  return(apply(sigma_and_thetas, 1, norm_fn))
+}

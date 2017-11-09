@@ -5,7 +5,8 @@
 \title{Posterior sampling for a 1-way hierarchical ANOVA}
 \usage{
 hanova1(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
-  param = c("trans", "original"), init = NULL, mu0 = 0, sigma0 = Inf)
+  param = c("trans", "original"), init = NULL, mu0 = 0, sigma0 = Inf,
+  nrep = NULL)
 }
 \arguments{
 \item{n}{A numeric scalar.  The size of posterior sample required.}
@@ -58,6 +59,13 @@ or if \code{anova_d = 2} is supplied in a call to
 \code{\link{set_user_prior}} to set a user-defined prior.
 The default, \code{sigma0 = Inf}, sets an improper uniform prior
 for \eqn{\mu}.}
+
+\item{nrep}{A numeric scalar.  If \code{nrep} is not \code{NULL} then
+\code{nrep} gives the number of replications of the original dataset
+simulated from the posterior predictive distribution.
+Each replication is based on one of the samples from the posterior
+distribution.  Therefore, \code{nrep} must not be greater than \code{n}.
+In that event \code{nrep} is set equal to \code{n}.}
 }
 \value{
 An object (list) of class \code{"hef"}, which has the same
