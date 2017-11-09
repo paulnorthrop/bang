@@ -103,6 +103,8 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
+# --------------------------- sim_pred_beta-binom --------------------------- #
+
 #' Simulate from a beta-binomial posterior predictive distribution
 #'
 #' Simulates \code{nrep} draws from the posterior predictive distribution
@@ -116,6 +118,8 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
 #'   and the corresponding numbers of trials in column 2.
 #' @param nrep A numeric scalar.  The number of replications of the original
 #'   dataset simulated from the posterior predictive distribution.
+#'   If \code{nrep} is greater than \nrow{theta_sim_vals} then \code{nrep}
+#'   is set equal to \nrow{theta_sim_vals}.
 #' @return A numeric matrix with \code{nrep} columns.  Each column contains
 #'   a draw from the posterior predictive distribution of the number of
 #'   successes.
@@ -124,6 +128,7 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
 #' rat_sim_pred <- sim_pred_beta_binom(rat_res$theta_sim_vals, rat, 50)
 #' @export
 sim_pred_beta_binom <- function(theta_sim_vals, data, nrep) {
+  nrep <- min(nrep, nrow(theta_sim_vals))
   # Extract the first nrep rows from the posterior sample of thetas
   thetas <- theta_sim_vals[1:nrep, , drop = FALSE]
   # Function to simulate one set of data

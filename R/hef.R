@@ -293,6 +293,8 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
     nrep <- min(nrep, n)
     res$data_rep <- switch(model,
                            beta_binom = sim_pred_beta_binom(res$theta_sim_vals,
+                                                            data, nrep),
+                           gamma_pois = sim_pred_gamma_pois(res$theta_sim_vals,
                                                             data, nrep))
   }
   class(res) <- "hef"

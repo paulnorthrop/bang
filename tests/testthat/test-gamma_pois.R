@@ -48,10 +48,12 @@ test_that("gamma-pois: in-built gamma = user gamma, param = original", {
 
 # --------------------------- Simulated data -------------------------------- #
 
-# Simulate data that are similar to the pump data
+# Simulate one draw from the posterior predictive distribution based on
+# the rat data
 
-sim_data <- sim_gamma_pois(J = nrow(pump), exposure = pump[, "time"],
-                           alpha = 1.2, beta = 2.2)
+pump_res <- hef(model = "gamma_pois", data = pump)
+sim_data <- sim_pred_gamma_pois(pump_res$theta_sim_vals, pump, 1)
+sim_data <- cbind(sim_data, pump[, 2])
 
 # 1. Default (gamma) prior
 

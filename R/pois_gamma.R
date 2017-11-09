@@ -1,4 +1,4 @@
-#------------------------------- Beta-binomial -------------------------------#
+#------------------------------- gamma-Poisson -------------------------------#
 
 # Calculate sufficient statistics
 
@@ -66,31 +66,37 @@ sim_gamma_pois <- function(n = 1, alpha = 1, beta = 1, off = 1) {
   return(y)
 }
 
-# ----------------------------- sim_gamma_pois ------------------------------ #
+# --------------------------- sim_pred_gamma_pois --------------------------- #
 
-#' Simulate data from the gamma-Poisson model
+#' Simulate from a gamm-Poisson posterior predictive distribution
 #'
-#' Simulates from the gamma-Poisson model described in \code{\link{hef}}.
-#'
-#' @param J An integer scalar. The number of groups.
-#' @param exposure A numeric scalar or a numeric vector of length \code{J}.
-#'   The exposures in groups 1, ..., \code{J}.
-#' @param alpha,beta Numeric vectors.  The parameters of the
-#'   gamma(\eqn{\alpha, \beta}) distribution for the Poisson rates
-#'   \eqn{\lambda1, ..., \lambdaJ}.
-#' @return A numeric matrix with 2 columns.  The first column, \code{y},
-#'   contains the numbers of events, the second column, \code{exposure},
-#'   the input \code{exposure}.
+#' Simulates \code{nrep} draws from the posterior predictive distribution
+#' of the beta-binomial model described in \code{\link{hef}}.
+#' This function is called within \code{\link{hef}} when the argument
+#' \code{nrep} is supplied.
+#' @param theta_sim_vals A numeric matrix with \code{nrow(data)} columns.
+#'   Each row of \code{theta_sim_vals} contains binomial success probabilities
+#'   simulated from their posterior distribution.
+#' @param data A 2-column numeric matrix: the numbers of successes in column 1
+#'   and the corresponding numbers of trials in column 2.
+#' @param nrep A numeric scalar.  The number of replications of the original
+#'   dataset simulated from the posterior predictive distribution.
+#'   If \code{nrep} is greater than \nrow{theta_sim_vals} then \code{nrep}
+#'   is set equal to \nrow{theta_sim_vals}.
+#' @return A numeric matrix with \code{nrep} columns.  Each column contains
+#'   a draw from the posterior predictive distribution of the number of
+#'   successes.
 #' @examples
-#' # Simulate data that are similar to the pump data
-#' sim_data <- sim_gamma_pois(J = nrow(pump), exposure = pump[, "time"],
-#'                            alpha = 1.2, beta = 2.2)
+#' pump_res <- hef(model = "gamma_pois", data = pump)
+#' pump_sim_pred <- sim_pred_gamma_pois(pump_res$theta_sim_vals, pump, 50)
 #' @export
-sim_gamma_pois <- function(J = 1, alpha = 1, beta = 1, exposure = 1) {
-  if (length(exposure) != 1 & length(exposure) != J) {
-    stop("exposure must be scalar or a vector of length J")
+sim_pred_gamma_pois <- function(theta_sim_vals, data, nrep) {
+  nrep <- min(nrep, nrow(theta_sim_vals))
+  # Extract the first nrep rows from the posterior sample of thetas
+  thetas <- theta_sim_vals[1:nrep, , drop = FALSE]
+  # Function to simulate one set of data
+  pois_fn <- function(x) {
+    return(stats::rpois(n = length(data[, 2]), lambda = x * data[, 2]))
   }
-  theta <- stats::rgamma(J, shape = alpha, rate = beta)
-  y <- stats::rpois(J, lambda = exposure * theta)
-  return(cbind(y, exposure))
+  return(apply(thetas, 1, pois_fn))
 }

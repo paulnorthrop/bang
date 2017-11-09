@@ -86,10 +86,6 @@ test_that("beta-binom: in-built gamma = user gamma, param = original", {
 
 # --------------------------- Simulated data -------------------------------- #
 
-# Simulate data that are similar to the rat data
-#sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, 2], alpha = 2.4,
-#                          beta = 14.3)
-
 # Simulate one draw from the posterior predictive distribution based on
 # the rat data
 
