@@ -55,17 +55,6 @@ gamma_pois_cond_sim <- function(x, data, n_sim) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
-# Simulate data from the Gamma-Poisson model
-
-sim_gamma_pois <- function(n = 1, alpha = 1, beta = 1, off = 1) {
-  if (length(off) != 1 & length(off) != n) {
-    stop("off must be scalar or a vector of length n")
-  }
-  theta <- stats::rgamma(n, shape = alpha, rate = beta)
-  y <- stats::rpois(n, lambda = off * theta)
-  return(y)
-}
-
 # --------------------------- sim_pred_gamma_pois --------------------------- #
 
 #' Simulate from a gamm-Poisson posterior predictive distribution
