@@ -296,6 +296,8 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
                                                             data, nrep),
                            gamma_pois = sim_pred_gamma_pois(res$theta_sim_vals,
                                                             data, nrep))
+    # Transpose, so that the replicates are in the rows
+    res$data_rep <- t(res$data_rep)
   }
   class(res) <- "hef"
   return(res)

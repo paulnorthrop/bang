@@ -10,7 +10,7 @@
 #' @aliases pp_check
 #'
 #' @param object An object of class "hef", a result of a call to
-#'   \code{\link{hef}} or \code{\link{anova1}}.
+#'   \code{\link{hef}} or \code{\link{hanova1}}.
 #' @param fun The plotting function to call.
 #'   Can be any of the functions detailed at \link[bayesplot]{PPC-overview}.
 #'   The "ppc_" prefix can optionally be dropped if fun is specified
@@ -44,7 +44,7 @@
 #'
 #' @return A ggplot object that can be further customized using the
 #'   \strong{ggplot2} package.
-#' @seealso \code{\link{hef}} and \code{\link{anova1}} for sampling
+#' @seealso \code{\link{hef}} and \code{\link{hanova1}} for sampling
 #'   from posterior distributions of hierarchical models.
 #' @seealso \strong{bayesplot} functions \link[bayesplot]{PPC-overview},
 #'   \link[bayesplot]{PPC-distributions},
@@ -95,7 +95,7 @@ pp_check.hef <- function(object, fun = NULL, raw = FALSE, nrep = NULL, ...) {
     stop("use only with \"hef\" objects")
   }
   if (is.null(object[["data_rep"]])) {
-    stop("data_rep is NULL: call hef() or anova1() again supplying nrep")
+    stop("data_rep is NULL: call hef() or hanova1() again supplying nrep")
   }
   if (is.null(fun)) {
     fun <- "dens_overlay"

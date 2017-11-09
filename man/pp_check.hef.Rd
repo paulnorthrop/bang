@@ -9,7 +9,7 @@
 }
 \arguments{
 \item{object}{An object of class "hef", a result of a call to
-\code{\link{hef}} or \code{\link{anova1}}.}
+\code{\link{hef}} or \code{\link{hanova1}}.}
 
 \item{fun}{The plotting function to call.
 Can be any of the functions detailed at \link[bayesplot]{PPC-overview}.
@@ -99,7 +99,7 @@ Chapman & Hall/CRC Press, London, third edition. (Chapter 6)
 \url{www.stat.columbia.edu/~gelman/book}
 }
 \seealso{
-\code{\link{hef}} and \code{\link{anova1}} for sampling
+\code{\link{hef}} and \code{\link{hanova1}} for sampling
   from posterior distributions of hierarchical models.
 
 \strong{bayesplot} functions \link[bayesplot]{PPC-overview},
