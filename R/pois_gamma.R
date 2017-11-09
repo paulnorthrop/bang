@@ -72,7 +72,7 @@ gamma_pois_cond_sim <- function(x, data, n_sim) {
 #'   dataset simulated from the posterior predictive distribution.
 #'   If \code{nrep} is greater than \code{nrow(theta_sim_vals)} then
 #'   \code{nrep} is set equal to \code{nrow(theta_sim_vals)}.
-#' @return A numeric matrix with \code{nrep} columns.  Each column contains
+#' @return A numeric matrix with \code{nrep} rows.  Each row contains
 #'   a draw from the posterior predictive distribution of the number of
 #'   successes.
 #' @examples
@@ -87,5 +87,5 @@ sim_pred_gamma_pois <- function(theta_sim_vals, data, nrep) {
   pois_fn <- function(x) {
     return(stats::rpois(n = length(data[, 2]), lambda = x * data[, 2]))
   }
-  return(apply(thetas, 1, pois_fn))
+  return(t(apply(thetas, 1, pois_fn)))
 }

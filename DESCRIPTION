@@ -15,13 +15,14 @@ Description: Provides functions for the Bayesian analysis of some simple
     beta-binomial, gamma-Poisson and a 1-way Analysis of Variance (ANOVA).
     See the 'bang' website for more information, documentation and examples.
 Depends: R (>= 3.3.1)
-Imports: graphics,
+Imports: bayesplot (>= 1.1.0),
+    graphics,
     methods,
     rust (>= 1.2.2),
-    stats,
-    utils
+    stats
 RoxygenNote: 6.0.1
-Suggests: knitr,
+Suggests: ggplot2 (>= 2.2.1),
+    knitr,
     rmarkdown,
     testthat
 VignetteBuilder: knitr

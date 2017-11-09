@@ -120,7 +120,7 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
 #'   dataset simulated from the posterior predictive distribution.
 #'   If \code{nrep} is greater than \code{nrow(theta_sim_vals)} then
 #'   \code{nrep} is set equal to \code{nrow(theta_sim_vals)}.
-#' @return A numeric matrix with \code{nrep} columns.  Each column contains
+#' @return A numeric matrix with \code{nrep} rows.  Each row contains
 #'   a draw from the posterior predictive distribution of the number of
 #'   successes.
 #' @examples
@@ -135,5 +135,5 @@ sim_pred_beta_binom <- function(theta_sim_vals, data, nrep) {
   bin_fn <- function(x) {
     return(stats::rbinom(n = length(data[, 2]), size = data[, 2], prob = x))
   }
-  return(apply(thetas, 1, bin_fn))
+  return(t(apply(thetas, 1, bin_fn)))
 }

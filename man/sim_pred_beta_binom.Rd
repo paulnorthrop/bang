@@ -20,7 +20,7 @@ If \code{nrep} is greater than \code{nrow(theta_sim_vals)} then
 \code{nrep} is set equal to \code{nrow(theta_sim_vals)}.}
 }
 \value{
-A numeric matrix with \code{nrep} columns.  Each column contains
+A numeric matrix with \code{nrep} rows.  Each row contains
   a draw from the posterior predictive distribution of the number of
   successes.
 }
