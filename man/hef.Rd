@@ -6,7 +6,7 @@
 \usage{
 hef(n = 1000, model = c("beta_binom", "gamma_pois"), data, ...,
   prior = "default", hpars = NULL, param = c("trans", "original"),
-  init = NULL)
+  init = NULL, nrep = NULL)
 }
 \arguments{
 \item{n}{An integer scalar.  The size of the posterior sample required.}
@@ -46,6 +46,13 @@ of acceptance, but at the expense of slower function evaluations.}
 \item{init}{A numeric vector of length 2.  Optional initial estimates
 for the search for the mode of the posterior density of the
 hyperparameter vector \eqn{\psi}.}
+
+\item{nrep}{A numeric scalar.  If \code{nrep} is not \code{NULL} then
+\code{nrep} gives the number of replications of the original dataset
+simulated from the posterior predictive distribution.
+Each replication is based on one of the samples from the posterior
+distribution.  Therefore, \code{nrep} must not be greater than \code{n}.
+In that event \code{nrep} is set equal to \code{n}.}
 }
 \value{
 An object (list) of class \code{"hef"}, which has the same
@@ -55,7 +62,13 @@ An object (list) of class \code{"hef"}, which has the same
   In addition this list contains the arguments \code{model}, \code{data},
   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
   \code{theta_sim_vals}: column j contains the simulated values of
-  (the first component of) \eqn{\thetaj}.
+  \eqn{\thetaj}.
+
+  If \code{nrep} is not \code{NULL} then this list also contains
+  \code{data_rep}, a numerical matrix with \code{nrep} columns.
+  Each column contains a replication of the first column of the original
+  data \code{data[, 1]}, simulated from the posterior predictive
+  distribution.
 }
 \description{
 Samples from the posterior distribution of the parameters of

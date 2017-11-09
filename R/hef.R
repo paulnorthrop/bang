@@ -22,6 +22,8 @@
 #'   (hierarchical one-way analysis of variance (ANOVA)).
 #' @param data A numeric matrix.  The format depends on \code{model}.
 #'   See \strong{Details}.
+#' @param ... Optional further arguments to be passed to
+#'   \code{\link[rust]{ru}}.
 #' @param prior The log-prior for the parameters of the hyperprior
 #'   distribution.  If the user wishes to specify their own prior then
 #'   \code{prior} must be an object returned from a call to
@@ -43,8 +45,12 @@
 #' @param init A numeric vector of length 2.  Optional initial estimates
 #'   for the search for the mode of the posterior density of the
 #'   hyperparameter vector \eqn{\psi}.
-#' @param ... Optional further arguments to be passed to
-#'   \code{\link[rust]{ru}}.
+#' @param nrep A numeric scalar.  If \code{nrep} is not \code{NULL} then
+#'   \code{nrep} gives the number of replications of the original dataset
+#'   simulated from the posterior predictive distribution.
+#'   Each replication is based on one of the samples from the posterior
+#'   distribution.  Therefore, \code{nrep} must not be greater than \code{n}.
+#'   In that event \code{nrep} is set equal to \code{n}.
 #' @details
 #'   The \code{\link[rust]{ru}} function is used to draw a random sample
 #'   from the marginal posterior of the hyperparameter vector \eqn{\psi}.
@@ -126,7 +132,13 @@
 #'   In addition this list contains the arguments \code{model}, \code{data},
 #'   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
 #'   \code{theta_sim_vals}: column j contains the simulated values of
-#'   (the first component of) \eqn{\thetaj}.
+#'   \eqn{\thetaj}.
+#'
+#'   If \code{nrep} is not \code{NULL} then this list also contains
+#'   \code{data_rep}, a numerical matrix with \code{nrep} columns.
+#'   Each column contains a replication of the first column of the original
+#'   data \code{data[, 1]}, simulated from the posterior predictive
+#'   distribution.
 #' @references Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
 #'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.
@@ -181,7 +193,7 @@
 #' @export
 hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
                 data, ..., prior = "default", hpars = NULL,
-                param = c("trans", "original"), init = NULL) {
+                param = c("trans", "original"), init = NULL, nrep = NULL) {
   model <- match.arg(model)
   param <- match.arg(param)
   #
@@ -274,6 +286,15 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
   res$data <- data
   res$prior <- prior
   res$ru <- 1:2
+  #
+  # If nrep is not NULL then simulate nrep datasets from the predictive
+  # distribution of
+  if (!is.null(nrep)) {
+    nrep <- min(nrep, n)
+    res$data_rep <- switch(model,
+                           beta_binom = sim_pred_beta_binom(res$theta_sim_vals,
+                                                            data, nrep))
+  }
   class(res) <- "hef"
   return(res)
 }

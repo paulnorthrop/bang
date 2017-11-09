@@ -103,33 +103,32 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
-# ----------------------------- sim_beta_binom ------------------------------ #
-
-#' Simulate data from the beta-binomial model
+#' Simulate from a beta-binomial posterior predictive distribution
 #'
-#' Simulates from the beta-binomial model described in \code{\link{hef}}.
-#'
-#' @param J An integer scalar. The number of groups.
-#' @param size A numeric scalar or a numeric vector of length \code{J}.
-#'   The number of trials in the groups 1, ..., \code{J}.  If \code{size} is a
-#'   scalar then \code{size} is used for all groups.
-#' @param alpha,beta Numeric vectors.  The parameters of the
-#'   beta(\eqn{\alpha, \beta}) distribution for the binomial success
-#'   probabilities \eqn{p1, ..., pJ}.
-#' @return A numeric matrix with 2 columns.  The first column, \code{y},
-#'   contains the numbers of successes, the second column, \code{n}, the
-#'   numbers of trials.
+#' Simulates \code{nrep} draws from the posterior predictive distribution
+#' of the beta-binomial model described in \code{\link{hef}}.
+#' This function is called within \code{\link{hef}} when the argument
+#' \code{nrep} is supplied.
+#' @param theta_sim_vals A numeric matrix with \code{nrow(data)} columns.
+#'   Each row of \code{theta_sim_vals} contains binomial success probabilities
+#'   simulated from their posterior distribution.
+#' @param data A 2-column numeric matrix: the numbers of successes in column 1
+#'   and the corresponding numbers of trials in column 2.
+#' @param nrep A numeric scalar.  The number of replications of the original
+#'   dataset simulated from the posterior predictive distribution.
+#' @return A numeric matrix with \code{nrep} columns.  Each column contains
+#'   a draw from the posterior predictive distribution of the number of
+#'   successes.
 #' @examples
-#' # Simulate data that are similar to the rat data
-#' sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, "n"], alpha = 2.4,
-#'                            beta = 14.3)
+#' rat_res <- hef(model = "beta_binom", data = rat)
+#' rat_sim_pred <- sim_pred_beta_binom(rat_res$theta_sim_vals, rat, 50)
 #' @export
-sim_beta_binom <- function(J = 1, size = 1, alpha = 1, beta = 1) {
-  if (length(size) != 1 & length(size) != J) {
-    stop("size must be scalar or a vector of length J")
+sim_pred_beta_binom <- function(theta_sim_vals, data, nrep) {
+  # Extract the first nrep rows from the posterior sample of thetas
+  thetas <- theta_sim_vals[1:nrep, , drop = FALSE]
+  # Function to simulate one set of data
+  bin_fn <- function(x) {
+    return(stats::rbinom(n = length(data[, 2]), size = data[, 2], prob = x))
   }
-  theta <- stats::rbeta(J, alpha, beta)
-  size <- rep_len(size, J)
-  y <- mapply(stats::rbinom, size = size, prob = theta, n = 1)
-  return(cbind(y, n = size))
+  return(apply(thetas, 1, bin_fn))
 }

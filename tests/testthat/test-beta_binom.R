@@ -87,9 +87,15 @@ test_that("beta-binom: in-built gamma = user gamma, param = original", {
 # --------------------------- Simulated data -------------------------------- #
 
 # Simulate data that are similar to the rat data
+#sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, 2], alpha = 2.4,
+#                          beta = 14.3)
 
-sim_data <- sim_beta_binom(J = nrow(rat), size = rat[, 2], alpha = 2.4,
-                          beta = 14.3)
+# Simulate one draw from the posterior predictive distribution based on
+# the rat data
+
+rat_res <- hef(model = "beta_binom", data = rat)
+sim_data <- sim_pred_beta_binom(rat_res$theta_sim_vals, rat, 1)
+sim_data <- cbind(sim_data, rat[, 2])
 
 # 1. Default prior
 
@@ -129,3 +135,4 @@ test_that("beta-binom: sim_data, in-built bda = user bda, param = original", {
   testthat::expect_equal(rat_res_a$sim_vals, rat_res_b$sim_vals,
                          tolerance = my_tol)
 })
+
