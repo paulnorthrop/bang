@@ -99,7 +99,7 @@
 #'   In addition this list contains the arguments \code{model}, \code{data},
 #'   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
 #'   \code{theta_sim_vals}: column j contains the simulated values of
-#'   (the first component of) \eqn{\thetaj}.
+#'   (the first component of) \eqn{\theta}j.
 #' @examples
 #' # ======= Late 21st Century Global Temperature Data =======
 #'

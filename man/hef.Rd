@@ -62,7 +62,7 @@ An object (list) of class \code{"hef"}, which has the same
   In addition this list contains the arguments \code{model}, \code{data},
   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
   \code{theta_sim_vals}: column j contains the simulated values of
-  \eqn{\thetaj}.
+  \eqn{\theta}j.
 
   If \code{nrep} is not \code{NULL} then this list also contains
   \code{data_rep}, a numerical matrix with \code{nrep} columns.
@@ -132,13 +132,13 @@ where the respective shape (\eqn{s1}, \eqn{s2}) and rate
 See Section 5.3 of Gelman et al. (2014).
 
 \strong{Gamma-Poisson:} For \eqn{j = 1, ..., J},
-  \eqn{Yj | \lambdaj} are i.i.d Poisson\eqn{(ej\lambdaj)},
+  \eqn{Yj | \lambda}j are i.i.d Poisson(\eqn{e}j\eqn{\lambda}j),
   where
   \eqn{ej} is the \emph{exposure} in group \eqn{j}, based on the
   total length of observation time and/or size of the population at
-  risk of the event of interest and \eqn{\lambdaj} is the mean number
+  risk of the event of interest and \eqn{\lambda}j is the mean number
   of events per unit of exposure.
-  \eqn{\lambdaj} are i.i.d. gamma\eqn{(\alpha, \beta)}, so
+  \eqn{\lambda}j are i.i.d. gamma\eqn{(\alpha, \beta)}, so
   \eqn{\psi = (\alpha, \beta)}.
   \code{data} is a 2-column matrix: the counts \eqn{yj} of the numbers of
   events in column 1 and the corresponding exposures \eqn{ej} in column 2.

@@ -75,7 +75,7 @@ An object (list) of class \code{"hef"}, which has the same
   In addition this list contains the arguments \code{model}, \code{data},
   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
   \code{theta_sim_vals}: column j contains the simulated values of
-  (the first component of) \eqn{\thetaj}.
+  (the first component of) \eqn{\theta}j.
 }
 \description{
 Uses the \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
