@@ -66,7 +66,7 @@ rat_res <- hef(model = "beta_binom", data = rat, nrep = 50)
 
 # Overlaid density estimates
 pp_check(rat_res)
-# Overlaid density estimates
+# Overlaid distribution function estimates
 pp_check(rat_res, fun = "ecdf_overlay")
 # Multiple histograms
 pp_check(rat_res, fun = "hist", nrep = 8)
@@ -86,7 +86,7 @@ pump_res <- hef(model = "gamma_pois", data = pump, nrep = 50)
 # Overlaid density estimates
 pp_check(pump_res)
 # Predictive (mean, sd) vs observed (mean, sd)
-pp_check(rat_res, fun = "stat_2d", stat = c("mean", "sd"))
+pp_check(pump_res, fun = "stat_2d", stat = c("mean", "sd"))
 
 ###################### One-way Hierarchical ANOVA ##########################
 
@@ -94,7 +94,10 @@ pp_check(rat_res, fun = "stat_2d", stat = c("mean", "sd"))
 
 RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
 res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], nrep = 50)
+# Overlaid density estimates
 pp_check(res26_2)
+# Predictive (mean, sd) vs observed (mean, sd)
+pp_check(res26_2, fun = "stat_2d", stat = c("mean", "sd"))
 }
 \references{
 Jonah Gabry (2016). bayesplot: Plotting for Bayesian
