@@ -4,7 +4,7 @@
 \name{coagulation}
 \alias{coagulation}
 \title{Coagulation time data}
-\format{A dataframe with 24 rows and 2 columns.}
+\format{A data frame with 24 rows and 2 columns.}
 \source{
 Table 11.2 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
@@ -17,7 +17,7 @@ coagulation
 \description{
 Coagulation time in seconds for blood drawn from 24 animals randomly
 allocated to four different diets from Box, Hunter, and Hunter (1978).
-The dataframe \code{coagulation} has 24 rows and 2 columns.
+The data frame \code{coagulation} has 24 rows and 2 columns.
 Each row relates to a different animal.
 Column 1 contains the coagulation times.
 Column 2 contains a label for the type of diet: one of A, B, C or D.

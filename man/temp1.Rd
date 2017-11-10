@@ -4,7 +4,7 @@
 \name{temp1}
 \alias{temp1}
 \title{Mid 21st Century Global Temperature Projection Data}
-\format{A dataframe with 270 rows and 4 columns.
+\format{A data frame with 270 rows and 4 columns.
   \itemize{
     \item{Column 1, index: }{anomaly of 2020-2049 mean relative to 1970-1999
       mean.}
@@ -28,7 +28,7 @@ to mid 21st century (2020-2049) based on data produced by the Fifth
 Coupled Model Intercomparison Project (CMIP5).
 }
 \details{
-The dataframe \code{temp1} data frame has 270 rows and 4 columns.
+The data frame \code{temp1} data frame has 270 rows and 4 columns.
 Each row relates to a climate projection run from one of 38 different
 General Circulation Models (GCMs) under a particular
 Representative Concentration Pathway (RCP).

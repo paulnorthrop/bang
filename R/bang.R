@@ -93,11 +93,11 @@ NULL
 #'
 #' Coagulation time in seconds for blood drawn from 24 animals randomly
 #' allocated to four different diets from Box, Hunter, and Hunter (1978).
-#' The dataframe \code{coagulation} has 24 rows and 2 columns.
+#' The data frame \code{coagulation} has 24 rows and 2 columns.
 #' Each row relates to a different animal.
 #' Column 1 contains the coagulation times.
 #' Column 2 contains a label for the type of diet: one of A, B, C or D.
-#' @format A dataframe with 24 rows and 2 columns.
+#' @format A data frame with 24 rows and 2 columns.
 #' @source Table 11.2 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
 #'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.
@@ -112,7 +112,7 @@ NULL
 #' to mid 21st century (2020-2049) based on data produced by the Fifth
 #' Coupled Model Intercomparison Project (CMIP5).
 #'
-#' The dataframe \code{temp1} data frame has 270 rows and 4 columns.
+#' The data frame \code{temp1} data frame has 270 rows and 4 columns.
 #' Each row relates to a climate projection run from one of 38 different
 #' General Circulation Models (GCMs) under a particular
 #' Representative Concentration Pathway (RCP).
@@ -130,7 +130,7 @@ NULL
 #' is a radiative forcing level resulting from an anticipated future
 #' greenhouse gas emissions.
 #' Column 4 is the simulation run number.
-#' @format A dataframe with 270 rows and 4 columns.
+#' @format A data frame with 270 rows and 4 columns.
 #'   \itemize{
 #'     \item{Column 1, index: }{anomaly of 2020-2049 mean relative to 1970-1999
 #'       mean.}
@@ -160,7 +160,7 @@ NULL
 #' to late 21st century (2069-2098) based on data produced by the Fifth
 #' Coupled Model Intercomparison Project (CMIP5).
 #'
-#' The dataframe \code{temp2} data frame has 270 rows and 4 columns.
+#' The data frame \code{temp2} data frame has 270 rows and 4 columns.
 #' Each row relates to a climate projection run from one of 38 different
 #' General Circulation Models (GCMs) under a particular
 #' Representative Concentration Pathway (RCP).
@@ -178,7 +178,7 @@ NULL
 #' is a radiative forcing level resulting from an anticipated future
 #' greenhouse gas emissions.
 #' Column 4 is the simulation run number.
-#' @format A dataframe with 270 rows and 4 columns.
+#' @format A data frame with 270 rows and 4 columns.
 #'   \itemize{
 #'     \item{Column 1, index: }{anomaly of 2069-2098 mean relative to 1970-1999
 #'       mean.}
