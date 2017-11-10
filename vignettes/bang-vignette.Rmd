@@ -14,6 +14,7 @@ bibliography: bang.bib
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+set.seed(47)
 ```
 
 The *bang* package uses the *rust* package [@rust] to produce random samples, using the generalized ratio-of-uniforms method, from the posterior distributions involved in certain Bayesian models.  *rust* was originally created to perform this role in the package *revdbayes* [@revdbayes], which deals with basic extreme value models with only 2 or 3 parameters.  The aim of *bang* is to tackle further models.  
@@ -42,6 +43,7 @@ library(bang)
 # (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)
 # (d) Note that the mode is relocated to (0, 0) in the plot
 rat_res <- hef(model = "beta_binom", data = rat, rotate = FALSE, n = 10000)
+# Plot of simulated values and posterior density contours
 plot(rat_res, ru_scale = TRUE)
 # The estimated posterior mode, which agrees with Figure 5.3 of Gelman et al. (2014)
 rat_res$f_mode

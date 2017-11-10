@@ -1,0 +1,96 @@
+---
+title: "Posterior Predictive Checking"
+author: "Paul J. Northrop"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Posterior Predictive Checking}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: bang.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+set.seed(47)
+
+required <- c("bayesplot", "ggplot2")
+
+if (!all(unlist(lapply(required, function(pkg) requireNamespace(pkg, quietly = TRUE)))))
+  knitr::opts_chunk$set(eval = FALSE)
+```
+
+This short vignette illustrates the use of the `pp_check` method `pp_check.hef`, which provides an interface to the posterior predictive checking graphics in the *bayesplot* package [@bayesplot].  For details see the bayesplot vignette 
+[Graphical posterior predictive checks](https://CRAN.R-project.org/package=bayesplot). and/or Chapter 6 of @BDA2014.  *bayesplot* functions return a `ggplot` object that can be customised using the *gglot2* package [@ggplot2].
+
+We revisit the examples presented in the vignettes [Hierarchical 1-way Analysis of Variance](bang-anova-vignette.html) and [Conjugate Hierarchical Models](bang-hef-vignette.html).  In the code below `hef` and `hanova1` have been called with the extra argument `nrep = 50`.  This results in 50 simulated replicates of the data, returned in `object$data_rep`, on which posterior predictive checking can be based.  The general idea is that if the model fits well then the observed data should not appear unusual when compared to replicates from the posterior predictive distribution.
+
+```{r}
+library(bang)
+# Beta-binomial rat tumor example
+rat_res <- hef(model = "beta_binom", data = rat, nrep = 50)
+# Gamma-Poisson pump failure example
+pump_res <- hef(model = "gamma_pois", data = pump, nrep = 50)
+# 1-way Hierarchical ANOVA global warming example
+RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
+temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], nrep = 50)
+```
+
+We show some examples of the graphical posterior predictive checks that are available from *bayesplot*, but make no comments on their content.  The commented lines above the calls to `pp_check` describe briefly the type of plot produced.
+
+## Beta-binomial model
+
+The aspect of the data that appears in these plots is the proportion of successful trials.  
+
+```{r, fig.show='hold', fig.width = 3.45, fig.height = 3.45}
+library(bayesplot)
+library(ggplot2)
+# Overlaid density estimates
+pp_check(rat_res)
+# Overlaid distribution function estimates
+pp_check(rat_res, fun = "ecdf_overlay")
+```
+
+```{r, fig.show='hold', fig.width = 7, fig.height = 5}
+# Multiple histograms
+pp_check(rat_res, fun = "hist", nrep = 8)
+# Multiple boxplots
+pp_check(rat_res, fun = "boxplot")
+```
+
+```{r, fig.show='hold', fig.width = 7, fig.height = 5}
+# Predictive medians vs observed median
+pp_check(rat_res, fun = "stat", stat = "median")
+# Predictive (mean, sd) vs observed (mean, sd)
+pp_check(rat_res, fun = "stat_2d", stat = c("mean", "sd"))
+```
+
+## Gamma-Poisson model
+
+The aspect of the data that appears in these plots is the exposure-adjusted rate $y_j / e_j$, where $y_j$ is the observed count and $e_j$ a measure of exposure.  See the [Conjugate Hierarchical Models](bang-hef-vignette.html) vignette for more detail.
+
+```{r, fig.show='hold', fig.width = 7, fig.height = 5}
+# Overlaid density estimates
+pp_check(pump_res)
+# Predictive (mean, sd) vs observed (mean, sd)
+pp_check(pump_res, fun = "stat_2d", stat = c("mean", "sd"))
+```
+
+## One-way Hierarchical ANOVA
+
+The raw responses appear in these plots.
+
+```{r, fig.show='hold', fig.width = 7, fig.height = 5}
+# Overlaid density estimates
+pp_check(temp_res)
+# Predictive (mean, sd) vs observed (mean, sd)
+pp_check(temp_res, fun = "stat_2d", stat = c("mean", "sd"))
+```
+
+## References
+
+<script type="text/x-mathjax-config">
+   MathJax.Hub.Config({  "HTML-CSS": { minScaleAdjust: 125, availableFonts: [] }  });
+</script>
