@@ -90,6 +90,8 @@ test_that("gamma_pois: plot_type = dens OK", {
 
 # ---------------- Late 21st Century Global Temperature Data ---------------- #
 
+# Extract data for RCP2.6
+RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
 temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], nrep = 50)
 
 # "dens" on one plot with legend
