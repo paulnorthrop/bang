@@ -284,6 +284,7 @@ hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
   res$fac <- fac
   res$data_mat <- y_mat
   res$data <- cbind(resp, fac)
+  res$summary_stats <- ds
   res$prior <- prior
   if (anova_d == 2) {
     res$ru <- 2:3

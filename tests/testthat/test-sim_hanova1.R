@@ -103,7 +103,7 @@ user_prior <- set_user_prior(user_prior_fn, model = "anova1", hpars = c(10, 20))
 # In-built
 set.seed(my_seed)
 res26_2_a <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], n = my_n,
-                     prior = "cauchy", hpars = c(10, 20))
+                     prior = "cauchy")
 # User
 set.seed(my_seed)
 res26_2_b <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], n = my_n,
@@ -114,7 +114,7 @@ test_that("anova1: in-built unif = user unif, param = trans", {
                          tolerance = my_tol)
 })
 
-# (ii) Default prior, sampling on (alpha, beta) scale
+# (ii) Cauchy prior, sampling on (alpha, beta) scale
 
 # In-built
 set.seed(my_seed)
