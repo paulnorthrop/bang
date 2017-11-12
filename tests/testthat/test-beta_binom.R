@@ -29,6 +29,26 @@ test_that("beta-binom: in-built bda = user bda, param = trans", {
                          tolerance = my_tol)
 })
 
+# Also check that the summaries are the same
+
+# (i) params = "hyper"
+
+summary_a <- summary(rat_res_a)
+summary_b <- summary(rat_res_b)
+
+test_that("beta-binom hyper summary: in-built bda = user bda, param = trans", {
+  testthat::expect_equal(summary_a, summary_b, tolerance = my_tol)
+})
+
+# (i) params = "pop"
+
+summary_a <- summary(rat_res_a, params = "pop")
+summary_b <- summary(rat_res_b, params = "pop")
+
+test_that("beta-binom pop summary: in-built bda = user bda, param = trans", {
+  testthat::expect_equal(summary_a, summary_b, tolerance = my_tol)
+})
+
 # (ii) Default prior, sampling on (alpha, beta) scale
 
 # In-built

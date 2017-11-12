@@ -87,3 +87,14 @@ check_NULL <- plot(pump_res, plot_type = "dens")
 test_that("gamma_pois: plot_type = dens OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
+
+# ---------------- Late 21st Century Global Temperature Data ---------------- #
+
+temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], nrep = 50)
+
+# "dens" on one plot with legend
+check_NULL <- plot(temp_res, plot_type = "dens", which_pop = c(1, 28),
+                   one_plot = TRUE)
+test_that("anova1: plot_type = dens, one plot with legend, OK", {
+  testthat::expect_identical(check_NULL, NULL)
+})

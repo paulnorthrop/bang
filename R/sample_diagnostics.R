@@ -173,7 +173,8 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
   if (plot_type == "dens" || plot_type == "both") {
     post_dens <- switch(x$model,
                         beta_binom = pde_beta_binom(x, which_pop),
-                        gamma_pois = pde_gamma_pois(x, which_pop))
+                        gamma_pois = pde_gamma_pois(x, which_pop),
+                        anova1 = pde_anova1(x, which_pop))
   }
   # Set the number of rows and columns in the plot
   rc <- n2mfrow(n_pop)
@@ -249,7 +250,7 @@ pde_beta_binom <- function(x, which_pop) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_p <- max(min(plot_data), ep)
   max_p <- min(max(plot_data), 1 - ep)
-  h_vals <- seq(min_p, max_p, len = 1000)
+  h_vals <- seq(min_p, max_p, len = 100)
   # Function to estimate the posterior density for a given population
   pdfxi <- function(x, pop) {
     mean(stats::dbeta(x, alpha + yy[pop], beta + nn[pop] - yy[pop]))
@@ -276,10 +277,42 @@ pde_gamma_pois <- function(x, which_pop) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_val <- max(min(plot_data), ep)
   max_val <- max(plot_data)
-  h_vals <- seq(min_val, max_val, len = 1000)
+  h_vals <- seq(min_val, max_val, len = 100)
   # Function to estimate the posterior density for a given population
   pdfxi <- function(x, pop) {
     mean(stats::dgamma(x, shape = alpha + y[pop], rate = beta + off[pop]))
+  }
+  density_matrix <- matrix(NA, ncol = ncol(plot_data), nrow = length(h_vals))
+  # Loop over which_pop
+  for (i in 1:length(which_pop)) {
+    density_matrix[, i] <- vapply(h_vals, pdfxi, 0, pop = which_pop[i])
+  }
+  return(list(xx = h_vals, yy = density_matrix))
+}
+
+# ================================= pde_anova1 ================================
+
+pde_anova1 <- function(x, which_pop) {
+  mu <- x$sim_vals[, 1]
+  va <- x$sim_vals[, 2] ^ 2
+  ve <- x$sim_vals[, 3] ^ 2
+  # Responses
+  resp <- x$data[, 1]
+  # Explanatory factor
+  fac <- x$data[, 2]
+  # Set the (common) ranges of values on the horizontal axes
+  plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
+  min_val <- min(plot_data)
+  max_val <- max(plot_data)
+  h_vals <- seq(min_val, max_val, len = 100)
+  # Function to estimate the posterior density for a given population
+  ds <- x$summary_stats
+  pdfxi <- function(x, pop) {
+    ni <- ds$ni[pop]
+    div <- va + ve / ni
+    mean_alpha <- mu + va * (ds$ybari[pop] - mu) / div
+    sd_alpha <- sqrt((va * ve / ni) / div)
+    mean(stats::dnorm(x, mean = mean_alpha, sd = sd_alpha))
   }
   density_matrix <- matrix(NA, ncol = ncol(plot_data), nrow = length(h_vals))
   # Loop over which_pop
