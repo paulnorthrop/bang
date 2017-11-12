@@ -1,7 +1,6 @@
 context("plot_hef")
 
 my_seed <- 47
-my_tol <- 1e-5
 my_n <- 5
 my_prob <- 0.5
 
