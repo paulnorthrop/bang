@@ -63,3 +63,12 @@ check_error <- try(plot(rat_res, plot_type = "simulated"), silent = TRUE)
 test_that("beta_binom: error when plot_type is wrong", {
   testthat::expect_identical(class(check_error), "try-error")
 })
+
+# ------------------------- Pump failure data ------------------------------- #
+
+pump_res <- hef(model = "gamma_pois", data = pump, n = my_n)
+
+# "dens"
+test_that("gamma_pois: plot_type = dens OK", {
+  testthat::expect_identical(check_NULL, NULL)
+})

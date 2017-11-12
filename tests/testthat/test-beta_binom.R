@@ -132,3 +132,9 @@ test_that("beta-binom: sim_data, in-built bda = user bda, param = original", {
                          tolerance = my_tol)
 })
 
+# Check that if init doesn't have length 2 then an error is returned
+check_error <- try(hef(model = "beta_binom", data = sim_data, n = my_n,
+                       init = 0.1), silent = TRUE)
+test_that("beta_binom: error when init has length 1", {
+  testthat::expect_identical(class(check_error), "try-error")
+})

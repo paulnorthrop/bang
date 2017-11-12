@@ -240,10 +240,7 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
                    gamma_pois = gamma_init_ests(data, param = param))
   } else {
     if (length(init) != 2) {
-      warning("init is not of length 2, so it is not used")
-      init <- switch(model,
-                     beta_binom = beta_init_ests(data, param = param),
-                     gamma_pois = gamma_init_ests(data, param = param))
+      stop("init must have length 2")
     }
   }
   #

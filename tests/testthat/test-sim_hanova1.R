@@ -182,3 +182,11 @@ test_that("anova1: sim_data, in-built bda = user bda, param = original", {
   testthat::expect_equal(sim_res_a$sim_vals, sim_res_b$sim_vals,
                          tolerance = my_tol)
 })
+
+
+# Check that if init doesn't have length 3 then an error is returned
+check_error <- try(hanova1(resp = sim_resp, fac = RCP26_2[, 2], n = my_n,
+                           init = 0.1), silent = TRUE)
+test_that("anova1: error when init has length 1", {
+  testthat::expect_identical(class(check_error), "try-error")
+})

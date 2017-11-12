@@ -229,8 +229,7 @@ hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
     }
   } else {
     if (length(init) != 3) {
-      warning("init is not of length 3, so it is not used")
-      init <- init1anova(y = y_mat)
+      stop("init must have length 3")
     }
   }
   #
