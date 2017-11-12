@@ -30,7 +30,8 @@
 #' @param which_pop An integer vector.  If \code{params = "pop"} then
 #'   \code{which_pop} indicates which populations to include in the plot.
 #' @param plot_type A character scalar that determines the type of plot
-#'   produced when \code{params = "pop"}.
+#'   produced when \code{params = "pop"}.  If \code{plot_type} is supplied
+#'   then \code{params} is set automatically to \code{"pop"}.
 #'  \itemize{
 #'    \item{"sim": }{histograms of the posterior samples
 #'      of \eqn{\theta} for the populations in \code{which_pop}.}
@@ -80,18 +81,24 @@
 #'   via ...., in particular \code{ru_scale}.
 #' @export
 plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
-                     which_pop = 1,
-                     plot_type = c("sim", "dens", "both", "pairs"),
-                     one_plot = FALSE, add_legend = FALSE,
-                     legend_position = "topright") {
+                     which_pop = 1, plot_type = NULL, one_plot = FALSE,
+                     add_legend = FALSE, legend_position = "topright") {
   if (!inherits(x, "hef")) {
     stop("use only with \"hef\" objects")
   }
   params <- match.arg(params)
-  plot_type <- match.arg(plot_type)
-  if (plot_type == "pairs" & length(which_pop) == 1) {
-    stop("If plot_type = ''pairs'' then length(which_pop) must be > 1")
+  if (!is.null(plot_type)) {
+    plot_type <- match.arg(plot_type, c("sim", "dens", "both", "pairs"))
+    if (plot_type == "pairs" & length(which_pop) == 1) {
+      stop("If plot_type = ''pairs'' then length(which_pop) must be > 1")
+    }
+    params <- "pop"
   }
+  if (one_plot & plot_type != "dens") {
+    stop("one_plot = TRUE is not relevant unless plot_type = ''dens''")
+  }
+  # Save par settings so that we can reset them on exit
+  old_par <- graphics::par(no.readonly = TRUE)
   user_args <- list(...)
   # Use plot.ru() to plot the simulated hyperparameter values
   if (params == "hyper") {
@@ -101,6 +108,7 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
     }
     class(for_ru) <- "ru"
     plot(for_ru, ...)
+    graphics::par(old_par)
     return(invisible())
   }
   if (params == "ru" ) {
@@ -108,6 +116,7 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
     for_ru$sim_vals <- for_ru$sim_vals[, for_ru$ru]
     class(for_ru) <- "ru"
     plot(for_ru, ...)
+    graphics::par(old_par)
     return(invisible())
   }
   # Otherwise, plot population values
@@ -145,7 +154,7 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
   } else {
     my_lty <- 1:n_pop
   }
-  if (!is.null(user_args$lty)) {
+  if (!is.null(user_args$col)) {
     my_col <- rep_len(user_args$col, n_pop)
   } else {
     my_col <- 1:n_pop
@@ -157,6 +166,7 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
     } else {
       graphics::pairs(plot_data, ...)
     }
+    graphics::par(old_par)
     return(invisible())
   }
   # If we need estimates of marginal posterior densities
@@ -167,7 +177,6 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
   }
   # Set the number of rows and columns in the plot
   rc <- n2mfrow(n_pop)
-  def.par <- graphics::par(no.readonly = TRUE)
   graphics::par(mfrow = rc)
   pairwise_hist <- function(x, ..., xlab, ylab, main) {
     for (i in 1:n_pop) {
@@ -210,9 +219,7 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
                               add_legend = add_legend, ...),
          both = pairwise_hist_dens(plot_data, post_dens, ...)),
          silent = FALSE)
-  if (inherits(temp, "try-error")) {
-    graphics::par(def.par)
-  }
+  graphics::par(old_par)
   return(invisible())
 }
 

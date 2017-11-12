@@ -5,8 +5,8 @@
 \title{Plot diagnostics for a hef object}
 \usage{
 \method{plot}{hef}(x, y, ..., params = c("hyper", "ru", "pop"),
-  which_pop = 1, plot_type = c("sim", "dens", "both", "pairs"),
-  one_plot = FALSE, add_legend = FALSE, legend_position = "topright")
+  which_pop = 1, plot_type = NULL, one_plot = FALSE, add_legend = FALSE,
+  legend_position = "topright")
 }
 \arguments{
 \item{x}{an object of class "hef", a result of a call to \code{ru}.}
@@ -40,7 +40,8 @@ parameterization used for ratio-of-uniforms sampling.}
 \code{which_pop} indicates which populations to include in the plot.}
 
 \item{plot_type}{A character scalar that determines the type of plot
- produced when \code{params = "pop"}.
+ produced when \code{params = "pop"}.  If \code{plot_type} is supplied
+ then \code{params} is set automatically to \code{"pop"}.
 \itemize{
   \item{"sim": }{histograms of the posterior samples
     of \eqn{\theta} for the populations in \code{which_pop}.}
