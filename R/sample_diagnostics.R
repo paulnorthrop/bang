@@ -92,10 +92,10 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
     if (plot_type == "pairs" & length(which_pop) == 1) {
       stop("If plot_type = ''pairs'' then length(which_pop) must be > 1")
     }
+    if (one_plot & plot_type != "dens") {
+      stop("one_plot = TRUE is not relevant unless plot_type = ''dens''")
+    }
     params <- "pop"
-  }
-  if (one_plot & plot_type != "dens") {
-    stop("one_plot = TRUE is not relevant unless plot_type = ''dens''")
   }
   # Save par settings so that we can reset them on exit
   old_par <- graphics::par(no.readonly = TRUE)
