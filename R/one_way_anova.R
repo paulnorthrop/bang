@@ -2,9 +2,10 @@
 #
 #' Posterior sampling for a 1-way hierarchical ANOVA
 #'
-#' Uses the \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
-#' package to simulate from the posterior distribution of the parameters
+#' Produces random samples from the posterior distribution of the parameters
 #' of a 1-way hierarchical ANOVA model.
+#' The user can either choose parameter values of a default hyperprior or
+#' specify their own hyperprior using \code{\link{set_user_prior}}.
 #'
 #' @param n A numeric scalar.  The size of posterior sample required.
 #' @param resp A numeric vector.  Response values.
@@ -55,13 +56,16 @@
 #' @param ... Optional further arguments to be passed to
 #'   \code{\link[rust]{ru}}.
 #' @details
-#'   The \code{\link[rust]{ru}} function is used to draw a random sample
-#'   from the marginal posterior of the hyperparameter vector \eqn{\psi}.
+#'   The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
+#'   package is used to draw a random sample from the marginal posterior
+#'   of the hyperparameter vector \eqn{\psi}.
 #'   Then, conditional on these values, population parameters are sampled
 #'   directly from the conditional posterior density of
 #'   \eqn{\theta}1, ..., \eqn{\theta}J given \eqn{\psi} and the data.
 #'   See the vignette("revdbayes-anova-vignette", package = "bang")
 #'   for details.
+#'
+#'   The following priors are specified up to proportionality.
 #'
 #' \emph{Priors:}
 #'

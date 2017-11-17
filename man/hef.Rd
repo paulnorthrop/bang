@@ -71,8 +71,8 @@ An object (list) of class \code{"hef"}, which has the same
   distribution.
 }
 \description{
-Samples from the posterior distribution of the parameters of
-certain hierarchical exponential family models.  Conditional on
+Produces random samples from the posterior distribution of the parameters
+of certain hierarchical exponential family models.  Conditional on
 population-specific parameter vectors \eqn{\theta}1, ..., \eqn{\theta}J
 the observed \emph{response} data \eqn{y}1, ..., \eqn{y}J within each
 population are modelled as random samples from a distribution in an
@@ -84,10 +84,11 @@ Conditionally on \eqn{\theta}1, ..., \eqn{\theta}J, \eqn{y}1, ..., \eqn{y}J
 are independent of each other and are independent of \eqn{\psi}.
 A \emph{hyperprior} is placed on \eqn{\psi}.  The user can either
 choose parameter values of a default hyperprior or specify their own
-hyperprior.
+hyperprior using \code{\link{set_user_prior}}.
 }
 \details{
-The \code{\link[rust]{ru}} function is used to draw a random sample
+The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
+  package is used to draw a random sample
   from the marginal posterior of the hyperparameter vector \eqn{\psi}.
   Then, conditional on these values, population parameters are sampled
   directly from the conditional posterior density of

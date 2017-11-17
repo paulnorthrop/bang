@@ -78,13 +78,15 @@ An object (list) of class \code{"hef"}, which has the same
   (the first component of) \eqn{\theta}j.
 }
 \description{
-Uses the \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
-package to simulate from the posterior distribution of the parameters
-of a 1-way hierarchical ANOVA model.
+Produces random samples from the posterior distribution of the parameters
+of a 1-way hierarchical ANOVA model. The user can either
+choose parameter values of a default hyperprior or specify their own
+hyperprior using \code{\link{set_user_prior}}.
 }
 \details{
-The \code{\link[rust]{ru}} function is used to draw a random sample
-  from the marginal posterior of the hyperparameter vector \eqn{\psi}.
+The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
+  package is used to draw a random sample from the marginal posterior
+  of the hyperparameter vector \eqn{\psi}.
   Then, conditional on these values, population parameters are sampled
   directly from the conditional posterior density of
   \eqn{\theta}1, ..., \eqn{\theta}J given \eqn{\psi} and the data.
