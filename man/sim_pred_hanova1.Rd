@@ -36,7 +36,7 @@ This function is called within \code{\link{hanova1}} when the argument
 }
 \examples{
 RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
-res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
-sim_pred <- sim_pred_hanova1(res26_2$theta_sim_vals, res26_2$sim_vals,
+temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
+sim_pred <- sim_pred_hanova1(temp_res$theta_sim_vals, temp_res$sim_vals,
                              RCP26_2[, 2], 50)
 }

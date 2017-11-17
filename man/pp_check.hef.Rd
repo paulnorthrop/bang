@@ -93,11 +93,11 @@ pp_check(pump_res, fun = "stat_2d", stat = c("mean", "sd"))
 #----------------- Late 21st Century Global Temperature Data ------------- #
 
 RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
-res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], nrep = 50)
+temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], nrep = 50)
 # Overlaid density estimates
-pp_check(res26_2)
+pp_check(temp_res)
 # Predictive (mean, sd) vs observed (mean, sd)
-pp_check(res26_2, fun = "stat_2d", stat = c("mean", "sd"))
+pp_check(temp_res, fun = "stat_2d", stat = c("mean", "sd"))
 }
 \references{
 Jonah Gabry (2016). bayesplot: Plotting for Bayesian

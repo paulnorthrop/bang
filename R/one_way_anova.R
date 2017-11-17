@@ -109,24 +109,24 @@
 #' # Sample from the posterior under the default `noninformative' flat prior
 #' # for (mu, sigma_alpha, log(sigma)).  Ratio-of-uniforms is used to sample
 #' # from the marginal posterior for (log(sigma_alpha), log(sigma)).
-#' res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
+#' temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
 #'
 #' # Plot of sampled values of (sigma_alpha, sigma)
-#' plot(res26_2, params = "ru")
+#' plot(temp_res, params = "ru")
 #'
 #' # Plot of sampled values of (log(sigma_alpha), log(sigma))
 #' # (centred at (0,0))
-#' plot(res26_2, ru_scale = TRUE)
+#' plot(temp_res, ru_scale = TRUE)
 #'
 #' # Plot of sampled values of (mu, sigma_alpha, sigma)
-#' plot(res26_2)
+#' plot(temp_res)
 #'
 #' # Posterior sample quantiles
 #' probs <- c(2.5, 25, 50, 75, 97.5) / 100
-#' round(t(apply(res26_2$sim_vals, 2, quantile, probs = probs)), 2)
+#' round(t(apply(temp_res$sim_vals, 2, quantile, probs = probs)), 2)
 #'
 #' # Ratio-of-uniforms information and posterior sample summaries
-#' summary(res26_2)
+#' summary(temp_res)
 #'
 #' # ======= Coagulation time data, from Table 11.2 Gelman et al (2014) =======
 #'
@@ -548,8 +548,8 @@ three_d_one_way_anova_phi_to_theta <- function(phi) {
 #'   successes.
 #' @examples
 #' RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
-#' res26_2 <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
-#' sim_pred <- sim_pred_hanova1(res26_2$theta_sim_vals, res26_2$sim_vals,
+#' temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2])
+#' sim_pred <- sim_pred_hanova1(temp_res$theta_sim_vals, temp_res$sim_vals,
 #'                              RCP26_2[, 2], 50)
 #' @export
 sim_pred_hanova1 <- function(theta_sim_vals, sim_vals, fac, nrep) {

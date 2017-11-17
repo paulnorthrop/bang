@@ -55,10 +55,10 @@ We use `hanova1` to sample from the posterior distribution of the parameters bas
 
 ```{r, fig.show='hold', fig.width = 3.45, fig.height = 3.45}
 # The response is the index, the explanatory factor is the GCM
-res26_2 <- hanova1(resp = RCP26_2[, "index"], fac = RCP26_2[, "GCM"])
+temp_res <- hanova1(resp = RCP26_2[, "index"], fac = RCP26_2[, "GCM"])
 # Plots relating to the posterior sample of the variance parameters
-plot(res26_2, params = "ru")
-plot(res26_2, ru_scale = TRUE)
+plot(temp_res, params = "ru")
+plot(temp_res, ru_scale = TRUE)
 ```
 
 The plot on the left shows the values sampled from the posterior distribution of $(\sigma_\alpha, \sigma)$ with superimposed density contours.  We see that the posterior distribution is located at values for which $\sigma_\alpha$ is much greater than $\sigma$, by a factor of nearly 10.  On the right is a similar plot displayed on the scale used for sampling, $(\rho_1, \rho_2)=(\log \sigma_\alpha, \log \sigma)$, after relocation of the posterior mode to the origin and rotation and scaling to near circularity of the density contours.
@@ -66,8 +66,8 @@ The plot on the left shows the values sampled from the posterior distribution of
 We summarize the marginal posterior distribution of $\mu$ using a histogram with a superimposed kernel density estimate.
 
 ```{r, fig.width = 5, fig.align='center'}
-hist(res26_2$sim_vals[, "mu"],  main = "", xlab = expression(mu), prob = TRUE)
-lines(density(res26_2$sim_vals[, "mu"]))
+hist(temp_res$sim_vals[, "mu"],  main = "", xlab = expression(mu), prob = TRUE)
+lines(density(temp_res$sim_vals[, "mu"]))
 ```
 
 ## Coagulation time data
