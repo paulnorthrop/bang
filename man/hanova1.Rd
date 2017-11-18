@@ -36,7 +36,7 @@ of the half-Cauchy priors for \eqn{\sigma_\alpha} and \eqn{\sigma}.}
 
 \item{param}{A character scalar.
 If \code{param = "trans"} (the default) then the marginal posterior
-of hyperparameter vector \eqn{psi} is reparameterized in terms of
+of hyperparameter vector \eqn{\phi} is reparameterized in terms of
 \eqn{log \sigma_\alpha, log \sigma}.
 If \code{param = "original"} the original parameterization,
 i.e. \eqn{\sigma_\alpha, \sigma} is used.
@@ -46,7 +46,7 @@ of acceptance, but at the expense of slower function evaluations.}
 
 \item{init}{A numeric vector. Optional initial estimates sent to
 \code{\link[rust]{ru}} in the search for the mode of the posterior
-density of (perhaps a subset of) the hyperparameter vector \eqn{\psi}.
+density of (perhaps a subset of) the hyperparameter vector \eqn{\phi}.
 If an in-built prior is used then \code{ru} is used to sample from the
 marginal posterior density of \eqn{(\sigma_\alpha, \sigma)}, so
 \code{init} must have length 2.  Otherwise, \code{init} has length
@@ -71,27 +71,47 @@ In that event \code{nrep} is set equal to \code{n}.}
 An object (list) of class \code{"hef"}, which has the same
   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
-  contain the simulated values of \eqn{\psi}.
-  In addition this list contains the arguments \code{model}, \code{data},
-  \code{prior} detailed above and an \code{n} by \eqn{J} matrix
-  \code{theta_sim_vals}: column j contains the simulated values of
-  (the first component of) \eqn{\theta}j.
+  contain the simulated values of \eqn{\phi}.
+  In addition this list contains the arguments \code{model}, \code{resp},
+  \code{fac} and \code{prior} detailed above and an \code{n} by \eqn{I}
+  matrix \code{theta_sim_vals}: column \eqn{i} contains the simulated
+  values of  \eqn{\theta}\eqn{i}.  Also included are
+  \code{data = cbind(resp, fac)} and \code{summary_stats} a list
+  containing: the number of groups \code{I}; the numbers of responses
+  each group \code{ni}; the total number of observations; the sample mean
+  response in each group; the sum of squared deviations from the
+  group means \code{s}; the arguments to \code{hanova1} \code{mu0} and
+  \code{sigma0}.
 }
 \description{
 Produces random samples from the posterior distribution of the parameters
-of a 1-way hierarchical ANOVA model. The user can either
-choose parameter values of a default hyperprior or specify their own
-hyperprior using \code{\link{set_user_prior}}.
+of a 1-way hierarchical ANOVA model.
 }
 \details{
-The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
+Consider \eqn{I} independent experiments in which the \eqn{ni} responses
+  \strong{\eqn{y}}\eqn{i} from experiment/group \eqn{i} are normally
+  distributed with mean \eqn{\theta i} and standard deviation \eqn{\sigma}.
+  The population parameters \eqn{\theta}1, ...,
+  \eqn{\theta}\eqn{I} are modelled as random samples from a normal
+  distribution with mean \eqn{\mu} and standard deviation
+  \eqn{\sigma_\alpha}.  Let \eqn{\phi = (\mu, \sigma_\alpha, \sigma)}.
+  Conditionally on \eqn{\theta}1, ..., \eqn{\theta}\eqn{I},
+  \strong{\eqn{y}}1, ..., \strong{\eqn{y}}\eqn{I}
+  are independent of each other and are independent of \eqn{\phi}.
+  A \emph{hyperprior} is placed on \eqn{\phi}.
+  The user can either choose parameter values of a default hyperprior or
+  specify their own hyperprior using \code{\link{set_user_prior}}.
+
+  The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
   package is used to draw a random sample from the marginal posterior
-  of the hyperparameter vector \eqn{\psi}.
+  of the hyperparameter vector \eqn{\phi}.
   Then, conditional on these values, population parameters are sampled
   directly from the conditional posterior density of
-  \eqn{\theta}1, ..., \eqn{\theta}J given \eqn{\psi} and the data.
+  \eqn{\theta}1, ..., \eqn{\theta}\eqn{I} given \eqn{\phi} and the data.
   See the vignette("revdbayes-anova-vignette", package = "bang")
   for details.
+
+  The following priors are specified up to proportionality.
 
 \emph{Priors:}
 
