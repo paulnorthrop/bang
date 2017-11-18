@@ -1,19 +1,7 @@
 #' Hierarchical Exponential Family Model
 #'
 #' Produces random samples from the posterior distribution of the parameters
-#' of certain hierarchical exponential family models.  Conditional on
-#' population-specific parameter vectors \eqn{\theta}1, ..., \eqn{\theta}J
-#' the observed \emph{response} data \eqn{y}1, ..., \eqn{y}J within each
-#' population are modelled as random samples from a distribution in an
-#' exponential family. The population parameters \eqn{\theta}1, ...,
-#' \eqn{\theta}J are modelled as random samples from a common
-#' \emph{population distribution}, chosen to be conditionally conjugate
-#' to the response distribution, with \emph{hyperparameter} vector \eqn{\phi}.
-#' Conditionally on \eqn{\theta}1, ..., \eqn{\theta}J, \eqn{y}1, ..., \eqn{y}J
-#' are independent of each other and are independent of \eqn{\psi}.
-#' A \emph{hyperprior} is placed on \eqn{\psi}.  The user can either
-#' choose parameter values of a default hyperprior or specify their own
-#' hyperprior using \code{\link{set_user_prior}}.
+#' of certain hierarchical exponential family models.
 #'
 #' @param n An integer scalar.  The size of the posterior sample required.
 #' @param model A character string.  Abbreviated name for the
@@ -51,13 +39,27 @@
 #'   Each replication is based on one of the samples from the posterior
 #'   distribution.  Therefore, \code{nrep} must not be greater than \code{n}.
 #'   In that event \code{nrep} is set equal to \code{n}.
-#' @details
+#' @details Conditional on population-specific parameter vectors
+#'   \eqn{\theta}1, ..., \eqn{\theta}\eqn{J}
+#'   the observed \emph{response} data \eqn{y}1, ..., \eqn{y}J within each
+#'   population are modelled as random samples from a distribution in an
+#'   exponential family. The population parameters \eqn{\theta}1, ...,
+#'   \eqn{\theta}\eqn{J} are modelled as random samples from a common
+#'   \emph{population distribution}, chosen to be conditionally conjugate
+#'   to the response distribution, with \emph{hyperparameter} vector
+#'   \eqn{\psi}.  Conditionally on
+#'   \eqn{\theta}1, ..., \eqn{\theta}\eqn{J}, \eqn{y}1, ..., \eqn{y}\eqn{J}
+#'   are independent of each other and are independent of \eqn{\psi}.
+#'   A \emph{hyperprior} is placed on \eqn{\psi}.  The user can either
+#'   choose parameter values of a default hyperprior or specify their own
+#'   hyperprior using \code{\link{set_user_prior}}.
+#'
 #'   The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
 #'   package is used to draw a random sample
 #'   from the marginal posterior of the hyperparameter vector \eqn{\psi}.
 #'   Then, conditional on these values, population parameters are sampled
 #'   directly from the conditional posterior density of
-#'   \eqn{\theta}1, ..., \eqn{\theta}J given \eqn{\psi} and the data.
+#'   \eqn{\theta}1, ..., \eqn{\theta}\eqn{J} given \eqn{\psi} and the data.
 #'
 #'   We outline each \code{model}, specify the format of the
 #'   \code{data}, give the default (log-)priors (up to an additive constant)
@@ -132,8 +134,8 @@
 #'   contain the simulated values of \eqn{\psi}.
 #'   In addition this list contains the arguments \code{model}, \code{data},
 #'   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
-#'   \code{theta_sim_vals}: column j contains the simulated values of
-#'   \eqn{\theta}j.
+#'   \code{theta_sim_vals}: column \eqn{j} contains the simulated values of
+#'   \eqn{\theta}\eqn{j}.
 #'
 #'   If \code{nrep} is not \code{NULL} then this list also contains
 #'   \code{data_rep}, a numerical matrix with \code{nrep} columns.
