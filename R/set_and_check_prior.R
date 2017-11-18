@@ -6,7 +6,7 @@
 #' \code{prior} in \code{\link{hef}} or \code{\link{hanova1}}.
 #'
 #' @param prior An R function returning \strong{the log of} the prior density
-#'   for of (perhaps a subset of) the hyperparameter vector \eqn{\psi}.
+#'   for of (perhaps a subset of) the hyperparameter vector \eqn{\phi}.
 #' @param ... Further arguments giving the names and values of any
 #'   parameters involved in the function \code{prior}.
 #' @param model A character string.  Abbreviated name of the model:

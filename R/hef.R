@@ -24,7 +24,7 @@
 #'   an in-built prior.
 #' @param param A character scalar.
 #'   If \code{param = "trans"} (the default) then the marginal posterior
-#'   of hyperparameter vector \eqn{\psi} is reparameterized in a way
+#'   of hyperparameter vector \eqn{\phi} is reparameterized in a way
 #'   designed to improve the efficiency of sampling from this posterior.
 #'   If \code{param = "original"} the original parameterization is used.
 #'   The former tends to make the optimizations involved in the
@@ -32,7 +32,7 @@
 #'   of acceptance, but at the expense of slower function evaluations.
 #' @param init A numeric vector of length 2.  Optional initial estimates
 #'   for the search for the mode of the posterior density of the
-#'   hyperparameter vector \eqn{\psi}.
+#'   hyperparameter vector \eqn{\phi}.
 #' @param nrep A numeric scalar.  If \code{nrep} is not \code{NULL} then
 #'   \code{nrep} gives the number of replications of the original dataset
 #'   simulated from the posterior predictive distribution.
@@ -47,19 +47,19 @@
 #'   \eqn{\theta}\eqn{J} are modelled as random samples from a common
 #'   \emph{population distribution}, chosen to be conditionally conjugate
 #'   to the response distribution, with \emph{hyperparameter} vector
-#'   \eqn{\psi}.  Conditionally on
+#'   \eqn{\phi}.  Conditionally on
 #'   \eqn{\theta}1, ..., \eqn{\theta}\eqn{J}, \eqn{y}1, ..., \eqn{y}\eqn{J}
-#'   are independent of each other and are independent of \eqn{\psi}.
-#'   A \emph{hyperprior} is placed on \eqn{\psi}.  The user can either
+#'   are independent of each other and are independent of \eqn{\phi}.
+#'   A \emph{hyperprior} is placed on \eqn{\phi}.  The user can either
 #'   choose parameter values of a default hyperprior or specify their own
 #'   hyperprior using \code{\link{set_user_prior}}.
 #'
 #'   The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
 #'   package is used to draw a random sample
-#'   from the marginal posterior of the hyperparameter vector \eqn{\psi}.
+#'   from the marginal posterior of the hyperparameter vector \eqn{\phi}.
 #'   Then, conditional on these values, population parameters are sampled
 #'   directly from the conditional posterior density of
-#'   \eqn{\theta}1, ..., \eqn{\theta}\eqn{J} given \eqn{\psi} and the data.
+#'   \eqn{\theta}1, ..., \eqn{\theta}\eqn{J} given \eqn{\phi} and the data.
 #'
 #'   We outline each \code{model}, specify the format of the
 #'   \code{data}, give the default (log-)priors (up to an additive constant)
@@ -71,7 +71,7 @@
 #'   where \eqn{pj} is the probability of success in group \eqn{j}
 #'   and \eqn{nj} is the number of trials in group \eqn{j}.
 #'   \eqn{pj} are i.i.d. beta\eqn{(\alpha, \beta)}, so
-#'   and \eqn{\psi = (\alpha, \beta)}.
+#'   and \eqn{\phi = (\alpha, \beta)}.
 #'   \code{data} is a 2-column matrix: the numbers of successes in column 1
 #'   and the corresponding numbers of trials in column 2.
 #'
@@ -107,7 +107,7 @@
 #'   risk of the event of interest and \eqn{\lambda}j is the mean number
 #'   of events per unit of exposure.
 #'   \eqn{\lambda}j are i.i.d. gamma\eqn{(\alpha, \beta)}, so
-#'   \eqn{\psi = (\alpha, \beta)}.
+#'   \eqn{\phi = (\alpha, \beta)}.
 #'   \code{data} is a 2-column matrix: the counts \eqn{yj} of the numbers of
 #'   events in column 1 and the corresponding exposures \eqn{ej} in column 2.
 #'
@@ -131,7 +131,7 @@
 #' @return An object (list) of class \code{"hef"}, which has the same
 #'   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
 #'   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
-#'   contain the simulated values of \eqn{\psi}.
+#'   contain the simulated values of \eqn{\phi}.
 #'   In addition this list contains the arguments \code{model}, \code{data}
 #'   and \code{prior} detailed above and an \code{n} by \eqn{J} matrix
 #'   \code{theta_sim_vals}: column \eqn{j} contains the simulated values of
