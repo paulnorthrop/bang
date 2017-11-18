@@ -178,6 +178,11 @@
 #' coag3 <- hanova1(resp = coagulation[, 1], fac = coagulation[, 2],
 #'                  param = "original", prior = "cauchy", hpars = c(10, 1e6))
 #'
+#' @seealso The \code{\link[rust]{ru}} function in the \code{\link{rust}}
+#'   package for details of the arguments that can be passed to \code{ru} via
+#'   \code{hanova1}.
+#' @seealso \code{\link{hef}} for hierarchical exponential family models.
+#' @seealso \code{\link{set_user_prior}} to set a user-defined prior.
 #' @references Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
 #'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.

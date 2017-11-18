@@ -25,10 +25,6 @@
 #'   Transformation. R package version 1.2.3.
 #'   \url{https://cran.r-project.org/package=rust}.
 #'
-#' @seealso The \code{\link[rust]{ru}} function in the \code{\link{rust}}
-#'   package for details of the arguments that can be passed to \code{ru} via
-#'   \code{hef} or \code{hanova1}.
-#' @seealso \code{\link{set_user_prior}} to set a user-defined prior.
 #' @docType package
 #' @name bang
 #' @import methods

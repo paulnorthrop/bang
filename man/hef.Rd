@@ -218,6 +218,12 @@ Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
   \url{http://www.stat.columbia.edu/~gelman/book}
 }
 \seealso{
+The \code{\link[rust]{ru}} function in the \code{\link{rust}}
+  package for details of the arguments that can be passed to \code{ru} via
+  \code{hef}.
+
 \code{\link{hanova1}} for hierarchical one-way analysis of
   variance (ANOVA).
+
+\code{\link{set_user_prior}} to set a user-defined prior.
 }

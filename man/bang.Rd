@@ -33,10 +33,3 @@ Northrop, P. J. (2017). rust: Ratio-of-Uniforms Simulation with
   Transformation. R package version 1.2.3.
   \url{https://cran.r-project.org/package=rust}.
 }
-\seealso{
-The \code{\link[rust]{ru}} function in the \code{\link{rust}}
-  package for details of the arguments that can be passed to \code{ru} via
-  \code{hef} or \code{hanova1}.
-
-\code{\link{set_user_prior}} to set a user-defined prior.
-}
