@@ -132,8 +132,8 @@
 #'   structure as an object of class "ru" returned from \code{\link[rust]{ru}}.
 #'   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
 #'   contain the simulated values of \eqn{\psi}.
-#'   In addition this list contains the arguments \code{model}, \code{data},
-#'   \code{prior} detailed above and an \code{n} by \eqn{J} matrix
+#'   In addition this list contains the arguments \code{model}, \code{data}
+#'   and \code{prior} detailed above and an \code{n} by \eqn{J} matrix
 #'   \code{theta_sim_vals}: column \eqn{j} contains the simulated values of
 #'   \eqn{\theta}\eqn{j}.
 #'
