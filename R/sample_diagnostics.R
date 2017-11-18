@@ -48,6 +48,9 @@
 #'   \code{add_legend = TRUE} then a legend is added to this plot using
 #'   \code{\link[graphics]{legend}} in the position indicated by
 #'   the character scalar \code{legend_position}.
+#' @param n A numeric scalar.  If \code{plot_type == "dens"} or
+#'   \code{plot_type == "both"} then \code{n} gives the number of
+#'   points at which the marginal densities are evaluated to produce plots.
 #' @examples
 #' # Beta-binomial model, rat data ------------
 #' rat_res <- hef(model = "beta_binom", data = rat)
@@ -82,7 +85,8 @@
 #' @export
 plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
                      which_pop = 1, plot_type = NULL, one_plot = FALSE,
-                     add_legend = FALSE, legend_position = "topright") {
+                     add_legend = FALSE, legend_position = "topright",
+                     n = 100) {
   if (!inherits(x, "hef")) {
     stop("use only with \"hef\" objects")
   }
@@ -172,9 +176,9 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
   # If we need estimates of marginal posterior densities
   if (plot_type == "dens" || plot_type == "both") {
     post_dens <- switch(x$model,
-                        beta_binom = pde_beta_binom(x, which_pop),
-                        gamma_pois = pde_gamma_pois(x, which_pop),
-                        anova1 = pde_anova1(x, which_pop))
+                        beta_binom = pde_beta_binom(x, which_pop, n),
+                        gamma_pois = pde_gamma_pois(x, which_pop, n),
+                        anova1 = pde_anova1(x, which_pop, n))
   }
   # Set the number of rows and columns in the plot
   rc <- n2mfrow(n_pop)
@@ -238,7 +242,7 @@ n2mfrow <- function (nr.plots) {
 
 # =============================== pde_beta_binom ==============================
 
-pde_beta_binom <- function(x, which_pop) {
+pde_beta_binom <- function(x, which_pop, n) {
   alpha <- x$sim_vals[, 1]
   beta <- x$sim_vals[, 2]
   # Numbers of successes
@@ -250,7 +254,7 @@ pde_beta_binom <- function(x, which_pop) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_p <- max(min(plot_data), ep)
   max_p <- min(max(plot_data), 1 - ep)
-  h_vals <- seq(min_p, max_p, len = 100)
+  h_vals <- seq(min_p, max_p, len = n)
   # Function to estimate the posterior density for a given population
   pdfxi <- function(x, pop) {
     mean(stats::dbeta(x, alpha + yy[pop], beta + nn[pop] - yy[pop]))
@@ -265,7 +269,7 @@ pde_beta_binom <- function(x, which_pop) {
 
 # =============================== pde_gamma_pois ==============================
 
-pde_gamma_pois <- function(x, which_pop) {
+pde_gamma_pois <- function(x, which_pop, n) {
   alpha <- x$sim_vals[, 1]
   beta <- x$sim_vals[, 2]
   # Counts
@@ -277,7 +281,7 @@ pde_gamma_pois <- function(x, which_pop) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_val <- max(min(plot_data), ep)
   max_val <- max(plot_data)
-  h_vals <- seq(min_val, max_val, len = 100)
+  h_vals <- seq(min_val, max_val, len = n)
   # Function to estimate the posterior density for a given population
   pdfxi <- function(x, pop) {
     mean(stats::dgamma(x, shape = alpha + y[pop], rate = beta + off[pop]))
@@ -292,7 +296,7 @@ pde_gamma_pois <- function(x, which_pop) {
 
 # ================================= pde_anova1 ================================
 
-pde_anova1 <- function(x, which_pop) {
+pde_anova1 <- function(x, which_pop, n) {
   mu <- x$sim_vals[, 1]
   va <- x$sim_vals[, 2] ^ 2
   ve <- x$sim_vals[, 3] ^ 2
@@ -304,7 +308,7 @@ pde_anova1 <- function(x, which_pop) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_val <- min(plot_data)
   max_val <- max(plot_data)
-  h_vals <- seq(min_val, max_val, len = 100)
+  h_vals <- seq(min_val, max_val, len = n)
   # Function to estimate the posterior density for a given population
   ds <- x$summary_stats
   pdfxi <- function(x, pop) {

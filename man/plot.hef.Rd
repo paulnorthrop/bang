@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{hef}(x, y, ..., params = c("hyper", "ru", "pop"),
   which_pop = 1, plot_type = NULL, one_plot = FALSE, add_legend = FALSE,
-  legend_position = "topright")
+  legend_position = "topright", n = 100)
 }
 \arguments{
 \item{x}{an object of class "hef", a result of a call to \code{ru}.}
@@ -59,6 +59,10 @@ marginal posterior densities are plotted in the same graph and if
 \code{add_legend = TRUE} then a legend is added to this plot using
 \code{\link[graphics]{legend}} in the position indicated by
 the character scalar \code{legend_position}.}
+
+\item{n}{A numeric scalar.  If \code{plot_type == "dens"} or
+\code{plot_type == "both"} then \code{n} gives the number of
+points at which the marginal densities are evaluated to produce plots.}
 }
 \description{
 \code{plot} method for class "hef".
