@@ -377,3 +377,31 @@ summary.hef <- function(object, ..., params = c("hyper", "pop"),
   return(posterior_summary)
 }
 
+# =============================== print.confint ===============================
+
+#' Print method for objects of class "hef"
+#'
+#' \code{print} method for class "hef".
+#'
+#' @param x an object of class "hef", a result of a call to
+#'   \code{\link{hef}} or \code{\link{hanova1}}.
+#' @param ... Additional optional arguments. At present no optional
+#'   arguments are used.
+#' @details Prints the original call to \code{\link{hef}} or
+#'   \code{link{hanova1}}, the name of the model and the number of populations
+#'   in the hierarchical model.
+#' @return The argument \code{x}, invisibly, as for all \code{\link{print}}
+#'   methods.
+#' @seealso \code{\link{hef}} for hierarchical exponential family models.
+#' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of
+#'   variance (ANOVA).
+#' @export
+print.hef <- function(x, digits = max(3L, getOption("digits") - 3L), ...) {
+  if (!inherits(x, "hef")) {
+    stop("use only with \"hef\" objects")
+  }
+  cat("Call:", paste(deparse(x$call)), "\n")
+  cat("Model:", x$model, "\n")
+  cat("Number of populations:", ncol(x$theta_sim_vals), "\n")
+  return(invisible(x))
+}
