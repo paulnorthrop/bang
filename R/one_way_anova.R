@@ -144,6 +144,9 @@
 #' # Plot of sampled values of (mu, sigma_alpha, sigma)
 #' plot(temp_res)
 #'
+#' # Estimated marginal posterior densities of the mean for each GCM
+#' plot(temp_res, params = "pop", which_pop = "all", one_plot = TRUE)
+#'
 #' # Posterior sample quantiles
 #' probs <- c(2.5, 25, 50, 75, 97.5) / 100
 #' round(t(apply(temp_res$sim_vals, 2, quantile, probs = probs)), 2)
@@ -173,6 +176,9 @@
 #' all2 <- cbind(coag2$theta_sim_vals, coag2$sim_vals)
 #' round(t(apply(all1, 2, quantile, probs = probs)), 1)
 #' round(t(apply(all2, 2, quantile, probs = probs)), 1)
+#'
+#' # Pairwise plots of posterior samples from the group means
+#' plot(coag1, which_pop = "all", plot_type = "pairs")
 #'
 #' # Independent half-Cauchy priors for sigma_alpha and sigma
 #' coag3 <- hanova1(resp = coagulation[, 1], fac = coagulation[, 2],
