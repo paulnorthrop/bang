@@ -159,9 +159,19 @@
 #'
 #' # Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale
 #' rat_res <- hef(model = "beta_binom", data = rat)
+#' # Hyperparameters alpha and beta
 #' plot(rat_res)
+#' # Parameterization used for sampling
 #' plot(rat_res, ru_scale = TRUE)
 #' summary(rat_res)
+#'
+#' # Choose rats with extreme sample probabilities
+#' pops <- c(which.min(rat[, 1] / rat[, 2]), which.max(rat[, 1] / rat[, 2]))
+#' # Population-specific posterior samples: separate plots
+#' plot(rat_res, params = "pop", plot_type = "both", which_pop = pops)
+#' # Population-specific posterior samples: one plot
+#' plot(rat_res, params = "pop", plot_type = "dens", which_pop = pops,
+#'      one_plot = TRUE, add_legend = TRUE)
 #'
 #' # Default prior, sampling on (rotated) (alpha, beta) scale
 #' rat_res <- hef(model = "beta_binom", data = rat, param = "original")
@@ -194,9 +204,15 @@
 #' # ------------------------ Pump failure data ------------------------------ #
 #'
 #' pump_res <- hef(model = "gamma_pois", data = pump)
+#' # Hyperparameters alpha and beta
 #' plot(pump_res)
+#' # Parameterization used for sampling
 #' plot(pump_res, ru_scale = TRUE)
 #' summary(pump_res)
+#'
+#' # Choose pumps with extreme sample rates
+#' pops <- c(which.min(pump[, 1] / pump[, 2]), which.max(pump[, 1] / pump[, 2]))
+#' plot(pump_res, params = "pop", plot_type = "dens", which_pop = pops)
 #' @export
 hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
                 data, ..., prior = "default", hpars = NULL,
