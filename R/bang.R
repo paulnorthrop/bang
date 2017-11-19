@@ -11,7 +11,7 @@
 #' The function \code{\link{hef}} produces random posterior samples from for the
 #' beta-binomial and gamma-Poisson models.  The function \code{\link{hanova1}}
 #' does this for the 1-way Analysis of Variance (ANOVA).
-#' The 'rust' package  <https://cran.r-project.org/package=rust> is used to
+#' The \href{https://cran.r-project.org/package=rust}{rust} package is used to
 #' produce these samples.
 #'
 #' See
@@ -19,8 +19,12 @@
 #' to the package and
 #' vignette("revdbayes-anova-hef", package = "bang") and
 #' vignette("revdbayes-anova-vignette", package = "bang") for illustrations
-#' of the use of the \code{hef} and \code{hanova1} functions.
+#' of the use of the \code{\link{hef}} and \code{\link{hanova1}} functions.
 #'
+#' @seealso \code{\link{hef}} for hierarchical exponential family models.
+#' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of
+#'   variance (ANOVA).
+#' @seealso \code{\link{set_user_prior}} to set a user-defined prior.
 #' @references Northrop, P. J. (2017). rust: Ratio-of-Uniforms Simulation with
 #'   Transformation. R package version 1.2.3.
 #'   \url{https://cran.r-project.org/package=rust}.
