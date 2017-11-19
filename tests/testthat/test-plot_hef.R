@@ -116,7 +116,8 @@ temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], n = my_n,
 
 # "dens" on one plot with legend
 check_NULL <- plot(temp_res, plot_type = "dens", which_pop = c(1, 28),
-                   one_plot = TRUE, n = my_n)
+                   one_plot = TRUE, n = my_n, xlab = "x", ylab = "y",
+                   main = "m", lty = 1, col = 1)
 test_that("anova1: plot_type = dens, one plot with legend, OK", {
   testthat::expect_identical(check_NULL, NULL)
 })

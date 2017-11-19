@@ -6,7 +6,8 @@
 \usage{
 \method{plot}{hef}(x, y, ..., params = c("hyper", "ru", "pop"),
   which_pop = NULL, plot_type = NULL, one_plot = FALSE,
-  add_legend = FALSE, legend_position = "topright", n = 100)
+  add_legend = FALSE, legend_position = "topright", legend_text = NULL,
+  n = 100)
 }
 \arguments{
 \item{x}{an object of class "hef", a result of a call to \code{ru}.}
@@ -59,12 +60,14 @@ this may fail if \code{plot_type = "pairs"} and/or
     length greater than one.}
 }}
 
-\item{one_plot, add_legend, legend_position}{Only relevant if
+\item{one_plot, add_legend, legend_position, legend_text}{Only relevant if
 \code{plot_type = "dens"}.  If \code{one_plot = TRUE} then the estimated
 marginal posterior densities are plotted in the same graph and if
 \code{add_legend = TRUE} then a legend is added to this plot using
 \code{\link[graphics]{legend}} in the position indicated by
-the character scalar \code{legend_position}.}
+the character scalar \code{legend_position}.
+A character vector \code{legend_text} may be used to override the
+default legend text.}
 
 \item{n}{A numeric scalar.  If \code{plot_type == "dens"} or
 \code{plot_type == "both"} then \code{n} gives the number of
