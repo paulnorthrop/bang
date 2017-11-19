@@ -88,6 +88,20 @@ test_that("gamma_pois: plot_type = dens OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
+# params = "pop", which_pop = "all" is OK
+check_NULL <- plot(pump_res, params = "pop", which_pop = "all",
+                   one_plot = TRUE)
+test_that("gamma_pois: params = pop, which_pop = all is OK", {
+  testthat::expect_identical(check_NULL, NULL)
+})
+
+# params = "pop", inappropriate which_pop (not in 1:10) gives error
+check_error <- try(plot(pump_res, params = "pop", which_pop = 1:20,
+                   one_plot = TRUE), silent = TRUE)
+test_that("gamma_pois: params = pop, wrong which_pop gives error", {
+  testthat::expect_identical(class(check_error), "try-error")
+})
+
 # ---------------- Late 21st Century Global Temperature Data ---------------- #
 
 # Extract data for RCP2.6
@@ -100,3 +114,5 @@ check_NULL <- plot(temp_res, plot_type = "dens", which_pop = c(1, 28),
 test_that("anova1: plot_type = dens, one plot with legend, OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
+
+
