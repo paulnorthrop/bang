@@ -396,7 +396,7 @@ summary.hef <- function(object, ..., params = c("hyper", "pop"),
 #' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of
 #'   variance (ANOVA).
 #' @export
-print.hef <- function(x, digits = max(3L, getOption("digits") - 3L), ...) {
+print.hef <- function(x, ...) {
   if (!inherits(x, "hef")) {
     stop("use only with \"hef\" objects")
   }
