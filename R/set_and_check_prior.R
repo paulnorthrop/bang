@@ -40,7 +40,7 @@ set_user_prior <- function(prior, ..., model = c("beta_binom", "gamma_pois",
 # ============================ check_prior ====================================
 
 check_prior <- function(prior, model, hpars, n_groups = NULL) {
-  # If prior is a character scalar then a default prior is ebing requested
+  # If prior is a character scalar then a default prior is being requested
   if (is.character(prior)) {
     prior_name <- prior
     prior <- list()
