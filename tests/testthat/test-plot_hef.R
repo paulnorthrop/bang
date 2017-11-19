@@ -6,7 +6,7 @@ my_prob <- 0.5
 
 # ------------------------- Beta-binomial model, rat data ------------------- #
 
-rat_res <- hef(model = "beta_binom", data = rat, n = 10)
+rat_res <- hef(model = "beta_binom", data = rat, n = my_n)
 
 # No arguments: plot marginal hyperparameter (alpha, beta) posterior
 check_NULL <- plot(rat_res, n = my_n, prob = my_prob)
@@ -47,20 +47,20 @@ test_that("beta_binom: plot_type = sim OK", {
 })
 
 # "dens"
-check_NULL <- plot(rat_res, plot_type = "dens")
+check_NULL <- plot(rat_res, plot_type = "dens", n = my_n)
 test_that("beta_binom: plot_type = dens OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
 # "both"
-check_NULL <- plot(rat_res, plot_type = "both")
+check_NULL <- plot(rat_res, plot_type = "both", n = my_n)
 test_that("beta_binom: plot_type = both OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
 # "dens" on one plot with legend
 check_NULL <- plot(rat_res, plot_type = "dens", which_pop = c(1, 71),
-                   one_plot = TRUE)
+                   one_plot = TRUE, n = my_n)
 test_that("beta_binom: plot_type = dens, one plot with legend, OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
@@ -83,15 +83,20 @@ test_that("beta_binom: error when plot_type is wrong", {
 pump_res <- hef(model = "gamma_pois", data = pump, n = my_n)
 
 # "dens"
-check_NULL <- plot(pump_res, plot_type = "dens")
+check_NULL <- plot(pump_res, plot_type = "dens", n = my_n)
 test_that("gamma_pois: plot_type = dens OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
 # params = "pop", which_pop = "all" is OK
-check_NULL <- plot(pump_res, params = "pop", which_pop = "all",
-                   one_plot = TRUE)
-test_that("gamma_pois: params = pop, which_pop = all is OK", {
+check_NULL <- plot(pump_res, which_pop = "all", one_plot = TRUE, n = my_n)
+test_that("gamma_pois: which_pop = all is OK", {
+  testthat::expect_identical(check_NULL, NULL)
+})
+
+# params = "pop", which_pop = 1 is OK
+check_NULL <- plot(pump_res, which_pop = 1, one_plot = TRUE, n = my_n)
+test_that("gamma_pois: params = pop, which_pop = 1 is OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
@@ -106,13 +111,19 @@ test_that("gamma_pois: params = pop, wrong which_pop gives error", {
 
 # Extract data for RCP2.6
 RCP26_2 <- temp2[temp2$RCP == "rcp26", ]
-temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], nrep = 50)
+temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], n = my_n,
+                    nrep = 50)
 
 # "dens" on one plot with legend
 check_NULL <- plot(temp_res, plot_type = "dens", which_pop = c(1, 28),
-                   one_plot = TRUE)
+                   one_plot = TRUE, n = my_n)
 test_that("anova1: plot_type = dens, one plot with legend, OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
+# Check print.hef
+check_same <- try(print(temp_res), silent = TRUE)
+test_that("anova1: printing gives no error", {
+  testthat::expect_identical(check_same, temp_res)
+})
 
