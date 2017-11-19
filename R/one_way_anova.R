@@ -121,7 +121,7 @@
 #'   each group \code{ni}; the total number of observations; the sample mean
 #'   response in each group; the sum of squared deviations from the
 #'   group means \code{s}; the arguments to \code{hanova1} \code{mu0} and
-#'   \code{sigma0}.
+#'   \code{sigma0}; \code{call}: the matched call to \code{hanova1}.
 #'
 #' @examples
 #' # ======= Late 21st Century Global Temperature Data =======
@@ -203,6 +203,7 @@ hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
     stop("resp and fac must have the same length")
   }
   param <- match.arg(param)
+  the_call <- match.call()
   #
   # Create a matrix in which each row contains the response data for
   # a separate level of the factor fac.
@@ -332,6 +333,7 @@ hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
     # Transpose, so that the replicates are in the rows
     res$data_rep <- t(res$data_rep)
   }
+  res$call <- the_call
   class(res) <- "hef"
   return(res)
 }

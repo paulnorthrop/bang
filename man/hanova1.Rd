@@ -81,7 +81,7 @@ An object (list) of class \code{"hef"}, which has the same
   each group \code{ni}; the total number of observations; the sample mean
   response in each group; the sum of squared deviations from the
   group means \code{s}; the arguments to \code{hanova1} \code{mu0} and
-  \code{sigma0}.
+  \code{sigma0}; \code{call}: the matched call to \code{hanova1}.
 }
 \description{
 Produces random samples from the posterior distribution of the parameters
