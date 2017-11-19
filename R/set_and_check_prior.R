@@ -12,7 +12,7 @@
 #' @param model A character string.  Abbreviated name of the model:
 #'   "beta_binom" for beta-binomial, "gamma_pois" for gamma-Poisson,
 #'   "anova1" for 1-way ANOVA.
-#' @param anova_d An integer scalar.  Only relevant if \code{model = anova}.
+#' @param anova_d An integer scalar.  Only relevant if \code{model = anova1}.
 #'   If \code{anova_d = 2} then \code{prior} must return the log-prior
 #'   density for the standard deviations \eqn{(\sigma_\alpha, \sigma)}
 #'   and a normal prior with mean \code{mu0} and standard deviation
@@ -21,6 +21,23 @@
 #'   values \code{mu0 = 0} and \code{sigma0 = Inf}.
 #'   If \code{anova_d = 3} then \code{prior} must return the log-prior
 #'   density for \eqn{(\mu, \sigma_\alpha, \sigma)}.
+#' @details For details of the hyperparameters in \eqn{\phi} see the
+#'   \strong{Details} section of \code{\link{hef}} for the models
+#'   \code{beta_binom} and \code{gamma_pois} and of \code{\link{hanova1}}
+#'   for the model \code{anova1}.
+#' @return A list of class \code{"bang_prior"}.  Will contain the component
+#'   \code{prior}, the user-supplied function to evaluate the log of the prior,
+#'   and any arguments supplied in ....
+#' @seealso \code{\link{hef}} for hierarchical exponential family models.
+#' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of
+#'   variance (ANOVA).
+#' @examples
+#' # User-defined prior, passing parameters
+#' # (equivalent to prior = "gamma" with hpars = c(1, 0.01, 1, 0.01))
+#' user_prior <- function(x, hpars) {
+#'   return(dexp(x[1], hpars[1], log = TRUE) + dexp(x[2], hpars[2], log = TRUE))
+#' }
+#' user_prior_fn <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
 #' @export
 set_user_prior <- function(prior, ..., model = c("beta_binom", "gamma_pois",
                                                  "anova1"), anova_d = 2) {
