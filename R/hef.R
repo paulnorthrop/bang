@@ -133,9 +133,9 @@
 #'   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
 #'   contain the simulated values of \eqn{\phi}.
 #'   In addition this list contains the arguments \code{model}, \code{data}
-#'   and \code{prior} detailed above and an \code{n} by \eqn{J} matrix
+#'   and \code{prior} detailed above, an \code{n} by \eqn{J} matrix
 #'   \code{theta_sim_vals}: column \eqn{j} contains the simulated values of
-#'   \eqn{\theta}\eqn{j}.
+#'   \eqn{\theta}\eqn{j} and \code{call}: the matched call to \code{hef}.
 #'
 #'   If \code{nrep} is not \code{NULL} then this list also contains
 #'   \code{data_rep}, a numerical matrix with \code{nrep} columns.
@@ -219,6 +219,7 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
                 param = c("trans", "original"), init = NULL, nrep = NULL) {
   model <- match.arg(model)
   param <- match.arg(param)
+  the_call <- match.call()
   #
   # Calculate the data summaries required in the posterior
   # and check for posterior propriety, where possible
@@ -318,6 +319,7 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
     # Transpose, so that the replicates are in the rows
     res$data_rep <- t(res$data_rep)
   }
+  res$call <- the_call
   class(res) <- "hef"
   return(res)
 }

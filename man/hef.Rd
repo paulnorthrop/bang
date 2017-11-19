@@ -60,9 +60,9 @@ An object (list) of class \code{"hef"}, which has the same
   In particular, the columns of the \code{n}-row matrix \code{sim_vals}
   contain the simulated values of \eqn{\phi}.
   In addition this list contains the arguments \code{model}, \code{data}
-  and \code{prior} detailed above and an \code{n} by \eqn{J} matrix
+  and \code{prior} detailed above, an \code{n} by \eqn{J} matrix
   \code{theta_sim_vals}: column \eqn{j} contains the simulated values of
-  \eqn{\theta}\eqn{j}.
+  \eqn{\theta}\eqn{j} and \code{call}: the matched call to \code{hef}.
 
   If \code{nrep} is not \code{NULL} then this list also contains
   \code{data_rep}, a numerical matrix with \code{nrep} columns.
