@@ -5,8 +5,8 @@
 \title{Plot diagnostics for a hef object}
 \usage{
 \method{plot}{hef}(x, y, ..., params = c("hyper", "ru", "pop"),
-  which_pop = 1, plot_type = NULL, one_plot = FALSE, add_legend = FALSE,
-  legend_position = "topright", n = 100)
+  which_pop = NULL, plot_type = NULL, one_plot = FALSE,
+  add_legend = FALSE, legend_position = "topright", n = 100)
 }
 \arguments{
 \item{x}{an object of class "hef", a result of a call to \code{ru}.}
@@ -33,11 +33,17 @@ parameterization used for ratio-of-uniforms sampling.}
   \item{"pop": }{posterior samples and/or densities of the
     population-specific parameter \eqn{\theta} are plotted.  The
     population(s) included are determined by \code{which_pop} and the
-    type of plot is determined by \code{plot_type}.}
+    type of plot is determined by \code{plot_type}.
+    If \code{plot_type} is not supplied then it is set to \code{"dens"}.}
 }}
 
-\item{which_pop}{An integer vector.  If \code{params = "pop"} then
-\code{which_pop} indicates which populations to include in the plot.}
+\item{which_pop}{An integer vector or character scalar.
+If \code{params = "pop"} then \code{which_pop} indicates which
+populations to include in the plot.  If \code{which_pop} is supplied then
+\code{params} is set to "pop".  If \code{which_pop = "all"}
+then all populations are included.  If there are many populations then
+this may fail if \code{plot_type = "pairs"} and/or
+\code{one_plot = FALSE}.}
 
 \item{plot_type}{A character scalar that determines the type of plot
  produced when \code{params = "pop"}.  If \code{plot_type} is supplied
@@ -67,36 +73,11 @@ points at which the marginal densities are evaluated to produce plots.}
 \description{
 \code{plot} method for class "hef".
 }
-\examples{
-# Beta-binomial model, rat data ------------
-rat_res <- hef(model = "beta_binom", data = rat)
+\section{Examples}{
 
-# Hyperparameters alpha and beta
-plot(rat_res)
-# Parameterization used for sampling
-plot(rat_res, ru_scale = TRUE)
-
-# Choose rats with extreme sample probabilities
-pops <- c(which.min(rat[, 1] / rat[, 2]), which.max(rat[, 1] / rat[, 2]))
-
-# Population-specific posterior samples: separate plots
-plot(rat_res, params = "pop", plot_type = "both", which_pop = pops)
-
-# Population-specific posterior samples: one plot
-plot(rat_res, params = "pop", plot_type = "dens", which_pop = pops,
-     one_plot = TRUE, add_legend = TRUE)
-
-# Gamma-Poisson model, pump data ------------
-pump_res <- hef(model = "gamma_pois", data = pump)
-
-# Hyperparameters alpha and beta
-plot(pump_res)
-
-# Choose pumps with extreme sample rates
-pops <- c(which.min(pump[, 1] / pump[, 2]), which.max(pump[, 1] / pump[, 2]))
-plot(pump_res, params = "pop", plot_type = "dens", which_pop = pops)
-
+See the examples in \code{\link{hef}} and \code{\link{hanova1}}.
 }
+
 \seealso{
 \code{\link[rust]{plot.ru}} for arguments that may be passed
   via ...., in particular \code{ru_scale}.
