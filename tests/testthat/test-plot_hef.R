@@ -47,27 +47,27 @@ test_that("beta_binom: plot_type = sim OK", {
 })
 
 # "dens"
-check_NULL <- plot(rat_res, plot_type = "dens", n = my_n)
+check_NULL <- plot(rat_res, plot_type = "dens", num = my_n)
 test_that("beta_binom: plot_type = dens OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
 # "both"
-check_NULL <- plot(rat_res, plot_type = "both", n = my_n)
+check_NULL <- plot(rat_res, plot_type = "both", num = my_n)
 test_that("beta_binom: plot_type = both OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
 # "dens" on one plot with legend
 check_NULL <- plot(rat_res, plot_type = "dens", which_pop = c(1, 71),
-                   one_plot = TRUE, n = my_n)
+                   one_plot = TRUE, add_legend = TRUE, num = my_n)
 test_that("beta_binom: plot_type = dens, one plot with legend, OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
 # "both" on one plot with legend should give an error
 check_error <- try(plot(rat_res, plot_type = "both", which_pop = c(1, 71),
-                   one_plot = TRUE), silent = TRUE)
+                   one_plot = TRUE, add_legend = TRUE), silent = TRUE)
 test_that("beta_binom: plot_type = both, one plot with legend gives error", {
   testthat::expect_identical(class(check_error), "try-error")
 })
@@ -83,19 +83,19 @@ test_that("beta_binom: error when plot_type is wrong", {
 pump_res <- hef(model = "gamma_pois", data = pump, n = my_n)
 
 # "dens"
-check_NULL <- plot(pump_res, plot_type = "dens", n = my_n)
+check_NULL <- plot(pump_res, plot_type = "dens", num = my_n)
 test_that("gamma_pois: plot_type = dens OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
 # params = "pop", which_pop = "all" is OK
-check_NULL <- plot(pump_res, which_pop = "all", one_plot = TRUE, n = my_n)
+check_NULL <- plot(pump_res, which_pop = "all", one_plot = TRUE, num = my_n)
 test_that("gamma_pois: which_pop = all is OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
 
 # params = "pop", which_pop = 1 is OK
-check_NULL <- plot(pump_res, which_pop = 1, one_plot = TRUE, n = my_n)
+check_NULL <- plot(pump_res, which_pop = 1, one_plot = TRUE, num = my_n)
 test_that("gamma_pois: params = pop, which_pop = 1 is OK", {
   testthat::expect_identical(check_NULL, NULL)
 })
@@ -116,8 +116,9 @@ temp_res <- hanova1(resp = RCP26_2[, 1], fac = RCP26_2[, 2], n = my_n,
 
 # "dens" on one plot with legend
 check_NULL <- plot(temp_res, plot_type = "dens", which_pop = c(1, 28),
-                   one_plot = TRUE, n = my_n, xlab = "x", ylab = "y",
-                   main = "m", lty = 1, col = 1)
+                   one_plot = TRUE, add_legend = TRUE, legend_text = "l",
+                   num = my_n, xlab = "x",  ylab = "y", main = "m", lty = 1,
+                   col = 1)
 test_that("anova1: plot_type = dens, one plot with legend, OK", {
   testthat::expect_identical(check_NULL, NULL)
 })

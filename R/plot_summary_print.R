@@ -57,8 +57,8 @@
 #'   the character scalar \code{legend_position}.
 #'   A character vector \code{legend_text} may be used to override the
 #'   default legend text.
-#' @param n A numeric scalar.  If \code{plot_type == "dens"} or
-#'   \code{plot_type == "both"} then \code{n} gives the number of
+#' @param num A numeric scalar.  If \code{plot_type == "dens"} or
+#'   \code{plot_type == "both"} then \code{num} gives the number of
 #'   points at which the marginal densities are evaluated to produce plots.
 #' @section Examples:
 #' See the examples in \code{\link{hef}} and \code{\link{hanova1}}.
@@ -68,7 +68,7 @@
 plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
                      which_pop = NULL, plot_type = NULL, one_plot = FALSE,
                      add_legend = FALSE, legend_position = "topright",
-                     legend_text = NULL, n = 100) {
+                     legend_text = NULL, num = 100) {
   if (!inherits(x, "hef")) {
     stop("use only with \"hef\" objects")
   }
@@ -180,9 +180,9 @@ plot.hef <- function(x, y, ..., params = c("hyper", "ru", "pop"),
   # If we need estimates of marginal posterior densities
   if (plot_type == "dens" || plot_type == "both") {
     post_dens <- switch(x$model,
-                        beta_binom = pde_beta_binom(x, which_pop, n),
-                        gamma_pois = pde_gamma_pois(x, which_pop, n),
-                        anova1 = pde_anova1(x, which_pop, n))
+                        beta_binom = pde_beta_binom(x, which_pop, num),
+                        gamma_pois = pde_gamma_pois(x, which_pop, num),
+                        anova1 = pde_anova1(x, which_pop, num))
   }
   # Set the number of rows and columns in the plot
   rc <- n2mfrow(n_pop)
@@ -246,7 +246,7 @@ n2mfrow <- function (nr.plots) {
 
 # =============================== pde_beta_binom ==============================
 
-pde_beta_binom <- function(x, which_pop, n) {
+pde_beta_binom <- function(x, which_pop, num) {
   alpha <- x$sim_vals[, 1]
   beta <- x$sim_vals[, 2]
   # Numbers of successes
@@ -258,7 +258,7 @@ pde_beta_binom <- function(x, which_pop, n) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_p <- max(min(plot_data), ep)
   max_p <- min(max(plot_data), 1 - ep)
-  h_vals <- seq(min_p, max_p, len = n)
+  h_vals <- seq(min_p, max_p, len = num)
   # Function to estimate the posterior density for a given population
   pdfxi <- function(x, pop) {
     mean(stats::dbeta(x, alpha + yy[pop], beta + nn[pop] - yy[pop]))
@@ -273,7 +273,7 @@ pde_beta_binom <- function(x, which_pop, n) {
 
 # =============================== pde_gamma_pois ==============================
 
-pde_gamma_pois <- function(x, which_pop, n) {
+pde_gamma_pois <- function(x, which_pop, num) {
   alpha <- x$sim_vals[, 1]
   beta <- x$sim_vals[, 2]
   # Counts
@@ -285,7 +285,7 @@ pde_gamma_pois <- function(x, which_pop, n) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_val <- max(min(plot_data), ep)
   max_val <- max(plot_data)
-  h_vals <- seq(min_val, max_val, len = n)
+  h_vals <- seq(min_val, max_val, len = num)
   # Function to estimate the posterior density for a given population
   pdfxi <- function(x, pop) {
     mean(stats::dgamma(x, shape = alpha + y[pop], rate = beta + off[pop]))
@@ -300,7 +300,7 @@ pde_gamma_pois <- function(x, which_pop, n) {
 
 # ================================= pde_anova1 ================================
 
-pde_anova1 <- function(x, which_pop, n) {
+pde_anova1 <- function(x, which_pop, num) {
   mu <- x$sim_vals[, 1]
   va <- x$sim_vals[, 2] ^ 2
   ve <- x$sim_vals[, 3] ^ 2
@@ -312,7 +312,7 @@ pde_anova1 <- function(x, which_pop, n) {
   plot_data <- x$theta_sim_vals[, which_pop, drop = FALSE]
   min_val <- min(plot_data)
   max_val <- max(plot_data)
-  h_vals <- seq(min_val, max_val, len = n)
+  h_vals <- seq(min_val, max_val, len = num)
   # Function to estimate the posterior density for a given population
   ds <- x$summary_stats
   pdfxi <- function(x, pop) {
@@ -402,8 +402,9 @@ print.hef <- function(x, ...) {
   if (!inherits(x, "hef")) {
     stop("use only with \"hef\" objects")
   }
-  cat("Call:", paste(deparse(x$call)), "\n")
+  cat("\n", "Call:", paste(deparse(x$call)), "\n")
   cat("Model:", x$model, "\n")
   cat("Number of populations:", ncol(x$theta_sim_vals), "\n")
+  cat("\n")
   return(invisible(x))
 }
