@@ -66,14 +66,18 @@ rat_res <- hef(model = "beta_binom", data = rat, nrep = 50)
 
 # Overlaid density estimates
 pp_check(rat_res)
+\dontrun{
 # Overlaid distribution function estimates
 pp_check(rat_res, fun = "ecdf_overlay")
+}
 # Multiple histograms
 pp_check(rat_res, fun = "hist", nrep = 8)
+\dontrun{
 # Multiple boxplots
 pp_check(rat_res, fun = "boxplot")
 # Predictive medians vs observed median
 pp_check(rat_res, fun = "stat", stat = "median")
+}
 # Predictive (mean, sd) vs observed (mean, sd)
 pp_check(rat_res, fun = "stat_2d", stat = c("mean", "sd"))
 
