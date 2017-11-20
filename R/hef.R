@@ -159,10 +159,12 @@
 #'
 #' # Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale
 #' rat_res <- hef(model = "beta_binom", data = rat)
+#' \dontrun{
 #' # Hyperparameters alpha and beta
 #' plot(rat_res)
 #' # Parameterization used for sampling
 #' plot(rat_res, ru_scale = TRUE)
+#' }
 #' summary(rat_res)
 #'
 #' # Choose rats with extreme sample probabilities
@@ -175,8 +177,10 @@
 #'
 #' # Default prior, sampling on (rotated) (alpha, beta) scale
 #' rat_res <- hef(model = "beta_binom", data = rat, param = "original")
+#' \dontrun{
 #' plot(rat_res)
 #' plot(rat_res, ru_scale = TRUE)
+#' }
 #' summary(rat_res)
 #'
 #' # To produce a plot akin to Figure 5.3 of Gelman et al. (2014) we
@@ -185,7 +189,9 @@
 #' # (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)
 #' # (d) Note that the mode is relocated to (0, 0) in the plot
 #' rat_res <- hef(model = "beta_binom", data = rat, rotate = FALSE)
+#' \dontrun{
 #' plot(rat_res, ru_scale = TRUE)
+#' }
 #' # This is the estimated location of the posterior mode
 #' rat_res$f_mode
 #'
@@ -196,7 +202,9 @@
 #' }
 #' user_prior_fn <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
 #' rat_res <- hef(model = "beta_binom", data = rat, prior = user_prior_fn)
+#' \dontrun{
 #' plot(rat_res)
+#' }
 #' summary(rat_res)
 #'
 #' ############################ Gamma-Poisson #################################
@@ -205,7 +213,9 @@
 #'
 #' pump_res <- hef(model = "gamma_pois", data = pump)
 #' # Hyperparameters alpha and beta
+#' \dontrun{
 #' plot(pump_res)
+#' }
 #' # Parameterization used for sampling
 #' plot(pump_res, ru_scale = TRUE)
 #' summary(pump_res)
