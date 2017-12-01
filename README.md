@@ -9,7 +9,7 @@ bang
 
 ### What does bang do?
 
-Provides functions for the Bayesian analysis of some simple commonly-used models, without using Markov Chain Monte Carlo (MCMC) methods such as Gibbs sampling. The 'rust' package <https://cran.r-project.org/package=rust> is used to simulate a random sample from the required posterior distribution, using the ratio-of-uniforms method. Currently three conjugate hierarchical models are available: beta-binomial, gamma-Poisson and a 1-way Analysis of Variance (ANOVA). Advantages of the ratio-of-uniforms method over MCMC in this context are that the user is not required to set tuning parameters nor to monitor convergence and a random posterior sample is produced. See the 'bang' website for more information, documentation and examples.
+Provides functions for the Bayesian analysis of some simple commonly-used models, without using Markov Chain Monte Carlo (MCMC) methods such as Gibbs sampling. The 'rust' package <https://cran.r-project.org/package=rust> is used to simulate a random sample from the required posterior distribution, using the ratio-of-uniforms method. Currently three conjugate hierarchical models are available: beta-binomial, gamma-Poisson and a 1-way Analysis of Variance (ANOVA). Advantages of the ratio-of-uniforms method over MCMC in this context are that the user is not required to set tuning parameters nor to monitor convergence and a random posterior sample is produced.
 
 ### A simple example
 
