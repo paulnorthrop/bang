@@ -148,7 +148,7 @@ $(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}})$ satisfies
 \label{eqn:joint}
 \end{align*}
 
-where $n_\cdot = \sum_{j=1}^{n_i} n_{ij}$.
+where $n_\cdot = \sum_{i=1}^{I} n_i$.
 Let $\bar{y}_{i\cdot} = (1/n_i) \sum_{j=1}^{n_i} y_{ij}$.
 Completing the\ square in $\alpha_i$ in the term in square brackets gives
 \begin{align*}
