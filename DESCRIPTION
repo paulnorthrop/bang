@@ -13,7 +13,7 @@ Description: Provides functions for the Bayesian analysis of some simple
     to simulate a random sample from the required posterior distribution.  
     At the moment three conjugate hierarchical models are available:
     beta-binomial, gamma-Poisson and a 1-way analysis of variance (ANOVA).
-Depends: R (>= 3.4.1)
+Depends: R (>= 3.3.0)
 Imports: bayesplot (>= 1.1.0),
     graphics,
     methods,
