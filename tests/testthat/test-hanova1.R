@@ -12,9 +12,9 @@ my_tol <- 1e-5
 
 three_d_case_fn <- function(x, alpha, resp, fac) {
   #
-  # Calculates the value of the beta-binomial marginal log-likelihood
-  # at x = (alpha, beta) based on data matrix data using the obvious
-  # coding and non-obvious coding.
+  # Calculates the value of the one-way ANOVA marginal log-likelihood
+  # at x = (mu, sigma_alpha, sigma) based on data matrix data using the
+  # obvious coding and non-obvious coding.
   #
   # Args:
   #      x : A numeric vector.  c(mu, sigma_alpha, sigma)
