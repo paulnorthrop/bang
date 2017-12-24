@@ -1,4 +1,4 @@
-# ================================== hanova1 ==================================
+# ================================== hanova1 ================================= #
 #
 #' Posterior sampling for a 1-way hierarchical ANOVA
 #'
@@ -338,7 +338,7 @@ hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
   return(res)
 }
 
-# ========================== one_way_anova_cond_sim ===========================
+# ========================== one_way_anova_cond_sim ========================== #
 
 # Sample from the conditional posterior distribution of the population
 # parameters given the hyperparameters and the data
@@ -362,7 +362,7 @@ one_way_anova_cond_sim <- function(x, ds, n) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
-# ============================== hanova1_data ==================================
+# ============================== hanova1_data ================================ #
 
 hanova1_data <- function(y) {
   #
@@ -387,7 +387,7 @@ hanova1_data <- function(y) {
   return(list(I = I, ni = ni, ndot = ndot, ybari = ybari, s = s))
 }
 
-# ============================= log_marg_lik_anova ============================
+# ============================= log_marg_lik_anova =========================== #
 
 log_marg_lik_anova <- function(x, I, ni, ndot, ybari, s) {
   #
@@ -419,7 +419,7 @@ log_marg_lik_anova <- function(x, I, ni, ndot, ybari, s) {
   return(log_lik)
 }
 
-# ============================= log_marg_lik_anova ============================
+# ============================= log_marg_lik_anova =========================== #
 
 two_d_log_marg_lik_anova <- function(x, I, ni, ndot, ybari, s, mu0, sigma0) {
   #
@@ -457,7 +457,7 @@ two_d_log_marg_lik_anova <- function(x, I, ni, ndot, ybari, s, mu0, sigma0) {
   return(log_lik)
 }
 
-# ================================= init1anova ================================
+# ================================= init1anova =============================== #
 
 # Change to REML?  ... to get SEs too? ... for use in trans = "BC" to get lambda.
 # Suggests lme4.
@@ -477,7 +477,7 @@ init1anova <- function(y) {
   return(init)
 }
 
-# ============================== make_resp_matrix =============================
+# ============================== make_resp_matrix ============================ #
 
 make_resp_matrix <- function(resp, fac) {
   #
@@ -507,9 +507,7 @@ make_resp_matrix <- function(resp, fac) {
   return(mat)
 }
 
-# ================================= init1anova ================================
-
-# Create list of arguments for ru()
+# ======================== Create list of arguments for ru() ================= #
 
 one_way_anova_create_ru_list <- function(trans, rotate, param, anova_d) {
   d <- anova_d
@@ -556,7 +554,7 @@ three_d_one_way_anova_phi_to_theta <- function(phi) {
   return(c(phi[1], exp(phi[2:3])))
 }
 
-# ---------------------------- sim_pred_hanova1 ----------------------------- #
+# ============================= sim_pred_hanova1 ============================= #
 
 #' Simulate from a one-way hierarchical ANOVA posterior predictive distribution
 #'
