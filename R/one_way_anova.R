@@ -380,7 +380,7 @@ hanova1_data <- function(y) {
   ni <- rowSums(!is.na(y))
   # The sum of the numbers of non-missing observations in the rows of x
   ndot <- sum(ni)
-  # Sum of data for each group
+  # Mean of data for each group
   ybari <- rowMeans(y, na.rm=TRUE)
   # Sum of squared deviations from group means
   s <- sum((y - ybari)^2, na.rm = TRUE)
