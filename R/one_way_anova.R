@@ -493,7 +493,7 @@ make_resp_matrix <- function(resp, fac) {
   #          Must have the same length as resp.
   # Returns:
   #   A numeric matrix with number of rows equal to the number of
-  #   levels of the factor face and number of columns equal to the largest
+  #   levels of the factor fac and number of columns equal to the largest
   #   number of observations across the levels of fac.  Rows are padded with
   #   NAs as necessary.
   #
