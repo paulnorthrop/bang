@@ -21,8 +21,8 @@ three_d_case_fn <- function(x, alpha, resp, fac) {
   #  alpha : A numeric vector. c(alpha_1, ..., alpha_I)
   #   resp : A numeric vector.  Response values.
   #    fac : A vector of class \link{factor} indicating the group from
-  #'         which the correspnding element of \code{resp} originates.
-  #'         Must have the same length as \code{resp}.
+  #          which the correspnding element of \code{resp} originates.
+  #          Must have the same length as \code{resp}.
   #
   # Returns:
   #   A list with two components:
