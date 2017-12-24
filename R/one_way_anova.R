@@ -362,9 +362,7 @@ one_way_anova_cond_sim <- function(x, ds, n) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
-# ================================== s1anova ==================================
-
-# Change name to r1anova_data()
+# ============================== hanova1_data ==================================
 
 hanova1_data <- function(y) {
   #
