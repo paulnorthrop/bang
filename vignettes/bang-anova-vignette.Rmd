@@ -172,7 +172,7 @@ Therefore,
 \pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}}) 
 &\propto 
 \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
-\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i / a_i \right)^2 \right]
+\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right]
 \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right]. \\
 \end{align*}
 
@@ -185,18 +185,18 @@ The marginal posterior density of $\boldsymbol{\mathbf{\phi}}$ is given by
 \mid \boldsymbol{\mathbf{y}}) {\rm ~d}\alpha_1 \cdots {\rm ~d}\alpha_I \\
 &\propto 
 \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
-\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i / a_i \right)^2 \right]
+\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right]
 \int_{-\infty}^{\infty} \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right] {\rm ~d}\alpha_i \\
 &\propto 
 \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
-\prod_{i=1}^I a_i^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i / a_i \right)^2 \right] \\
+\prod_{i=1}^I a_i^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right] \\
 &\propto 
 \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{I-n_\cdot} \, 
-\prod_{i=1}^I (\sigma_\alpha^2+\sigma^2/n_i)^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i / a_i \right)^2 \right].
+\prod_{i=1}^I (\sigma_\alpha^2+\sigma^2/n_i)^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^2 / a_i \right) \right].
 \end{align*}
-Manipulating $c_i - b_i / a_i$ gives
+Manipulating $c_i - b_i ^2 / a_i$ gives
 \begin{align*}
-c_i - b_i / a_i 
+c_i - b_i ^ 2 / a_i 
   &= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2 
    - \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}
   {n_i \sigma^{-2} + \sigma_\alpha^{-2}} \\
