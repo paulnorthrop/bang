@@ -6,12 +6,13 @@
 \title{Mid 21st Century Global Temperature Projection Data}
 \format{A data frame with 270 rows and 4 columns.
   \itemize{
-    \item{Column 1, index: }{anomaly of 2020-2049 mean relative to 1970-1999
-      mean.}
-    \item{Column 2, GCM: }{Abbreviated name of General Circulation Model.}
-    \item{Column 3, RCP: }{Representative Concentration Pathway. One of
-      rcp26, rcp45, rcp60, rcp85}
-    \item{Column 4, run: }{Simulation run number.}
+    \item{Column 1, \code{index}: }{anomaly of 2020-2049 mean relative to
+      the 1970-1999 mean.}
+    \item{Column 2, \code{GCM}: }{Abbreviated name of General Circulation
+      Model.}
+    \item{Column 3, \code{RCP}: }{Representative Concentration Pathway.
+      One of rcp26, rcp45, rcp60, rcp85.}
+    \item{Column 4, \code{run}: }{Simulation run number.}
  }}
 \source{
 The raw data from which the indices are calculated are monthly
