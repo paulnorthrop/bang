@@ -371,6 +371,7 @@ hanova1_data <- function(y) {
   #
   # Args:
   #   y         : data.  I by max(ni) matrix, where ni is the number of
+  #               observations in group i
   #
   # Returns: a list containing the summary statistics
   #
