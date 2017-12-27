@@ -384,7 +384,7 @@ hanova1_data <- function(y) {
   # Mean of data for each group
   ybari <- rowMeans(y, na.rm=TRUE)
   # Sum of squared deviations from group means
-  s <- sum((y - ybari)^2, na.rm = TRUE)
+  s <- sum((y - ybari) ^ 2, na.rm = TRUE)
   return(list(I = I, ni = ni, ndot = ndot, ybari = ybari, s = s))
 }
 
