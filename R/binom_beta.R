@@ -103,7 +103,7 @@ beta_binom_cond_sim <- function(x, data, n_sim) {
   return(list(theta_sim_vals = theta_sim_vals))
 }
 
-# --------------------------- sim_pred_beta-binom --------------------------- #
+# --------------------------- sim_pred_beta_binom --------------------------- #
 
 #' Simulate from a beta-binomial posterior predictive distribution
 #'
