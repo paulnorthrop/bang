@@ -279,8 +279,7 @@ hef <- function(n = 1000, model = c("beta_binom", "gamma_pois"),
   }
   #
   # Create list of objects to send to function ru()
-  fr_list <- list(model = model, trans = ru_args$trans,
-                  rotate = ru_args$rotate, param = param)
+  fr_list <- list(param = param)
   fr <- switch(model,
                beta_binom = do.call(beta_create_ru_list, fr_list),
                gamma_pois = do.call(gamma_create_ru_list, fr_list))

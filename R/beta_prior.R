@@ -68,7 +68,7 @@ beta_init_ests <- function(data, param) {
 
 # Create list of arguments for ru()
 
-beta_create_ru_list <- function(model, trans, rotate, param) {
+beta_create_ru_list <- function(param) {
   d <- 2L
   var_names <- c("alpha", "beta")
   if (param == "trans") {
