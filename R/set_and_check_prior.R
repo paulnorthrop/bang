@@ -10,8 +10,10 @@
 #' @param ... Further arguments giving the names and values of any
 #'   parameters involved in the function \code{prior}.
 #' @param model A character string.  Abbreviated name of the model:
-#'   "beta_binom" for beta-binomial, "gamma_pois" for gamma-Poisson,
-#'   "anova1" for 1-way ANOVA.
+#'   "beta_binom" for beta-binomial and "gamma_pois" for gamma-Poisson
+#'   (see \code{\link{hef}}), "anova1" for 1-way ANOVA
+#'   (see \code{\link{hanova1}}), "iid" for a random sample from a
+#'   univariate distribution (see \code{\link{iid}}).
 #' @param anova_d An integer scalar.  Only relevant if \code{model = anova1}.
 #'   If \code{anova_d = 2} then \code{prior} must return the log-prior
 #'   density for the standard deviations \eqn{(\sigma_\alpha, \sigma)}
@@ -40,7 +42,8 @@
 #' user_prior_fn <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
 #' @export
 set_user_prior <- function(prior, ..., model = c("beta_binom", "gamma_pois",
-                                                 "anova1"), anova_d = 2) {
+                                                 "anova1", "iid"),
+                           anova_d = 2) {
   if (!is.function(prior)) {
     stop("prior must be a function")
   }
@@ -103,6 +106,12 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
           prior$hpars <- gamma_gamma_hpars()
         }
       }
+    }
+    # A univariate distribution
+    if (model == "iid") {
+      prior$prior <- switch(prior_name,
+                            default = iid_flat_prior,
+                            flat = iid_flat_prior)
     }
   } else if (class(prior) == "bang_prior") {
     if (attr(prior, "model") != model) {

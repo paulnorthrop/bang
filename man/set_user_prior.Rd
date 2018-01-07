@@ -4,8 +4,8 @@
 \alias{set_user_prior}
 \title{Set a user-defined prior}
 \usage{
-set_user_prior(prior, ..., model = c("beta_binom", "gamma_pois", "anova1"),
-  anova_d = 2)
+set_user_prior(prior, ..., model = c("beta_binom", "gamma_pois", "anova1",
+  "iid"), anova_d = 2)
 }
 \arguments{
 \item{prior}{An R function returning \strong{the log of} the prior density
@@ -15,8 +15,10 @@ for of (perhaps a subset of) the hyperparameter vector \eqn{\phi}.}
 parameters involved in the function \code{prior}.}
 
 \item{model}{A character string.  Abbreviated name of the model:
-"beta_binom" for beta-binomial, "gamma_pois" for gamma-Poisson,
-"anova1" for 1-way ANOVA.}
+"beta_binom" for beta-binomial and "gamma_pois" for gamma-Poisson
+(see \code{\link{hef}}), "anova1" for 1-way ANOVA
+(see \code{\link{hanova1}}), "iid" for a random sample from a
+univariate distribution (see \code{\link{iid}}).}
 
 \item{anova_d}{An integer scalar.  Only relevant if \code{model = anova1}.
 If \code{anova_d = 2} then \code{prior} must return the log-prior
