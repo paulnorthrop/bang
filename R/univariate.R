@@ -73,7 +73,8 @@
 #'   and must be for others (see \strong{Details}).
 #' @param nsim A numeric scalar. The number of values to be simulated from the
 #'   posterior distribution.
-#' @param prior Describe
+#' @param prior Describe.
+#' @param param Describe.
 #' @param lambda A numeric vector.  rep_len
 #' @param gamma_rate A logical scalar.
 #' @param ... Additional parameters, either for \code{densfun} or
@@ -135,27 +136,27 @@ iid <- function(x, densfun, start, nsim = 1000, prior = NULL,
   ru_args <- dots_list[is.element(dots_names, ru_names)]
   # If densfun is a name then select the appropriate density function
   mydt <- function(x, m, s, df, log) {
-    return(dt((x - m) / s, df, log = TRUE) - log(s))
+    return(stats::dt((x - m) / s, df, log = TRUE) - log(s))
   }
   if (is.character(densfun)) {
     distname <- tolower(densfun)
     densfun <-
       switch(distname,
-             "beta" = dbeta,
-             "cauchy" = dcauchy,
-             "chi-squared" = dchisq,
-             "exponential" = dexp,
-             "f" = df,
-             "gamma" = dgamma,
-             "geometric" = dgeom,
-             "log-normal" = dlnorm,
-             "lognormal" = dlnorm,
-             "logistic" = dlogis,
-             "negative binomial" = dnbinom,
-             "normal" = dnorm,
-             "poisson" = dpois,
+             "beta" = stats::dbeta,
+             "cauchy" = stats::dcauchy,
+             "chi-squared" = stats::dchisq,
+             "exponential" = stats::dexp,
+             "f" = stats::df,
+             "gamma" = stats::dgamma,
+             "geometric" = stats::dgeom,
+             "log-normal" = stats::dlnorm,
+             "lognormal" = stats::dlnorm,
+             "logistic" = stats::dlogis,
+             "negative binomial" = stats::dnbinom,
+             "normal" = stats::dnorm,
+             "poisson" = stats::dpois,
              "t" = mydt,
-             "weibull" = dweibull,
+             "weibull" = stats::dweibull,
              NULL)
     if (is.null(densfun)) {
       stop("unsupported distribution")
@@ -163,9 +164,6 @@ iid <- function(x, densfun, start, nsim = 1000, prior = NULL,
     if (is.null(start)) {
       start <- set_starting_values(distname, x, gamma_rate)
     }
-#    if (is.null(lambda)) {
-#      lambda <- set_lambda_values(distname, gamma_rate)
-#    }
   }
   # Remove from start any parameters to be kept fixed
   start <- start[!is.element(names(start), fixed_pars)]
@@ -248,13 +246,13 @@ set_starting_values <- function(distname, x, gamma_rate) {
     }
     n <- length(x)
     lx <- log(x)
-    sd0 <- sqrt((n - 1) / n) * sd(lx)
+    sd0 <- sqrt((n - 1) / n) * stats::sd(lx)
     mx <- mean(lx)
     return(list(meanlog = mx, sdlog = sd0))
   }
   if (distname == "normal") {
     n <- length(x)
-    sd0 <- sqrt((n - 1) / n) * sd(x)
+    sd0 <- sqrt((n - 1) / n) * stats::sd(x)
     mx <- mean(x)
     return(list(mean = mx, sd = sd0))
   }
@@ -283,7 +281,7 @@ set_starting_values <- function(distname, x, gamma_rate) {
     }
     lx <- log(x)
     m <- mean(lx)
-    v <- var(lx)
+    v <- stats::var(lx)
     shape <- 1.2 / sqrt(v)
     scale <- exp(m + 0.572 / shape)
     return(list(shape = shape, scale = scale))
@@ -293,7 +291,7 @@ set_starting_values <- function(distname, x, gamma_rate) {
       stop("gamma values must be >= 0")
     }
     m <- mean(x)
-    v <- var(x)
+    v <- stats::var(x)
     if (gamma_rate) {
       start <- list(shape = m ^ 2 / v, rate = m / v)
     } else {
@@ -306,73 +304,16 @@ set_starting_values <- function(distname, x, gamma_rate) {
       stop("Negative binomial values must be non-negative integers")
     }
     m <- mean(x)
-    v <- var(x)
+    v <- stats::var(x)
     size <- if (v > m) m ^ 2 /(v - m) else 100
     return(list(size = size, mu = m))
   }
   if (is.element(distname, c("cauchy", "logistic"))) {
-    return(list(location = median(x), scale = IQR(x) / 2))
+    return(list(location = stats::median(x), scale = stats::IQR(x) / 2))
   }
   if (distname == "t") {
-    return(list(m = median(x), s = IQR(x) / 2, df = 10))
+    return(list(m = stats::median(x), s = stats::IQR(x) / 2, df = 10))
   }
   return()
 }
 
-set_lambda_values <- function(distname, gamma_rate) {
-  if (distname %in% c("lognormal",  "log-normal")) {
-    lambda <- c(1, 0)
-    names(lambda) <- c("meanlog", "sdlog")
-    return(lambda)
-  }
-  if (distname == "normal") {
-    lambda <- c(1, 0)
-    names(lambda) <- c("mean", "sd")
-    return(lambda)
-  }
-  if (distname == "poisson") {
-    lambda <- 0
-    names(lambda) <- c("lambda")
-    return(lambda)
-  }
-  if (distname == "exponential") {
-    lambda <- 0
-    names(lambda) <- c("rate")
-    return(lambda)
-  }
-  if (distname == "geometric") {
-    lambda <- 1
-    names(lambda) <- c("prob")
-    return(lambda)
-  }
-  if (distname == "weibull" && is.null(start)) {
-    lambda <- c(0, 0)
-    names(lambda) <- c("shape", "scale")
-    return(lambda)
-  }
-  if (distname == "gamma") {
-    lambda <- c(0, 0)
-    if (gamma_rate) {
-      names(lambda) <- c("shape", "rate")
-    } else {
-      names(lambda) <- c("shape", "scale")
-    }
-    return(lambda)
-  }
-  if (distname == "negative binomial") {
-    lambda <- c(1, 1)
-    names(lambda) <- c("size","mu")
-    return(lambda)
-  }
-  if (is.element(distname, c("cauchy", "logistic"))) {
-    lambda <- c(1, 0)
-    names(lambda) <- c("location","scale")
-    return(lambda)
-  }
-  if (distname == "t") {
-    lambda <- c(1, 0, 0 )
-    names(lambda) <- c("m","s", "df")
-    return(lambda)
-  }
-  return()
-}

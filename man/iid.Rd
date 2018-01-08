@@ -27,7 +27,9 @@ and must be for others (see \strong{Details}).}
 \item{nsim}{A numeric scalar. The number of values to be simulated from the
 posterior distribution.}
 
-\item{prior}{Describe}
+\item{prior}{Describe.}
+
+\item{param}{Describe.}
 
 \item{lambda}{A numeric vector.  rep_len}
 
