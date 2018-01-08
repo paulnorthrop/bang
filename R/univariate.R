@@ -86,11 +86,6 @@
 #' @details Add details
 #' @return Add return
 #' @examples
-#' x <- rgamma(100, shape = 5, rate = 0.1)
-#' iid(x, dgamma, list(shape = 1, rate = 0.1), lower = 0.001)
-#' pjn <- iid(x, "gamma")
-#' pjn <- iid(x, "gamma", rate = 0.1)
-#'
 #' x <- rgeom(10, 0.5)
 #' fitdistr(x, "geometric")
 #' geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
