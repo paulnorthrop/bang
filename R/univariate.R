@@ -74,6 +74,7 @@
 #' @param nsim A numeric scalar. The number of values to be simulated from the
 #'   posterior distribution.
 #' @param prior Describe.
+#' @param hpars Describe.
 #' @param param Describe.
 #' @param lambda A numeric vector.  rep_len
 #' @param gamma_rate A logical scalar.

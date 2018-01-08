@@ -29,6 +29,8 @@ posterior distribution.}
 
 \item{prior}{Describe.}
 
+\item{hpars}{Describe.}
+
 \item{param}{Describe.}
 
 \item{lambda}{A numeric vector.  rep_len}
