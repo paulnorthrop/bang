@@ -93,7 +93,8 @@ set_user_prior <- function(prior, ..., model = c("beta_binom", "gamma_pois",
 
 # ============================ check_prior ====================================
 
-check_prior <- function(prior, model, hpars, n_groups = NULL) {
+check_prior <- function(prior, model, hpars, n_groups = NULL,
+                        distname = NULL) {
   # If prior is a character scalar then a default prior is being requested
   if (is.character(prior)) {
     prior_name <- prior
@@ -143,9 +144,17 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
     }
     # A univariate distribution
     if (model == "iid") {
-      prior$prior <- switch(prior_name,
-                            default = iid_flat_prior,
-                            flat = iid_flat_prior)
+      if (distname == "geometric") {
+        prior$prior <- switch(prior_name,
+                              default = geom_jeffreys_prior,
+                              beta = iid_beta_prior)
+        if (prior_name == "beta") {
+          prior$hpars <- hpars
+          if (is.null(hpars)) {
+            prior$hpars <- iid_beta_hpars()
+          }
+        }
+      }
     }
   } else if (class(prior) == "bang_prior") {
     if (attr(prior, "model") != model) {

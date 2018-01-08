@@ -4,8 +4,8 @@
 \alias{iid}
 \title{Bayesian Inference for Univariate Distributions}
 \usage{
-iid(x, densfun, start, nsim = 1000, prior = NULL, param = "trans",
-  lambda = NULL, gamma_rate = TRUE, ...)
+iid(x, densfun, start, nsim = 1000, prior = "default", hpars = NULL,
+  param = "trans", lambda = NULL, gamma_rate = TRUE, ...)
 }
 \arguments{
 \item{x}{A numeric vector of length at least one containing only
@@ -56,7 +56,12 @@ x <- rgeom(10, 0.5)
 # fitdistr(x, "geometric")
 geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
                              model = "iid", par_names = "prob")
-pjn <- iid(x, "geometric", prior = geom_prior)
+set.seed(47)
+pjn1 <- iid(x, "geometric", prior = geom_prior)
+set.seed(47)
+pjn2 <- iid(x, "geometric", prior = "beta")
+set.seed(47)
+pjn3 <- iid(x, "geometric", prior = "default")
 }
 \references{
 Venables, W. N. & Ripley, B. D. (2002) Modern Applied

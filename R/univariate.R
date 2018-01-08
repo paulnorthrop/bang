@@ -90,7 +90,12 @@
 #' # fitdistr(x, "geometric")
 #' geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
 #'                              model = "iid", par_names = "prob")
-#' pjn <- iid(x, "geometric", prior = geom_prior)
+#' set.seed(47)
+#' pjn1 <- iid(x, "geometric", prior = geom_prior)
+#' set.seed(47)
+#' pjn2 <- iid(x, "geometric", prior = "beta")
+#' set.seed(47)
+#' pjn3 <- iid(x, "geometric", prior = "default")
 #' @seealso The \code{\link[rust]{ru}} function in the \code{\link{rust}}
 #'   package for details of the arguments that can be passed to \code{ru}.
 #' @seealso \code{\link{set_user_prior}} to set a user-defined prior.
@@ -98,8 +103,8 @@
 #'   Statistics with S.  Fourth Edition. Springer, New York.
 #'   ISBN 0-387-95457-0. \url{http://www.stats.ox.ac.uk/pub/MASS4}.
 #' @export
-iid <- function(x, densfun, start, nsim = 1000, prior = NULL,
-                param = "trans",
+iid <- function(x, densfun, start, nsim = 1000, prior = "default",
+                hpars = NULL, param = "trans",
                 lambda = NULL, gamma_rate = TRUE, ...) {
   # Check that x and densfun are OK
   if (missing(x) || length(x) == 0L || mode(x) != "numeric") {
@@ -158,6 +163,8 @@ iid <- function(x, densfun, start, nsim = 1000, prior = NULL,
     if (is.null(start)) {
       start <- set_starting_values(distname, x, gamma_rate)
     }
+  } else {
+    distname <- "user-supplied"
   }
   # Remove from start any parameters to be kept fixed
   start <- start[!is.element(names(start), fixed_pars)]
@@ -165,6 +172,12 @@ iid <- function(x, densfun, start, nsim = 1000, prior = NULL,
     stop("All parameters are being held fixed")
   }
   nm <- names(start)
+  print(prior)
+  print(densfun)
+  # Create a list that defines the prior and any parameters in the prior
+  prior <- check_prior(prior, model = "iid", hpars = hpars,
+                       distname = distname)
+  print(prior)
   # Check that if the parameter names have been supplied in prior then
   # they match with those in start
   if (!is.null(prior$par_names)) {
@@ -173,12 +186,12 @@ iid <- function(x, densfun, start, nsim = 1000, prior = NULL,
     }
     prior$par_names <- NULL
   }
-  print("nm")
-  print(nm)
-  print("start")
-  print(start)
-  print("prior")
-  print(prior$par_names)
+#  print("nm")
+#  print(nm)
+#  print("start")
+#  print(start)
+#  print("prior")
+#  print(prior$par_names)
   ## reorder arguments to densfun
   f <- formals(densfun)
   args <- names(f)
@@ -186,8 +199,6 @@ iid <- function(x, densfun, start, nsim = 1000, prior = NULL,
   if (any(is.na(m))) {
     stop("'start' includes names that are not arguments to 'densfun'")
   }
-  # Create a list that defines the prior and any parameters in the prior
-  prior <- check_prior(prior, model = "iid", hpars = NULL)
   # Set the function to calculate the log-likelihood
   formals(densfun) <- c(f[c(1, m)], f[-c(1, m)])
   dens <- function(parm, the_data, ...) densfun(the_data, parm, ...)
