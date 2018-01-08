@@ -34,7 +34,7 @@ density for \eqn{(\mu, \sigma_\alpha, \sigma)}.}
 A character vector containing the variable names in the prior, that is,
 the names of the parameters about which inference is required.
 If these are supplied then they must match exactly (in the same order)
-the parameter names of the argument \code{densfun} to \code{\list{iid}}.
+the parameter names of the argument \code{densfun} to \code{\link{iid}}.
 Supplying \code{par_names} is optional but it provides an advisible
 check that the components of the prior and log-likelihood are matched
 correctly.}
