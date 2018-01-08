@@ -56,7 +56,7 @@
 #
 #' Bayesian Inference for Univariate Distributions
 #'
-#' fitdistr
+#' Similar to fitdistr
 #'
 #' @param x A numeric vector of length at least one containing only
 #'   \code{\link{finite}} values
@@ -87,7 +87,7 @@
 #' @return Add return
 #' @examples
 #' x <- rgeom(10, 0.5)
-#' fitdistr(x, "geometric")
+#' # fitdistr(x, "geometric")
 #' geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
 #'                              model = "iid", par_names = "prob")
 #' pjn <- iid(x, "geometric", prior = geom_prior)
@@ -111,7 +111,6 @@ iid <- function(x, densfun, start, nsim = 1000, prior = NULL,
   if (missing(densfun) || !(is.function(densfun) || is.character(densfun))) {
     stop("'densfun' must be supplied as a function or name")
   }
-  # If start is not supplied then use MASS::fitdistr to set initial values
   if (missing(start)) {
     start <- NULL
   } else {

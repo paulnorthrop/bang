@@ -46,14 +46,14 @@ be held fixed.}
 Add return
 }
 \description{
-fitdistr
+Similar to fitdistr
 }
 \details{
 Add details
 }
 \examples{
 x <- rgeom(10, 0.5)
-fitdistr(x, "geometric")
+# fitdistr(x, "geometric")
 geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
                              model = "iid", par_names = "prob")
 pjn <- iid(x, "geometric", prior = geom_prior)
