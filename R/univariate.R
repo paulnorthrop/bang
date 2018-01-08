@@ -1,3 +1,7 @@
+# hpars <- hpars ?
+
+# Check values of hpars: here and in hef() and havova1()
+
 # geometric: beta (and jeffreys) prior gives beta posterior so use rbeta.
 
 # Big question. Should the main argument to the prior function be a named list
@@ -76,7 +80,8 @@
 #' @param n A numeric scalar. The number of values to be simulated from the
 #'   posterior distribution.
 #' @param prior Describe.
-#' @param hpars Describe.
+#' @param hpars A numeric vector.  Used to set parameters (if any) in
+#'   an in-built prior.
 #' @param param Describe.
 #' @param gamma_rate A logical scalar.
 #' @param ... Additional parameters, either for \code{densfun} or

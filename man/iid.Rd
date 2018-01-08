@@ -29,7 +29,8 @@ posterior distribution.}
 
 \item{prior}{Describe.}
 
-\item{hpars}{Describe.}
+\item{hpars}{A numeric vector.  Used to set parameters (if any) in
+an in-built prior.}
 
 \item{param}{Describe.}
 
