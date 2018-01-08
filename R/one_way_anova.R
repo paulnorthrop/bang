@@ -100,7 +100,9 @@
 #' \eqn{A_\alpha} and \eqn{A}, that is,
 #' \eqn{\pi(\sigma_\alpha, \sigma) =
 #'   1 / [(1 + \sigma_\alpha^2 / A_\alpha^2) (1 + \sigma^2 / A^2)].}
-#' [See Gelman (2006).]
+#' [See Gelman (2006).]  The scale parameters (\eqn{A_\alpha}, \eqn{A})
+#' are specified using \code{hpars} = (\eqn{A_\alpha}, \eqn{A}).
+#' The default setting is \code{hpars = c(10, 10).}
 #'
 #' \emph{Parameterizations for sampling:}
 #'
