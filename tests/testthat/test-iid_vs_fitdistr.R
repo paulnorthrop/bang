@@ -15,7 +15,7 @@ if(got_MASS) {
   geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
                                model = "iid", par_names = "prob")
   res1 <- iid(x, "geometric", prior = geom_prior, n = my_n)$f_mode
-  res2 <- fitdistr(x, "geometric")$estimate
+  res2 <- MASS::fitdistr(x, "geometric")$estimate
   test_that("iid geometric: MAP vs MASS fitdistr() MLE", {
     testthat::expect_equivalent(res1, res2, tolerance = my_tol)
   })
