@@ -1,3 +1,5 @@
+# geometric: beta (and jeffreys) prior gives beta posterior so use rbeta.
+
 # Big question. Should the main argument to the prior function be a named list
 # or a vector?  parm is a vector once it gets to the loglik function,
 # but this is because I have manipulated the function this way.
@@ -71,12 +73,11 @@
 #' @param start A named list giving the parameters to be optimized with
 #'   initial values. This can be omitted for some of the named distributions
 #'   and must be for others (see \strong{Details}).
-#' @param nsim A numeric scalar. The number of values to be simulated from the
+#' @param n A numeric scalar. The number of values to be simulated from the
 #'   posterior distribution.
 #' @param prior Describe.
 #' @param hpars Describe.
 #' @param param Describe.
-#' @param lambda A numeric vector.  rep_len
 #' @param gamma_rate A logical scalar.
 #' @param ... Additional parameters, either for \code{densfun} or
 #'   \code{\link[rust]{ru}}.
@@ -87,7 +88,7 @@
 #' @details Add details
 #' @return Add return
 #' @examples
-#' x <- rgeom(10, 0.5)
+#' x <- rgeom(11, 0.5)
 #' # fitdistr(x, "geometric")
 #' geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
 #'                              model = "iid", par_names = "prob")
@@ -104,9 +105,9 @@
 #'   Statistics with S.  Fourth Edition. Springer, New York.
 #'   ISBN 0-387-95457-0. \url{http://www.stats.ox.ac.uk/pub/MASS4}.
 #' @export
-iid <- function(x, densfun, start, nsim = 1000, prior = "default",
-                hpars = NULL, param = "trans",
-                lambda = NULL, gamma_rate = TRUE, ...) {
+iid <- function(x, densfun, start, n = 1000, prior = "default",
+                hpars = NULL, param = "trans", gamma_rate = TRUE, ...) {
+  nsim <- n
   # Check that x and densfun are OK
   if (missing(x) || length(x) == 0L || mode(x) != "numeric") {
     stop("'x' must be a non-empty numeric vector")
@@ -173,12 +174,12 @@ iid <- function(x, densfun, start, nsim = 1000, prior = "default",
     stop("All parameters are being held fixed")
   }
   nm <- names(start)
-  print(prior)
-  print(densfun)
+#  print(prior)
+#  print(densfun)
   # Create a list that defines the prior and any parameters in the prior
   prior <- check_prior(prior, model = "iid", hpars = hpars,
                        distname = distname)
-  print(prior)
+#  print(prior)
   # Check that if the parameter names have been supplied in prior then
   # they match with those in start
   if (!is.null(prior$par_names)) {
@@ -228,10 +229,10 @@ iid <- function(x, densfun, start, nsim = 1000, prior = "default",
     ru_args$rotate <- TRUE
   }
   fr <- list(d = d, var_names = names(start))
-  if (!is.null(lambda)) {
-    ru_args$trans <- "BC"
-    ru_args$lambda <- rep_len(lambda, d)
-  }
+#  if (!is.null(lambda)) {
+#    ru_args$trans <- "BC"
+#    ru_args$lambda <- rep_len(lambda, d)
+#  }
   # Set ru_args$n_grid and ru_args$ep_bc to NULL just in case they have been
   # specified in ...
   ru_args$n_grid <- NULL

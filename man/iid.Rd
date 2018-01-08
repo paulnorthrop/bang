@@ -4,8 +4,8 @@
 \alias{iid}
 \title{Bayesian Inference for Univariate Distributions}
 \usage{
-iid(x, densfun, start, nsim = 1000, prior = "default", hpars = NULL,
-  param = "trans", lambda = NULL, gamma_rate = TRUE, ...)
+iid(x, densfun, start, n = 1000, prior = "default", hpars = NULL,
+  param = "trans", gamma_rate = TRUE, ...)
 }
 \arguments{
 \item{x}{A numeric vector of length at least one containing only
@@ -24,7 +24,7 @@ iid(x, densfun, start, nsim = 1000, prior = "default", hpars = NULL,
 initial values. This can be omitted for some of the named distributions
 and must be for others (see \strong{Details}).}
 
-\item{nsim}{A numeric scalar. The number of values to be simulated from the
+\item{n}{A numeric scalar. The number of values to be simulated from the
 posterior distribution.}
 
 \item{prior}{Describe.}
@@ -32,8 +32,6 @@ posterior distribution.}
 \item{hpars}{Describe.}
 
 \item{param}{Describe.}
-
-\item{lambda}{A numeric vector.  rep_len}
 
 \item{gamma_rate}{A logical scalar.}
 
@@ -54,7 +52,7 @@ Similar to fitdistr
 Add details
 }
 \examples{
-x <- rgeom(10, 0.5)
+x <- rgeom(11, 0.5)
 # fitdistr(x, "geometric")
 geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
                              model = "iid", par_names = "prob")
