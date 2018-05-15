@@ -340,12 +340,12 @@ pde_anova1 <- function(x, which_pop, num) {
 #' @param ... Additional arguments passed on to \code{\link[rust]{summary.ru}}.
 #' @param params A character scalar.
 #'
-#'   If \code{params = "hyper"} then the posterior samples of all hyperparameter
-#'   values in \eqn{\phi} are summarized using \code{\link[rust]{summary.ru}}.
+#'   If \code{params = "hyper"} then the posterior samples of all
+#'   hyperparameter values in \eqn{\phi} are summarized using
+#'   \code{\link[rust]{summary.ru}}.
 #'
 #'   If \code{params = "pop"} then only posterior samples of the populations
-#'   specified in \code{which_pop} are summarized.  The summary is returned
-#'   invisibly.
+#'   specified in \code{which_pop} are summarized.
 #'
 #' @param which_pop An integer vector.  If \code{params = "pop"} then
 #'   \code{which_pop} indicates which populations, i.e. which columns
@@ -371,15 +371,45 @@ summary.hef <- function(object, ..., params = c("hyper", "pop"),
     for_ru <- object
     class(for_ru) <- "ru"
     posterior_summary <- summary(for_ru, ...)
-    return(invisible(posterior_summary))
+    class(posterior_summary) <- c("summary.hef", "summary.ru")
   } else {
     posterior_summary <- summary(object$theta_sim_vals[, which_pop,
                                                        drop = FALSE])
+    class(posterior_summary) <- c("summary.hef", "table")
   }
   return(posterior_summary)
 }
 
-# =============================== print.confint ===============================
+# ============================= print.summary.hef =============================
+
+#' Print method for objects of class "summary.hef"
+#'
+#' \code{print} method for class "summary.hef".
+#'
+#' @param x an object of class "summary.hef", a result of a call to
+#'   \code{\link{summary.hef}}.
+#' @param ... Additional optional arguments to be passed to
+#'   \code{\link{print}}.
+#' @details Prints the original call to \code{\link{hef}} or
+#'   \code{\link{hanova1}}, the name of the model and the number of populations
+#'   in the hierarchical model.
+#' @return The argument \code{x}, invisibly, as for all \code{\link{print}}
+#'   methods.
+#' @seealso \code{\link{summary.hef}}: \code{summary} method for class "hef".
+#' @seealso \code{\link{hef}} for hierarchical exponential family models.
+#' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of
+#'   variance (ANOVA).
+#' @export
+print.summary.hef <- function(x, ...) {
+  if (!inherits(x, "summary.hef")) {
+    stop("use only with \"summary.hef\" objects")
+  }
+  class(x) <- class(x)[2]
+  print(x, ...)
+  invisible(x)
+}
+
+# ================================= print.hef =================================
 
 #' Print method for objects of class "hef"
 #'
@@ -390,7 +420,7 @@ summary.hef <- function(object, ..., params = c("hyper", "pop"),
 #' @param ... Additional optional arguments. At present no optional
 #'   arguments are used.
 #' @details Prints the original call to \code{\link{hef}} or
-#'   \code{link{hanova1}}, the name of the model and the number of populations
+#'   \code{\link{hanova1}}, the name of the model and the number of populations
 #'   in the hierarchical model.
 #' @return The argument \code{x}, invisibly, as for all \code{\link{print}}
 #'   methods.

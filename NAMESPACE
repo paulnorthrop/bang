@@ -3,6 +3,7 @@
 S3method(plot,hef)
 S3method(pp_check,hef)
 S3method(print,hef)
+S3method(print,summary.hef)
 S3method(summary,hef)
 export(hanova1)
 export(hef)
