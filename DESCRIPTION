@@ -29,5 +29,4 @@ VignetteBuilder: knitr
 URL: http://github.com/paulnorthrop/bang
 BugReports: http://github.com/paulnorthrop/bang/issues
 License: GPL (>= 2)
-Encoding: UTF-8
 LazyData: true
