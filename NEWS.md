@@ -8,5 +8,5 @@
 
 * The summary method for class "hef" is now set up according to Section 8.1 of the R FAQ at (https://cran.r-project.org/doc/FAQ/R-FAQ.html).
 
-* Corrected an error that meant that the S3 plot method plot.hef() was not resetting graphical paramaters correctly on exit.
+* Corrected an error that meant that the S3 plot method plot.hef() was not resetting graphical parameters correctly on exit.
 
