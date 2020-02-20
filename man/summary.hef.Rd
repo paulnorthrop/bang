@@ -8,7 +8,8 @@
   which_pop = 1:ncol(object$theta_sim_vals))
 }
 \arguments{
-\item{object}{an object of class "hef", a result of a call to \code{hef}.}
+\item{object}{an object of class "hef", a result of a call to
+\code{\link{hef}}.}
 
 \item{...}{Additional arguments passed on to \code{\link[rust]{summary.ru}}.}
 

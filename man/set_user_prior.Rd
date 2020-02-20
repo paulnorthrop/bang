@@ -4,8 +4,8 @@
 \alias{set_user_prior}
 \title{Set a user-defined prior}
 \usage{
-set_user_prior(prior, ..., model = c("beta_binom", "gamma_pois", "anova1",
-  "iid"), anova_d = 2, par_names = NULL)
+set_user_prior(prior, ..., model = c("beta_binom", "gamma_pois",
+  "anova1"), anova_d = 2)
 }
 \arguments{
 \item{prior}{An R function returning \strong{the log of} the prior density
@@ -15,10 +15,8 @@ for of (perhaps a subset of) the hyperparameter vector \eqn{\phi}.}
 parameters involved in the function \code{prior}.}
 
 \item{model}{A character string.  Abbreviated name of the model:
-"beta_binom" for beta-binomial and "gamma_pois" for gamma-Poisson
-(see \code{\link{hef}}), "anova1" for 1-way ANOVA
-(see \code{\link{hanova1}}), "iid" for a random sample from a
-univariate distribution (see \code{\link{iid}}).}
+"beta_binom" for beta-binomial, "gamma_pois" for gamma-Poisson,
+"anova1" for 1-way ANOVA.}
 
 \item{anova_d}{An integer scalar.  Only relevant if \code{model = anova1}.
 If \code{anova_d = 2} then \code{prior} must return the log-prior
@@ -29,15 +27,6 @@ and a normal prior with mean \code{mu0} and standard deviation
 values \code{mu0 = 0} and \code{sigma0 = Inf}.
 If \code{anova_d = 3} then \code{prior} must return the log-prior
 density for \eqn{(\mu, \sigma_\alpha, \sigma)}.}
-
-\item{par_names}{Only relevant if \code{model = "iid"}.
-A character vector containing the variable names in the prior, that is,
-the names of the parameters about which inference is required.
-If these are supplied then they must match exactly (in the same order)
-the parameter names of the argument \code{densfun} to \code{\link{iid}}.
-Supplying \code{par_names} is optional but it provides an advisible
-check that the components of the prior and log-likelihood are matched
-correctly.}
 }
 \value{
 A list of class \code{"bang_prior"}.  Will contain the component
@@ -61,10 +50,6 @@ user_prior <- function(x, hpars) {
   return(dexp(x[1], hpars[1], log = TRUE) + dexp(x[2], hpars[2], log = TRUE))
 }
 user_prior_fn <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
-
-#
-geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
-                             model = "iid")
 }
 \seealso{
 \code{\link{hef}} for hierarchical exponential family models.

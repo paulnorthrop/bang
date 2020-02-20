@@ -172,7 +172,7 @@ where the respective shape (\eqn{s1}, \eqn{s2}) and rate
 
 # Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale
 rat_res <- hef(model = "beta_binom", data = rat)
-\dontrun{
+\donttest{
 # Hyperparameters alpha and beta
 plot(rat_res)
 # Parameterization used for sampling
@@ -190,7 +190,7 @@ plot(rat_res, params = "pop", plot_type = "dens", which_pop = pops,
 
 # Default prior, sampling on (rotated) (alpha, beta) scale
 rat_res <- hef(model = "beta_binom", data = rat, param = "original")
-\dontrun{
+\donttest{
 plot(rat_res)
 plot(rat_res, ru_scale = TRUE)
 }
@@ -202,7 +202,7 @@ summary(rat_res)
 # (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)
 # (d) Note that the mode is relocated to (0, 0) in the plot
 rat_res <- hef(model = "beta_binom", data = rat, rotate = FALSE)
-\dontrun{
+\donttest{
 plot(rat_res, ru_scale = TRUE)
 }
 # This is the estimated location of the posterior mode
@@ -215,7 +215,7 @@ user_prior <- function(x, hpars) {
 }
 user_prior_fn <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
 rat_res <- hef(model = "beta_binom", data = rat, prior = user_prior_fn)
-\dontrun{
+\donttest{
 plot(rat_res)
 }
 summary(rat_res)
@@ -226,7 +226,7 @@ summary(rat_res)
 
 pump_res <- hef(model = "gamma_pois", data = pump)
 # Hyperparameters alpha and beta
-\dontrun{
+\donttest{
 plot(pump_res)
 }
 # Parameterization used for sampling

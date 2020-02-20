@@ -21,9 +21,8 @@ The argument \code{x}, invisibly, as for all \code{\link{print}}
 \code{print} method for class "summary.hef".
 }
 \details{
-Prints the original call to \code{\link{hef}} or
-  \code{\link{hanova1}}, the name of the model and the number of populations
-  in the hierarchical model.
+What is printed depends on the argument \code{params} supplied
+  to \code{\link{summary.hef}}.
 }
 \seealso{
 \code{\link{summary.hef}}: \code{summary} method for class "hef".

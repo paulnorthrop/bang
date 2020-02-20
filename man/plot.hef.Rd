@@ -6,11 +6,12 @@
 \usage{
 \method{plot}{hef}(x, y, ..., params = c("hyper", "ru", "pop"),
   which_pop = NULL, plot_type = NULL, one_plot = FALSE,
-  add_legend = FALSE, legend_position = "topright", legend_text = NULL,
-  num = 100)
+  add_legend = FALSE, legend_position = "topright",
+  legend_text = NULL, num = 100)
 }
 \arguments{
-\item{x}{an object of class "hef", a result of a call to \code{ru}.}
+\item{x}{an object of class "hef", a result of a call to
+\code{\link[rust]{ru}}.}
 
 \item{y}{Not used.}
 
