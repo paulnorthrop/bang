@@ -5,3 +5,5 @@
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^development_code$
+^doc$
+^Meta$
