@@ -77,6 +77,10 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
         prior$hpars <- hpars
         if (is.null(hpars)) {
           prior$hpars <- anova1_cauchy_hpars()
+        } else {
+          if (any(hpars <= 0)) {
+            stop("The values in 'hpars' must be positive")
+          }
         }
       }
     }
@@ -90,6 +94,10 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
         prior$hpars <- hpars
         if (is.null(hpars)) {
           prior$hpars <- beta_gamma_hpars()
+        } else {
+          if (any(hpars <= 0)) {
+            stop("The values in 'hpars' must be positive")
+          }
         }
       }
     }
@@ -102,6 +110,10 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
         prior$hpars <- hpars
         if (is.null(hpars)) {
           prior$hpars <- gamma_gamma_hpars()
+        } else {
+          if (any(hpars <= 0)) {
+            stop("The values in 'hpars' must be positive")
+          }
         }
       }
     }
