@@ -10,10 +10,8 @@
 #' @param ... Further arguments giving the names and values of any
 #'   parameters involved in the function \code{prior}.
 #' @param model A character string.  Abbreviated name of the model:
-#'   "beta_binom" for beta-binomial and "gamma_pois" for gamma-Poisson
-#'   (see \code{\link{hef}}), "anova1" for 1-way ANOVA
-#'   (see \code{\link{hanova1}}), "iid" for a random sample from a
-#'   univariate distribution (see \code{\link{iid}}).
+#'   "beta_binom" for beta-binomial, "gamma_pois" for gamma-Poisson,
+#'   "anova1" for 1-way ANOVA.
 #' @param anova_d An integer scalar.  Only relevant if \code{model = anova1}.
 #'   If \code{anova_d = 2} then \code{prior} must return the log-prior
 #'   density for the standard deviations \eqn{(\sigma_\alpha, \sigma)}
@@ -23,14 +21,6 @@
 #'   values \code{mu0 = 0} and \code{sigma0 = Inf}.
 #'   If \code{anova_d = 3} then \code{prior} must return the log-prior
 #'   density for \eqn{(\mu, \sigma_\alpha, \sigma)}.
-#' @param par_names Only relevant if \code{model = "iid"}.
-#'   A character vector containing the variable names in the prior, that is,
-#'   the names of the parameters about which inference is required.
-#'   If these are supplied then they must match exactly (in the same order)
-#'   the parameter names of the argument \code{densfun} to \code{\link{iid}}.
-#'   Supplying \code{par_names} is optional but it provides an advisible
-#'   check that the components of the prior and log-likelihood are matched
-#'   correctly.
 #' @details For details of the hyperparameters in \eqn{\phi} see the
 #'   \strong{Details} section of \code{\link{hef}} for the models
 #'   \code{beta_binom} and \code{gamma_pois} and of \code{\link{hanova1}}
@@ -48,14 +38,9 @@
 #'   return(dexp(x[1], hpars[1], log = TRUE) + dexp(x[2], hpars[2], log = TRUE))
 #' }
 #' user_prior_fn <- set_user_prior(user_prior, hpars = c(0.01, 0.01))
-#'
-#' #
-#' geom_prior <- set_user_prior(dbeta, shape1 = 1, shape2 = 1, log = TRUE,
-#'                              model = "iid")
 #' @export
 set_user_prior <- function(prior, ..., model = c("beta_binom", "gamma_pois",
-                                                 "anova1", "iid"),
-                           anova_d = 2, par_names = NULL) {
+                                                 "anova1"), anova_d = 2) {
   if (!is.function(prior)) {
     stop("prior must be a function")
   }
@@ -63,28 +48,6 @@ set_user_prior <- function(prior, ..., model = c("beta_binom", "gamma_pois",
   # Return a list and add additional arguments from ....
   if (model == "anova1") {
     temp <- list(prior = prior, ..., anova_d = anova_d)
-  } else if (model == "iid") {
-    dots_names <- names(list(...))
-    prior_args <- formals(prior)
-    prior_names <- names(prior_args)
-    # Check that all arguments in ... are arguments of prior
-    m <- match(dots_names, prior_names)
-    if (any(is.na(m))) {
-      stop("'...' includes names that are not arguments to 'prior'")
-    }
-    # Check that all required arguments have a value (apart from the first)
-    n_args <- length(prior_args)
-    req_names <- lapply(1:n_args, FUN = function(x) is.name(prior_args[[x]]))
-    req_names <- prior_names[unlist(req_names)][-1]
-    m <- match(req_names, dots_names)
-    if (any(is.na(m))) {
-      stop("'...' does not include all required arguments to 'prior'")
-    }
-    if (is.null(par_names)) {
-      temp <- list(prior = prior, ...)
-    } else {
-      temp <- list(prior = prior, ..., par_names = par_names)
-    }
   } else {
     temp <- list(prior = prior, ...)
   }
@@ -93,8 +56,7 @@ set_user_prior <- function(prior, ..., model = c("beta_binom", "gamma_pois",
 
 # ============================ check_prior ====================================
 
-check_prior <- function(prior, model, hpars, n_groups = NULL,
-                        distname = NULL) {
+check_prior <- function(prior, model, hpars, n_groups = NULL) {
   # If prior is a character scalar then a default prior is being requested
   if (is.character(prior)) {
     prior_name <- prior
@@ -114,10 +76,6 @@ check_prior <- function(prior, model, hpars, n_groups = NULL,
         prior$hpars <- hpars
         if (is.null(hpars)) {
           prior$hpars <- anova1_cauchy_hpars()
-        } else {
-          if (any(hpars <= 0)) {
-            stop("The values in 'hpars' must be positive.")
-          }
         }
       }
     }
@@ -131,10 +89,6 @@ check_prior <- function(prior, model, hpars, n_groups = NULL,
         prior$hpars <- hpars
         if (is.null(hpars)) {
           prior$hpars <- beta_gamma_hpars()
-        } else {
-          if (any(hpars <= 0)) {
-            stop("The values in 'hpars' must be positive.")
-          }
         }
       }
     }
@@ -147,28 +101,6 @@ check_prior <- function(prior, model, hpars, n_groups = NULL,
         prior$hpars <- hpars
         if (is.null(hpars)) {
           prior$hpars <- gamma_gamma_hpars()
-        } else {
-          if (any(hpars <= 0)) {
-            stop("The values in 'hpars' must be positive.")
-          }
-        }
-      }
-    }
-    # A univariate distribution
-    if (model == "iid") {
-      if (distname == "geometric") {
-        prior$prior <- switch(prior_name,
-                              default = geom_jeffreys_prior,
-                              beta = iid_beta_prior)
-        if (prior_name == "beta") {
-          prior$hpars <- hpars
-          if (is.null(hpars)) {
-            prior$hpars <- iid_beta_hpars()
-          } else {
-            if (any(hpars <= 0)) {
-              stop("The values in 'hpars' must be positive.")
-            }
-          }
         }
       }
     }
