@@ -30,7 +30,7 @@ parameterization used for ratio-of-uniforms sampling.}
     This produces a different plot to \code{params = "hyper"} if \code{ru}
     is used only on a subset of \eqn{\phi}.  For example, this may be
     the case if \code{x} is the result of a call to \code{\link{hanova1}}.
-    See vignette("revdbayes-anova-vignette", package = "bang") for
+    See vignette("c-bang-anova-vignette", package = "bang") for
     information.}
   \item{"pop": }{posterior samples and/or densities of the
     population-specific parameter \eqn{\theta} are plotted.  The

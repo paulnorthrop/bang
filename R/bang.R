@@ -15,10 +15,10 @@
 #' produce these samples.
 #'
 #' See
-#' vignette("bang-vignette", package = "bang") for a brief introduction
+#' vignette("a-bang-vignette", package = "bang") for a brief introduction
 #' to the package and
-#' vignette("revdbayes-anova-hef", package = "bang") and
-#' vignette("revdbayes-anova-vignette", package = "bang") for illustrations
+#' vignette("b-bang-hef-vignette", package = "bang") and
+#' vignette("c-bang-anova-vignette", package = "bang") for illustrations
 #' of the use of the \code{\link{hef}} and \code{\link{hanova1}} functions.
 #'
 #' @seealso \code{\link{hef}} for hierarchical exponential family models.
