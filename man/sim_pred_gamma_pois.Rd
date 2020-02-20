@@ -2,7 +2,7 @@
 % Please edit documentation in R/pois_gamma.R
 \name{sim_pred_gamma_pois}
 \alias{sim_pred_gamma_pois}
-\title{Simulate from a gamm-Poisson posterior predictive distribution}
+\title{Simulate from a gamma-Poisson posterior predictive distribution}
 \usage{
 sim_pred_gamma_pois(theta_sim_vals, data, nrep)
 }

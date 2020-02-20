@@ -57,7 +57,7 @@ gamma_pois_cond_sim <- function(x, data, n_sim) {
 
 # --------------------------- sim_pred_gamma_pois --------------------------- #
 
-#' Simulate from a gamm-Poisson posterior predictive distribution
+#' Simulate from a gamma-Poisson posterior predictive distribution
 #'
 #' Simulates \code{nrep} draws from the posterior predictive distribution
 #' of the beta-binomial model described in \code{\link{hef}}.
