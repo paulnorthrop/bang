@@ -213,7 +213,7 @@ NULL
 #'   \itemize{
 #'     \item{Column 1, \code{source}: }{source of protein, a factor with levels
 #'       \code{Beef} and \code{Cereal}.}
-#'     \item{Column 2, \code{type}: }{amount of protein, a factor with levela
+#'     \item{Column 2, \code{type}: }{amount of protein, a factor with levels
 #'       \code{High} and \code{Low}.}
 #'     \item{Column 3, \code{weightgain}: }{weight gained, in grams.}
 #'  }
