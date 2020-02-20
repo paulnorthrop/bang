@@ -31,7 +31,6 @@
 #'
 #' @docType package
 #' @name bang
-#' @import methods
 #' @importFrom graphics plot
 #' @importFrom bayesplot ppc_stat
 #' @importFrom bayesplot ppc_stat_2d
