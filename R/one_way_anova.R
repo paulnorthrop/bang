@@ -74,7 +74,7 @@
 #'   Then, conditional on these values, population parameters are sampled
 #'   directly from the conditional posterior density of
 #'   \eqn{\theta}1, ..., \eqn{\theta}\eqn{I} given \eqn{\phi} and the data.
-#'   See the vignette("revdbayes-anova-vignette", package = "bang")
+#'   See the vignette("bang-anova-vignette", package = "bang")
 #'   for details.
 #'
 #'   The following priors are specified up to proportionality.
