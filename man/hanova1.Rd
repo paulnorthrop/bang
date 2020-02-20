@@ -5,8 +5,8 @@
 \title{Posterior sampling for a 1-way hierarchical ANOVA}
 \usage{
 hanova1(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
-  param = c("trans", "original"), init = NULL, mu0 = 0, sigma0 = Inf,
-  nrep = NULL)
+  param = c("trans", "original"), init = NULL, mu0 = 0,
+  sigma0 = Inf, nrep = NULL)
 }
 \arguments{
 \item{n}{A numeric scalar.  The size of posterior sample required.}
@@ -108,7 +108,7 @@ Consider \eqn{I} independent experiments in which the \eqn{ni} responses
   Then, conditional on these values, population parameters are sampled
   directly from the conditional posterior density of
   \eqn{\theta}1, ..., \eqn{\theta}\eqn{I} given \eqn{\phi} and the data.
-  See the vignette("revdbayes-anova-vignette", package = "bang")
+  See the vignette("bang-anova-vignette", package = "bang")
   for details.
 
   The following priors are specified up to proportionality.
