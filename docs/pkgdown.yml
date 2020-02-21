@@ -1,0 +1,9 @@
+pandoc: 1.19.2.1
+pkgdown: 1.4.1
+pkgdown_sha: ~
+articles:
+  bang-a-vignette: bang-a-vignette.html
+  bang-b-hef-vignette: bang-b-hef-vignette.html
+  bang-c-anova-vignette: bang-c-anova-vignette.html
+  bang-d-ppc-vignette: bang-d-ppc-vignette.html
+

@@ -1,0 +1,49 @@
+destination: docs
+
+development:
+  mode: release
+
+template:
+  params:
+    bootswatch: paper
+
+reference:
+  - title: Package
+    desc: ~
+    contents:
+      - "bang"
+  - title: Prior
+    desc: ~
+    contents:
+      - "set_user_prior"
+  - title: Posterior simulation
+    desc: ~
+    contents:
+      - "hanova1"
+      - "hef"
+  - title: Posterior predictive checking
+    desc: ~
+    contents:
+      - "pp_check"
+  - title: Generics
+    desc: ~
+    contents:
+      - "plot.hef"
+      - "print.hef"
+      - "print.summary.hef"
+      - "summary.hef"
+  - title: Datasets
+    desc: ~
+    contents:
+      - "coagulation"
+      - "pump"
+      - "rat"
+      - "temp1"
+      - "temp2"
+      - "weight_gain"
+  - title: Miscellaneous
+    desc: ~
+    contents:
+      - "sim_pred_beta_binom"
+      - "sim_pred_gamma_pois"
+      - "sim_pred_hanova1"
