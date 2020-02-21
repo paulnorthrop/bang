@@ -113,7 +113,8 @@
 <h3 class="hasAnchor">
 <a href="#a-simple-example" class="anchor"></a>A simple example</h3>
 <p>The <code>hef</code> function samples from the posterior distribution of the parameters of certain hierarchical exponential family models. The following code performs essentially the same analysis of the rat tumor data using a beta-binomial hierarchical model that appears in Section 5.3 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B., Vehtari, A. and Rubin, D. B. (2014) Bayesian Data Analysis. Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book" class="uri">http://www.stat.columbia.edu/~gelman/book</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rat_res &lt;-<span class="st"> </span><span class="kw"><a href="reference/hef.html">hef</a></span>(<span class="dt">model =</span> <span class="st">"beta_binom"</span>, <span class="dt">data =</span> rat)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bang)
+rat_res &lt;-<span class="st"> </span><span class="kw"><a href="reference/hef.html">hef</a></span>(<span class="dt">model =</span> <span class="st">"beta_binom"</span>, <span class="dt">data =</span> rat)
 <span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(rat_res)</code></pre></div>
 </div>
 <div id="installation" class="section level3">

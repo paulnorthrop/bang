@@ -16,7 +16,7 @@ reference:
     desc: ~
     contents:
       - "set_user_prior"
-  - title: Posterior simulation
+  - title: Posterior
     desc: ~
     contents:
       - "hanova1"
