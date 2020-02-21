@@ -6,7 +6,7 @@
 
 - ubuntu 12.04 (on travis-ci), R-release, R-devel    
 - osx (on travis-ci), R-oldrel, R-release            
-- win-builder (R-devel and R-release)
+- win-builder (R-release)
 
 ## Downstream dependencies
 
