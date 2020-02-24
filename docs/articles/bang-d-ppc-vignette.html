@@ -94,7 +94,7 @@
       <h1>Posterior Predictive Checking</h1>
                         <h4 class="author">Paul J. Northrop</h4>
             
-            <h4 class="date">2020-02-21</h4>
+            <h4 class="date">2020-02-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/paulnorthrop/bang/blob/master/vignettes/bang-d-ppc-vignette.Rmd"><code>vignettes/bang-d-ppc-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>bang-d-ppc-vignette.Rmd</code></div>
@@ -104,7 +104,7 @@
     
     
 <p>This short vignette illustrates the use of the <code>pp_check</code> method <code>pp_check.hef</code>, which provides an interface to the posterior predictive checking graphics in the <em>bayesplot</em> package <span class="citation">(Gabry and Mahr 2017)</span>. For details see the bayesplot vignette <a href="https://CRAN.R-project.org/package=bayesplot">Graphical posterior predictive checks</a>. and/or Chapter 6 of <span class="citation">Gelman et al. (2014)</span>. <em>bayesplot</em> functions return a <code>ggplot</code> object that can be customised using the <em>gglot2</em> package <span class="citation">(Wickham 2016)</span>.</p>
-<p>We revisit the examples presented in the vignettes <a href="bang-anova-vignette.html">Hierarchical 1-way Analysis of Variance</a> and <a href="bang-hef-vignette.html">Conjugate Hierarchical Models</a>. In the code below <code>hef</code> and <code>hanova1</code> have been called with the extra argument <code>nrep = 50</code>. This results in 50 simulated replicates of the data, returned in <code>object$data_rep</code>, on which posterior predictive checking can be based. The general idea is that if the model fits well then the observed data should not appear unusual when compared to replicates from the posterior predictive distribution.</p>
+<p>We revisit the examples presented in the vignettes <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of Variance</a> and <a href="bang-b-hef-vignette.html">Conjugate Hierarchical Models</a>. In the code below <code>hef</code> and <code>hanova1</code> have been called with the extra argument <code>nrep = 50</code>. This results in 50 simulated replicates of the data, returned in <code>object$data_rep</code>, on which posterior predictive checking can be based. The general idea is that if the model fits well then the observed data should not appear unusual when compared to replicates from the posterior predictive distribution.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bang)
 <span class="co"># Beta-binomial rat tumor example</span>
 rat_res &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hef.html">hef</a></span>(<span class="dt">model =</span> <span class="st">"beta_binom"</span>, <span class="dt">data =</span> rat, <span class="dt">nrep =</span> <span class="dv">50</span>)
