@@ -17,7 +17,7 @@ The possibly mis-spelled words (names Gelfand and Wakefield) in DESCRIPTION are 
 
 - ubuntu 12.04 (on travis-ci), R-release, R-devel    
 - osx (on travis-ci), R-oldrel, R-release            
-- win-builder (R-release)
+- win-builder (R-release, R-devel)
 
 ## Downstream dependencies
 
