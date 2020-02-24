@@ -56,7 +56,7 @@ For details of these functions see \link[bayesplot]{PPC-overview}.
   with a matrix \code{object$data_rep} in which each row is a
   replication of the observed data simulated from the posterior predictive
   distribution.  For greater detail see Chapter 6 of
-  \href{www.stat.columbia.edu/~gelman/book}{Gelman et al. (2014)}.
+  \href{www.stat.columbia.edu/~gelman/book/}{Gelman et al. (2014)}.
 }
 \examples{
 ############################ Beta-binomial #################################
@@ -115,8 +115,7 @@ Models. R package version 1.1.0.
 
 Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B.,
 Vehtari, A., and Rubin, D. B. (2013). \emph{Bayesian Data Analysis}.
-Chapman & Hall/CRC Press, London, third edition. (Chapter 6)
-\url{www.stat.columbia.edu/~gelman/book}
+Chapman & Hall/CRC Press, London, third edition. (Chapter 6).
 }
 \seealso{
 \code{\link{hef}} and \code{\link{hanova1}} for sampling

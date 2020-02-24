@@ -40,7 +40,7 @@
 #'   with a matrix \code{object$data_rep} in which each row is a
 #'   replication of the observed data simulated from the posterior predictive
 #'   distribution.  For greater detail see Chapter 6 of
-#'   \href{www.stat.columbia.edu/~gelman/book}{Gelman et al. (2014)}.
+#'   \href{www.stat.columbia.edu/~gelman/book/}{Gelman et al. (2014)}.
 #'
 #' @return A ggplot object that can be further customized using the
 #'   \strong{ggplot2} package.

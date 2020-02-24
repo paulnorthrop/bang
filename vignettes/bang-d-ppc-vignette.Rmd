@@ -69,7 +69,7 @@ pp_check(rat_res, fun = "stat_2d", stat = c("mean", "sd"))
 
 ## Gamma-Poisson model
 
-The aspect of the data that appears in these plots is the exposure-adjusted rate $y_j / e_j$, where $y_j$ is the observed count and $e_j$ a measure of exposure.  See the [Conjugate Hierarchical Models](bang-hef-vignette.html) vignette for more detail.
+The aspect of the data that appears in these plots is the exposure-adjusted rate $y_j / e_j$, where $y_j$ is the observed count and $e_j$ a measure of exposure.  See the [Conjugate Hierarchical Models](bang-b-hef-vignette.html) vignette for more detail.
 
 ```{r, fig.show='hold', fig.width = 7, fig.height = 5}
 # Overlaid density estimates
