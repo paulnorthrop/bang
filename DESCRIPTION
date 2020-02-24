@@ -8,11 +8,13 @@ Authors@R: c(person(c("Paul", "J."), "Northrop", email = "p.northrop@ucl.ac.uk",
   role = c("aut", "cph")))
 Description: Provides functions for the Bayesian analysis of some simple 
     commonly-used models, without using Markov Chain Monte Carlo (MCMC) 
-    methods such as Gibbs sampling.  The 'rust' package  
-    <https://cran.r-project.org/package=rust> is used 
-    to simulate a random sample from the required posterior distribution.  
-    At the moment three conjugate hierarchical models are available:
-    beta-binomial, gamma-Poisson and a 1-way analysis of variance (ANOVA).
+    methods such as Gibbs sampling.  The 'rust' package
+    <https://cran.r-project.org/package=rust> is used to simulate a random 
+    sample from the required posterior distribution, using the generalized 
+    ratio-of-uniforms method.  See Wakefield, Gelfand and Smith (1991) 
+    <DOI:10.1007/BF01889987> for details. At the moment three conjugate 
+    hierarchical models are available: beta-binomial, gamma-Poisson and a 1-way 
+    analysis of variance (ANOVA).
 Depends: R (>= 3.3.0)
 Imports: bayesplot (>= 1.1.0),
     graphics,
