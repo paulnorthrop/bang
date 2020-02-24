@@ -1,9 +1,7 @@
 ## Resubmission
 This is a resubmission.  In this version I have:
 
-* Removed the first possibly invalid URI.
-
-* Corrected the other URIs.
+* Corrected the URIs.
 
 * Added a reference about the method in the Description.
 
