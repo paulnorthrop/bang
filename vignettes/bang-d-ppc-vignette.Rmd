@@ -25,7 +25,7 @@ if (!all(unlist(lapply(required, function(pkg) requireNamespace(pkg, quietly = T
 This short vignette illustrates the use of the `pp_check` method `pp_check.hef`, which provides an interface to the posterior predictive checking graphics in the *bayesplot* package [@bayesplot].  For details see the bayesplot vignette 
 [Graphical posterior predictive checks](https://CRAN.R-project.org/package=bayesplot). and/or Chapter 6 of @BDA2014.  *bayesplot* functions return a `ggplot` object that can be customised using the *gglot2* package [@ggplot2].
 
-We revisit the examples presented in the vignettes [Hierarchical 1-way Analysis of Variance](bang-anova-vignette.html) and [Conjugate Hierarchical Models](bang-hef-vignette.html).  In the code below `hef` and `hanova1` have been called with the extra argument `nrep = 50`.  This results in 50 simulated replicates of the data, returned in `object$data_rep`, on which posterior predictive checking can be based.  The general idea is that if the model fits well then the observed data should not appear unusual when compared to replicates from the posterior predictive distribution.
+We revisit the examples presented in the vignettes [Hierarchical 1-way Analysis of Variance](bang-c-anova-vignette.html) and [Conjugate Hierarchical Models](bang-b-hef-vignette.html).  In the code below `hef` and `hanova1` have been called with the extra argument `nrep = 50`.  This results in 50 simulated replicates of the data, returned in `object$data_rep`, on which posterior predictive checking can be based.  The general idea is that if the model fits well then the observed data should not appear unusual when compared to replicates from the posterior predictive distribution.
 
 ```{r}
 library(bang)

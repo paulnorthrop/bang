@@ -17,7 +17,7 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 set.seed(47)
 ```
 
-The *bang* package simulates from the posterior distributions involved in certain Bayesian models.  See the vignette [Introducing bang: Bayesian Analysis, No Gibbs](bang-vignette.html) for an introduction.  In this vignette we consider the Bayesian analysis of certain conjugate hierarchical models.  We give only a brief outline of the structure of these models.  For a full description see Chapter 5 of @BDA2014.
+The *bang* package simulates from the posterior distributions involved in certain Bayesian models.  See the vignette [Introducing bang: Bayesian Analysis, No Gibbs](bang-a-vignette.html) for an introduction.  In this vignette we consider the Bayesian analysis of certain conjugate hierarchical models.  We give only a brief outline of the structure of these models.  For a full description see Chapter 5 of @BDA2014.
 
 Suppose that, for $j = 1, \ldots, J$, experiment $j$ of $J$ experiments yields a data vector $Y_j$ and associated parameter vector $\theta_j$.  Conditional on $\theta_j$ the data $Y_j$ are assumed to follow independent response distributions from the exponential family of probability distributions.  A prior distribution $\pi(\theta_j \mid \phi)$ is placed on each of the *population parameters* $\theta_1, \ldots, \theta_J$, where $\phi$ is a vector of hyperparameters.  For mathematical convenience $\pi(\theta_j \mid \phi)$ is selected to be *conditionally conjugate*, that is, conditionally on $\phi$ the posterior distribution of $\theta_j$ of the same type as $\pi(\theta_j \mid \phi)$. 
 

@@ -19,7 +19,7 @@ set.seed(47)
 
 The *bang* package uses the *rust* package [@rust] to produce random samples, using the generalized ratio-of-uniforms method, from the posterior distributions involved in certain Bayesian models.  *rust* was originally created to perform this role in the package *revdbayes* [@revdbayes], which deals with basic extreme value models with only 2 or 3 parameters.  The aim of *bang* is to tackle further models.  
 
-See also the vignettes [Hierarchical 1-way Analysis of Variance](bang-anova-vignette.html) and [Conjugate Hierarchical Models](bang-hef-vignette.html).
+See also the vignettes [Hierarchical 1-way Analysis of Variance](bang-c-anova-vignette.html) and [Conjugate Hierarchical Models](bang-b-hef-vignette.html).
 
 ## The generalized ratio-of-uniforms method as an alternative to MCMC
 

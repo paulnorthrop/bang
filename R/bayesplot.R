@@ -56,8 +56,7 @@
 #' \url{https://CRAN.R-project.org/package=bayesplot}
 #' @references Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B.,
 #' Vehtari, A., and Rubin, D. B. (2013). \emph{Bayesian Data Analysis}.
-#' Chapman & Hall/CRC Press, London, third edition. (Chapter 6)
-#' \url{www.stat.columbia.edu/~gelman/book}
+#' Chapman & Hall/CRC Press, London, third edition. (Chapter 6).
 #' @examples
 #' ############################ Beta-binomial #################################
 #'
