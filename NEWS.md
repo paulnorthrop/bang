@@ -1,3 +1,5 @@
+# bang 1.0.1.9000
+
 # bang 1.0.1
 
 ## Bug fixes and minor improvements
