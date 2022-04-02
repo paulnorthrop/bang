@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 
 # bang
 
-[![Travis-CI Build Status](https://travis-ci.org/paulnorthrop/bang.svg?branch=master)](https://travis-ci.org/paulnorthrop/bang) 
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/paulnorthrop/bang?branch=master&svg=true)](https://ci.appveyor.com/project/paulnorthrop/bang)
 [![Coverage Status](https://codecov.io/github/paulnorthrop/bang/coverage.svg?branch=master)](https://codecov.io/github/paulnorthrop/bang?branch=master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/bang)](https://cran.r-project.org/package=bang)
