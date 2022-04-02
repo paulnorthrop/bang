@@ -1,4 +1,4 @@
-context("Beta-binomial marginal log-likelihood")
+#context("Beta-binomial marginal log-likelihood")
 
 # Checks that a quick way to code the beta-binomial marginal log-likelihood,
 # that also avoid problems with underflow when alpha and/or beta are very

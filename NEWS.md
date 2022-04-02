@@ -1,5 +1,9 @@
 # bang 1.0.1.9000
 
+## Bug fixes and minor improvements
+
+* Activated 3rd edition of the `testthat` package
+
 # bang 1.0.1
 
 ## Bug fixes and minor improvements

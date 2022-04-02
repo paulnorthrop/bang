@@ -1,4 +1,4 @@
-context("1-way Hierarchical ANOVA log-likelihood")
+#context("1-way Hierarchical ANOVA log-likelihood")
 
 # Checks that the code to evaluate the log-posterior using the product of
 # marginal and conditional posteriors gives the same value (up to an additive

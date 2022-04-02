@@ -1,4 +1,4 @@
-context("set_user_prior")
+#context("set_user_prior")
 
 # Non-function prior
 check_error <- try(set_user_prior("bda"), silent = TRUE)

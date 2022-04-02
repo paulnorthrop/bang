@@ -1,4 +1,4 @@
-context("plot_hef")
+#context("plot_hef")
 
 my_seed <- 47
 my_n <- 5

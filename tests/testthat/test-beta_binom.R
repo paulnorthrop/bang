@@ -1,4 +1,4 @@
-context("hef, beta_binom, in-built prior vs user prior")
+#context("hef, beta_binom, in-built prior vs user prior")
 
 my_seed <- 47
 my_tol <- 1e-5

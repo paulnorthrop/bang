@@ -1,7 +1,7 @@
 Package: bang
 Title: Bayesian Analysis, No Gibbs
 Version: 1.0.1.9000
-Date: 2020-02-25
+Date: 2022-04-02
 Authors@R: c(person(c("Paul", "J."), "Northrop", email = "p.northrop@ucl.ac.uk",
   role = c("aut", "cre", "cph")), 
   person(c("Benjamin", "D."), "Hall", email = "benjamin.hall.16@ucl.ac.uk",
@@ -17,6 +17,7 @@ Description: Provides functions for the Bayesian analysis of some simple
     analysis of variance (ANOVA).
 Depends: R (>= 3.3.0)
 Imports: bayesplot (>= 1.1.0),
+    EMMIXmfa,
     graphics,
     rust (>= 1.2.2),
     stats
@@ -32,3 +33,4 @@ BugReports: http://github.com/paulnorthrop/bang/issues
 License: GPL (>= 2)
 LazyData: true
 Encoding: UTF-8
+Config/testthat/edition: 3

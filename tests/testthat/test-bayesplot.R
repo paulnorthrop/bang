@@ -1,4 +1,4 @@
-context("bayesplot")
+#context("bayesplot")
 
 my_seed <- 47
 
