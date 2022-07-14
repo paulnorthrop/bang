@@ -7,7 +7,7 @@
 #'
 #' @param n A numeric scalar.  The size of posterior sample required.
 #' @param resp A numeric vector.  Response values.
-#' @param fac A vector of class \link{factor} indicating the group from
+#' @param fac A vector of class \code{\link{factor}} indicating the group from
 #'   which the corresponding element of \code{resp} originates.
 #'   Must have the same length as \code{resp}.
 #' @param prior The log-prior for the parameters of the hyperprior
