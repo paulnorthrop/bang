@@ -3,7 +3,6 @@
 \docType{package}
 \name{bang}
 \alias{bang}
-\alias{bang-package}
 \title{bang: Bayesian Analysis, No Gibbs}
 \description{
 Performs Bayesian analyses using some simple commonly-used models.

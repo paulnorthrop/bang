@@ -4,10 +4,19 @@
 \alias{plot.hef}
 \title{Plot diagnostics for a hef object}
 \usage{
-\method{plot}{hef}(x, y, ..., params = c("hyper", "ru", "pop"),
-  which_pop = NULL, plot_type = NULL, one_plot = FALSE,
-  add_legend = FALSE, legend_position = "topright",
-  legend_text = NULL, num = 100)
+\method{plot}{hef}(
+  x,
+  y,
+  ...,
+  params = c("hyper", "ru", "pop"),
+  which_pop = NULL,
+  plot_type = NULL,
+  one_plot = FALSE,
+  add_legend = FALSE,
+  legend_position = "topright",
+  legend_text = NULL,
+  num = 100
+)
 }
 \arguments{
 \item{x}{an object of class "hef", a result of a call to

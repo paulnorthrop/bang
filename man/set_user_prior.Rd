@@ -4,8 +4,12 @@
 \alias{set_user_prior}
 \title{Set a user-defined prior}
 \usage{
-set_user_prior(prior, ..., model = c("beta_binom", "gamma_pois",
-  "anova1"), anova_d = 2)
+set_user_prior(
+  prior,
+  ...,
+  model = c("beta_binom", "gamma_pois", "anova1"),
+  anova_d = 2
+)
 }
 \arguments{
 \item{prior}{An R function returning \strong{the log of} the prior density

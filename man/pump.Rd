@@ -4,7 +4,9 @@
 \name{pump}
 \alias{pump}
 \title{Pump-failure data}
-\format{A matrix 10 rows and 2 columns.}
+\format{
+A matrix 10 rows and 2 columns.
+}
 \source{
 Table 3 of Gaver, D. P. and O'Muircheartaigh, I. G. (1987).
   See also Gelfand, A. E. and Smith, A. F. M. (1990).

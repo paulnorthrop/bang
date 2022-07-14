@@ -4,9 +4,17 @@
 \alias{hef}
 \title{Hierarchical Exponential Family Model}
 \usage{
-hef(n = 1000, model = c("beta_binom", "gamma_pois"), data, ...,
-  prior = "default", hpars = NULL, param = c("trans", "original"),
-  init = NULL, nrep = NULL)
+hef(
+  n = 1000,
+  model = c("beta_binom", "gamma_pois"),
+  data,
+  ...,
+  prior = "default",
+  hpars = NULL,
+  param = c("trans", "original"),
+  init = NULL,
+  nrep = NULL
+)
 }
 \arguments{
 \item{n}{An integer scalar.  The size of the posterior sample required.}

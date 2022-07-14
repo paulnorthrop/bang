@@ -5,8 +5,7 @@
 \alias{pp_check}
 \title{Posterior predictive checks for a hef object}
 \usage{
-\method{pp_check}{hef}(object, fun = NULL, raw = FALSE, nrep = NULL,
-  ...)
+\method{pp_check}{hef}(object, fun = NULL, raw = FALSE, nrep = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class "hef", a result of a call to

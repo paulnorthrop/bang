@@ -4,7 +4,8 @@
 \name{temp2}
 \alias{temp2}
 \title{Late 21st Century Global Temperature Projection Data}
-\format{A data frame with 270 rows and 4 columns.
+\format{
+A data frame with 270 rows and 4 columns.
   \itemize{
     \item{Column 1, \code{index}: }{anomaly of 2069-2098 mean relative to
       the 1970-1999 mean.}
@@ -13,7 +14,8 @@
     \item{Column 3, \code{RCP}: }{Representative Concentration Pathway.
       One of rcp26, rcp45, rcp60, rcp85.}
     \item{Column 4, \code{run}: }{Simulation run number.}
- }}
+ }
+}
 \source{
 The raw data from which the indices are calculated are monthly
   CMIP5 scenario runs for global surface air temperature (tas)

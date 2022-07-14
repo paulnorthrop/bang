@@ -4,14 +4,16 @@
 \name{weight_gain}
 \alias{weight_gain}
 \title{Weight Gained by Rats}
-\format{A data frame with 40 rows and 3 columns.
+\format{
+A data frame with 40 rows and 3 columns.
   \itemize{
     \item{Column 1, \code{source}: }{source of protein, a factor with levels
       \code{Beef} and \code{Cereal}.}
     \item{Column 2, \code{type}: }{amount of protein, a factor with levels
       \code{High} and \code{Low}.}
     \item{Column 3, \code{weightgain}: }{weight gained, in grams.}
- }}
+ }
+}
 \source{
 D. J. Hand, A. D. Lunn, K. J. McConway, and E. Ostrowski (1994).
   \emph{A Handbook of Small Datasets}, Chapman and Hall/CRC, London.

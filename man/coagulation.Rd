@@ -4,7 +4,9 @@
 \name{coagulation}
 \alias{coagulation}
 \title{Coagulation time data}
-\format{A data frame with 24 rows and 2 columns.}
+\format{
+A data frame with 24 rows and 2 columns.
+}
 \source{
 Table 11.2 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.

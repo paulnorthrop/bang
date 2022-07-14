@@ -4,8 +4,12 @@
 \alias{summary.hef}
 \title{Summarizing hef objects}
 \usage{
-\method{summary}{hef}(object, ..., params = c("hyper", "pop"),
-  which_pop = 1:ncol(object$theta_sim_vals))
+\method{summary}{hef}(
+  object,
+  ...,
+  params = c("hyper", "pop"),
+  which_pop = 1:ncol(object$theta_sim_vals)
+)
 }
 \arguments{
 \item{object}{an object of class "hef", a result of a call to

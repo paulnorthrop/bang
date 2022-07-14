@@ -4,9 +4,19 @@
 \alias{hanova1}
 \title{Posterior sampling for a 1-way hierarchical ANOVA}
 \usage{
-hanova1(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
-  param = c("trans", "original"), init = NULL, mu0 = 0,
-  sigma0 = Inf, nrep = NULL)
+hanova1(
+  n = 1000,
+  resp,
+  fac,
+  ...,
+  prior = "default",
+  hpars = NULL,
+  param = c("trans", "original"),
+  init = NULL,
+  mu0 = 0,
+  sigma0 = Inf,
+  nrep = NULL
+)
 }
 \arguments{
 \item{n}{A numeric scalar.  The size of posterior sample required.}
