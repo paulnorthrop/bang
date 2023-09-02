@@ -56,7 +56,7 @@ beta_init_ests <- function(data, param) {
     beta <- (1 - mp) * mult
   } else {
     alpha <- 0.1
-    beta <- alpha * mp / (1 - mp)
+    beta <- alpha * (1 - mp) / mp
   }
   if (param == "trans") {
     init <- c(log(alpha / beta), log(alpha + beta))
