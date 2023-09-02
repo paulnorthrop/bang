@@ -49,7 +49,7 @@ of a 1-way hierarchical ANOVA model."><!-- mathjax --><script src="https://cdnjs
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="http://github.com/paulnorthrop/bang/" class="external-link">
+  <a href="https://github.com/paulnorthrop/bang/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -64,7 +64,7 @@ of a 1-way hierarchical ANOVA model."><!-- mathjax --><script src="https://cdnjs
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Posterior sampling for a 1-way hierarchical ANOVA</h1>
-    <small class="dont-index">Source: <a href="http://github.com/paulnorthrop/bang/blob/HEAD/R/one_way_anova.R" class="external-link"><code>R/one_way_anova.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/paulnorthrop/bang/blob/HEAD/R/one_way_anova.R" class="external-link"><code>R/one_way_anova.R</code></a></small>
     <div class="hidden name"><code>hanova1.Rd</code></div>
     </div>
 
@@ -254,7 +254,8 @@ The default setting is <code>hpars = c(10, 10).</code></p>
  Chapman &amp; Hall / CRC.</p>
 <p>Gelman, A. (2006) Prior distributions for variance
   parameters in hierarchical models. <em>Bayesian Analysis</em>,
-  <strong>1</strong>(3), 515-533. <a href="https://doi.org/10.1214/06-BA117A" class="external-link">https://doi.org/10.1214/06-BA117A</a>.</p>
+  <strong>1</strong>(3), 515-533. <a href="https://doi.org/10.1214/06-BA117A" class="external-link">doi:10.1214/06-BA117A</a>
+.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -298,9 +299,9 @@ The default setting is <code>hpars = c(10, 10).</code></p>
 <span class="r-in"><span><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">97.5</span><span class="op">)</span> <span class="op">/</span> <span class="fl">100</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              2.5%  25%  50%  75% 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mu           1.06 1.18 1.24 1.30  1.42</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha] 0.34 0.40 0.44 0.48  0.61</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma        0.04 0.05 0.06 0.06  0.07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mu           1.06 1.18 1.24 1.29  1.40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha] 0.34 0.40 0.44 0.48  0.58</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma        0.04 0.05 0.06 0.06  0.08</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Ratio-of-uniforms information and posterior sample summaries</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span></span></span>
@@ -313,16 +314,16 @@ The default setting is <code>hpars = c(10, 10).</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.1739269 -0.0010104519  0.300416382    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.551572</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.538503</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        mu          sigma[alpha]        sigma        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.8771   Min.   :0.2817   Min.   :0.03916  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:1.1837   1st Qu.:0.3994   1st Qu.:0.05155  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :1.2395   Median :0.4403   Median :0.05625  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.2394   Mean   :0.4477   Mean   :0.05708  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.2953   3rd Qu.:0.4842   3rd Qu.:0.06213  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :1.6213   Max.   :0.8046   Max.   :0.09173  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.9509   Min.   :0.3075   Min.   :0.03861  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:1.1842   1st Qu.:0.3985   1st Qu.:0.05164  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :1.2373   Median :0.4385   Median :0.05629  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.2370   Mean   :0.4451   Mean   :0.05723  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.2916   3rd Qu.:0.4849   3rd Qu.:0.06181  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :1.5853   Max.   :0.7281   Max.   :0.08711  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ======= Coagulation time data, from Table 11.2 Gelman et al (2014) =======</span></span></span>
 <span class="r-in"><span></span></span>
@@ -346,22 +347,22 @@ The default setting is <code>hpars = c(10, 10).</code></p>
 <span class="r-in"><span><span class="va">all2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">coag2</span><span class="op">$</span><span class="va">theta_sim_vals</span>, <span class="va">coag2</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">all1</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              2.5%  25%  50%  75% 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[1]     59.0 60.3 61.2 62.0  63.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[2]     64.0 65.2 65.9 66.6  67.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[3]     65.6 67.1 67.8 68.4  69.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[4]     59.4 60.6 61.1 61.7  62.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mu           55.5 62.2 64.0 65.7  73.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha]  1.9  3.6  5.1  7.8  25.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma         1.8  2.2  2.4  2.7   3.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[1]     58.6 60.4 61.1 62.0  63.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[2]     63.9 65.3 66.0 66.6  67.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[3]     65.8 67.1 67.8 68.5  69.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[4]     59.4 60.5 61.1 61.7  62.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mu           55.5 62.3 64.0 65.9  73.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha]  2.0  3.5  5.1  7.8  26.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma         1.8  2.2  2.4  2.7   3.5</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">all2</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              2.5%  25%  50%  75% 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[1]     58.7 60.6 61.3 62.1  63.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[2]     63.8 65.2 65.8 66.5  68.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[3]     65.7 67.1 67.7 68.4  69.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[4]     59.3 60.5 61.1 61.7  62.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mu           55.2 62.2 64.0 65.9  73.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha]  2.0  3.6  5.0  8.2  24.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma         1.8  2.2  2.4  2.7   3.3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[1]     58.8 60.4 61.2 61.9  63.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[2]     63.9 65.3 65.9 66.5  67.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[3]     65.8 67.1 67.7 68.4  69.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[4]     59.5 60.6 61.2 61.7  62.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mu           55.0 62.2 64.1 65.7  72.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha]  2.0  3.4  5.0  7.6  26.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma         1.8  2.2  2.4  2.7   3.5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Pairwise plots of posterior samples from the group means</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coag1</span>, which_pop <span class="op">=</span> <span class="st">"all"</span>, plot_type <span class="op">=</span> <span class="st">"pairs"</span><span class="op">)</span></span></span>
