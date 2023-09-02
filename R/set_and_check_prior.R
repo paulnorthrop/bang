@@ -117,7 +117,7 @@ check_prior <- function(prior, model, hpars, n_groups = NULL) {
         }
       }
     }
-  } else if (class(prior) == "bang_prior") {
+  } else if (inherits(prior, "bang_prior")) {
     if (attr(prior, "model") != model) {
       stop("model and model set by set_user_prior() don't match")
     }
