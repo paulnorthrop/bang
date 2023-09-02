@@ -5,6 +5,7 @@
 
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/paulnorthrop/bang?branch=master&svg=true)](https://ci.appveyor.com/project/paulnorthrop/bang)
+[![R-CMD-check](https://github.com/paulnorthrop/bang/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/paulnorthrop/bang/actions/workflows/R-CMD-check.yaml)
 [![Coverage
 Status](https://codecov.io/github/paulnorthrop/bang/coverage.svg?branch=master)](https://codecov.io/github/paulnorthrop/bang?branch=master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/bang)](https://cran.r-project.org/package=bang)
