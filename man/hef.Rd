@@ -249,7 +249,7 @@ plot(pump_res, params = "pop", plot_type = "dens", which_pop = pops)
 Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
  Chapman & Hall / CRC.
-  \url{http://www.stat.columbia.edu/~gelman/book}
+  \url{http://www.stat.columbia.edu/~gelman/book/}
 }
 \seealso{
 The \code{\link[rust]{ru}} function in the \code{\link{rust}}

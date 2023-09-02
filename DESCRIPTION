@@ -27,8 +27,8 @@ Suggests: ggplot2 (>= 2.2.1),
     rmarkdown,
     testthat
 VignetteBuilder: knitr
-URL: https://paulnorthrop.github.io/bang/, http://github.com/paulnorthrop/bang
-BugReports: http://github.com/paulnorthrop/bang/issues
+URL: https://paulnorthrop.github.io/bang/, https://github.com/paulnorthrop/bang
+BugReports: https://github.com/paulnorthrop/bang/issues
 License: GPL (>= 2)
 LazyData: true
 Encoding: UTF-8

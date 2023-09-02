@@ -7,7 +7,7 @@
 Status](https://ci.appveyor.com/api/projects/status/github/paulnorthrop/bang?branch=master&svg=true)](https://ci.appveyor.com/project/paulnorthrop/bang)
 [![R-CMD-check](https://github.com/paulnorthrop/bang/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/paulnorthrop/bang/actions/workflows/R-CMD-check.yaml)
 [![Coverage
-Status](https://codecov.io/github/paulnorthrop/bang/coverage.svg?branch=master)](https://codecov.io/github/paulnorthrop/bang?branch=master)
+Status](https://codecov.io/github/paulnorthrop/bang/coverage.svg?branch=master)](https://app.codecov.io/github/paulnorthrop/bang?branch=master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/bang)](https://cran.r-project.org/package=bang)
 [![Downloads
 (monthly)](https://cranlogs.r-pkg.org/badges/bang?color=brightgreen)](https://cran.r-project.org/package=bang)
@@ -38,7 +38,7 @@ following code performs essentially the same analysis of the rat tumor
 data using a beta-binomial hierarchical model that appears in Section
 5.3 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B., Vehtari,
 A. and Rubin, D. B. (2014) Bayesian Data Analysis. Chapman & Hall / CRC.
-<http://www.stat.columbia.edu/~gelman/book>.
+<http://www.stat.columbia.edu/~gelman/book/>.
 
 ``` r
 library(bang)

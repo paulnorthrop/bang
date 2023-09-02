@@ -145,7 +145,7 @@
 #' @references Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
 #'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.
-#'   \url{http://www.stat.columbia.edu/~gelman/book}
+#'   \url{http://www.stat.columbia.edu/~gelman/book/}
 #' @seealso The \code{\link[rust]{ru}} function in the \code{\link{rust}}
 #'   package for details of the arguments that can be passed to \code{ru} via
 #'   \code{hef}.
