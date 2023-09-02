@@ -30,7 +30,6 @@
 #'   \url{https://cran.r-project.org/package=rust}.
 #'
 #' @docType package
-#' @name bang
 #' @importFrom graphics plot
 #' @importFrom bayesplot ppc_stat
 #' @importFrom bayesplot ppc_stat_2d
@@ -46,7 +45,7 @@
 #' @importFrom bayesplot mcmc_intervals
 #' @importFrom bayesplot mcmc_dens
 #' @importFrom bayesplot mcmc_hist
-NULL
+"_PACKAGE"
 
 #' Rat tumor data
 #'
