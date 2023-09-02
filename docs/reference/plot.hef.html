@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -72,11 +72,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for hef</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span>, params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hyper"</span>, <span class="st">"ru"</span>, <span class="st">"pop"</span><span class="op">)</span>,
-  which_pop <span class="op">=</span> <span class="cn">NULL</span>, plot_type <span class="op">=</span> <span class="cn">NULL</span>, one_plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  add_legend <span class="op">=</span> <span class="cn">FALSE</span>, legend_position <span class="op">=</span> <span class="st">"topright"</span>,
-  legend_text <span class="op">=</span> <span class="cn">NULL</span>, num <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for hef</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">y</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hyper"</span>, <span class="st">"ru"</span>, <span class="st">"pop"</span><span class="op">)</span>,</span>
+<span>  which_pop <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  one_plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  add_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  legend_position <span class="op">=</span> <span class="st">"topright"</span>,</span>
+<span>  legend_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  num <span class="op">=</span> <span class="fl">100</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -84,13 +93,19 @@
     <dl><dt>x</dt>
 <dd><p>an object of class "hef", a result of a call to
 <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code>.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>Not used.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to <code><a href="https://paulnorthrop.github.io/rust/reference/plot.ru.html" class="external-link">plot.ru</a></code>,
 <code><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></code> or <code><a href="https://rdrr.io/r/graphics/pairs.html" class="external-link">pairs</a></code>.
 In particular, <code>ru_scale = TRUE</code> produces a plot using the
 parameterization used for ratio-of-uniforms sampling.</p></dd>
+
+
 <dt>params</dt>
 <dd><p>A character scalar that determines to which parameters the
  plots relate.</p><ul><li><p>"hyper": the posterior sample of <em>all</em> hyperparameter
@@ -108,6 +123,8 @@ parameterization used for ratio-of-uniforms sampling.</p></dd>
     type of plot is determined by <code>plot_type</code>.
     If <code>plot_type</code> is not supplied then it is set to <code>"dens"</code>.</p></li>
 </ul></dd>
+
+
 <dt>which_pop</dt>
 <dd><p>An integer vector or character scalar.
 If <code>params = "pop"</code> then <code>which_pop</code> indicates which
@@ -116,6 +133,8 @@ populations to include in the plot.  If <code>which_pop</code> is supplied then
 then all populations are included.  If there are many populations then
 this may fail if <code>plot_type = "pairs"</code> and/or
 <code>one_plot = FALSE</code>.</p></dd>
+
+
 <dt>plot_type</dt>
 <dd><p>A character scalar that determines the type of plot
  produced when <code>params = "pop"</code>.  If <code>plot_type</code> is supplied
@@ -128,6 +147,8 @@ this may fail if <code>plot_type = "pairs"</code> and/or
     \(\theta\) for the populations in <code>which_pop</code>, which must have
     length greater than one.</p></li>
 </ul></dd>
+
+
 <dt>one_plot, add_legend, legend_position, legend_text</dt>
 <dd><p>Only relevant if
 <code>plot_type = "dens"</code>.  If <code>one_plot = TRUE</code> then the estimated
@@ -137,10 +158,13 @@ marginal posterior densities are plotted in the same graph and if
 the character scalar <code>legend_position</code>.
 A character vector <code>legend_text</code> may be used to override the
 default legend text.</p></dd>
+
+
 <dt>num</dt>
 <dd><p>A numeric scalar.  If <code>plot_type == "dens"</code> or
 <code>plot_type == "both"</code> then <code>num</code> gives the number of
 points at which the marginal densities are evaluated to produce plots.</p></dd>
+
 </dl></div>
     <div id="examples">
     <h2>Examples</h2>
@@ -166,7 +190,7 @@ points at which the marginal densities are evaluated to produce plots.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

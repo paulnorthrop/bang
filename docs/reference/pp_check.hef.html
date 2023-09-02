@@ -20,7 +20,7 @@ details of these functions.'><!-- mathjax --><script src="https://cdnjs.cloudfla
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -29,7 +29,7 @@ details of these functions.'><!-- mathjax --><script src="https://cdnjs.cloudfla
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -78,9 +78,8 @@ details of these functions.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for hef</span>
-<span class="fu">pp_check</span><span class="op">(</span><span class="va">object</span>, fun <span class="op">=</span> <span class="cn">NULL</span>, raw <span class="op">=</span> <span class="cn">FALSE</span>, nrep <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for hef</span></span>
+<span><span class="fu">pp_check</span><span class="op">(</span><span class="va">object</span>, fun <span class="op">=</span> <span class="cn">NULL</span>, raw <span class="op">=</span> <span class="cn">FALSE</span>, nrep <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -88,11 +87,15 @@ details of these functions.</p>
     <dl><dt>object</dt>
 <dd><p>An object of class "hef", a result of a call to
 <code><a href="hef.html">hef</a></code> or <code><a href="hanova1.html">hanova1</a></code>.</p></dd>
+
+
 <dt>fun</dt>
 <dd><p>The plotting function to call.
 Can be any of the functions detailed at <a href="https://mc-stan.org/bayesplot/reference/PPC-overview.html" class="external-link">PPC-overview</a>.
 The "ppc_" prefix can optionally be dropped if fun is specified
 as a string.</p></dd>
+
+
 <dt>raw</dt>
 <dd><p>Only relevant if <code>object$model = "beta_binom"</code> or
 <code>object$model = "gamma_pois"</code>.
@@ -102,19 +105,27 @@ Otherwise, the <em>proportions</em> of successes are used in the
 <code>gamma_pois</code> case.  In both cases the values used are
  <code>object$data[, 1] / object$data[, 2]</code> and the equivalent
  in <code>object$data_rep</code>.</p></dd>
+
+
 <dt>nrep</dt>
 <dd><p>The number of predictive replicates to use.  If <code>nrep</code>
 is supplied then the first <code>nrep</code> rows of <code>object$data_rep</code>
 are used.  Otherwise, or if <code>nrep</code> is greater than
 <code>nrow(object$data_rep)</code>, then all rows are used.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed on to bayesplot functions.
 See <strong>Examples</strong> below.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot object that can be further customized using the
-<strong>ggplot2</strong> package.</p>
+    
+
+<p>A ggplot object that can be further customized using the</p>
+<p></p>
+<p><strong>ggplot2</strong> package.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -152,66 +163,68 @@ Chapman &amp; Hall/CRC Press, London, third edition. (Chapter 6).
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">############################ Beta-binomial #################################</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ------------------------- Rat tumor data ------------------------------- #</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Overlaid density estimates</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">############################ Beta-binomial #################################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ------------------------- Rat tumor data ------------------------------- #</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Overlaid density estimates</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="pp_check.hef-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># Overlaid distribution function estimates</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"ecdf_overlay"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Overlaid distribution function estimates</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"ecdf_overlay"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="pp_check.hef-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="co"># Multiple histograms</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"hist"</span>, nrep <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># Multiple histograms</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"hist"</span>, nrep <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
 <span class="r-plt img"><img src="pp_check.hef-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># Multiple boxplots</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Multiple boxplots</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Notch went outside hinges</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Do you want `notch = FALSE`?</span>
 <span class="r-plt img"><img src="pp_check.hef-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># Predictive medians vs observed median</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"stat"</span>, stat <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Predictive medians vs observed median</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"stat"</span>, stat <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
 <span class="r-plt img"><img src="pp_check.hef-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="pp_check.hef-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">############################ Gamma-Poisson #################################</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ------------------------ Pump failure data ------------------------------ #</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># Overlaid density estimates</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">############################ Gamma-Poisson #################################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ------------------------ Pump failure data ------------------------------ #</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Overlaid density estimates</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="pp_check.hef-7.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">pump_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">pump_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="pp_check.hef-8.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">###################### One-way Hierarchical ANOVA ##########################</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#----------------- Late 21st Century Global Temperature Data ------------- #</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span></span>
-<span class="r-in"><span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># Overlaid density estimates</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">###################### One-way Hierarchical ANOVA ##########################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#----------------- Late 21st Century Global Temperature Data ------------- #</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Overlaid density estimates</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="pp_check.hef-9.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span>
-<span class="r-in"><span class="fu">pp_check</span><span class="op">(</span><span class="va">temp_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span></span>
+<span class="r-in"><span><span class="fu">pp_check</span><span class="op">(</span><span class="va">temp_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="pp_check.hef-10.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -226,7 +239,7 @@ Chapman &amp; Hall/CRC Press, London, third edition. (Chapter 6).
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

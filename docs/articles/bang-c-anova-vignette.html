@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -88,9 +88,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Hierarchical 1-way Analysis of Variance</h1>
-                        <h4 data-toc-skip class="author">Paul J. Northrop</h4>
+                        <h4 data-toc-skip class="author">Paul J.
+Northrop</h4>
             
-            <h4 data-toc-skip class="date">2022-04-11</h4>
+            <h4 data-toc-skip class="date">2023-09-02</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/paulnorthrop/bang/blob/HEAD/vignettes/bang-c-anova-vignette.Rmd" class="external-link"><code>vignettes/bang-c-anova-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>bang-c-anova-vignette.Rmd</code></div>
@@ -99,206 +100,357 @@
 
     
     
-<p>The <em>bang</em> package simulates from the posterior distributions involved in certain Bayesian models. See the vignette <a href="bang-a-vignette.html">Introducing bang: Bayesian Analysis, No Gibbs</a> for an introduction. In this vignette we consider the hierarchical 1-way Analysis of variance (ANOVA) model: <span class="math display">\[\begin{equation*}
-Y_{ij} = \mu + \alpha_i + \epsilon_{ij} = \theta_i + \epsilon_{ij}, \quad\mbox{for} \,\, i = 1, \ldots, I, \, j = 1, \ldots, n_i, 
-\end{equation*}\]</span> where <span class="math inline">\(\alpha_i \sim N(0, \sigma_\alpha^2)\)</span>, so that <span class="math inline">\(\theta_i = \mu + \alpha_i \sim N(\mu, \sigma_\alpha^2)\)</span>, and <span class="math inline">\(\epsilon_{ij} \sim N(0, \sigma^2)\)</span> and all random variables are independent. Variability of the response variable <span class="math inline">\(Y\)</span> about an overall level <span class="math inline">\(\mu\)</span> is decomposed into contributions <span class="math inline">\(\alpha_i, i = 1, \ldots, I\)</span> from an explanatory factor indicating membership of group <span class="math inline">\(i\)</span> and a random error term <span class="math inline">\(\epsilon_{ij}\)</span>.</p>
-<p>This model has <span class="math inline">\(I + 3\)</span> parameters: <span class="math inline">\(\boldsymbol{\mathbf{\phi}} = (\mu, \sigma_\alpha, \sigma)\)</span> and <span class="math inline">\(\boldsymbol{\mathbf{\alpha}} = (\alpha_1, \ldots, \alpha_I)\)</span>. Equivalently, we could replace <span class="math inline">\(\boldsymbol{\mathbf{\alpha}}\)</span> by <span class="math inline">\(\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots, \theta_I)\)</span>. The full posterior <span class="math inline">\(\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}}) \, \pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})\)</span> can be factorized into products of lower-dimensional densities. See the <a href="#appendix">Appendix</a> for details. If it is assumed that <span class="math inline">\(\mu\)</span> and <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> are independent <em>a priori</em> and a normal prior is set for <span class="math inline">\(\mu\)</span> then the only challenging part of sampling from <span class="math inline">\(\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})\)</span> is to simulate from the two-dimensional density <span class="math inline">\(\pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})\)</span>. Otherwise, we need to simulate from <span class="math inline">\(\pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})\)</span>. The <em>bang</em> function <code>hanova1</code> uses the <em>rust</em> package <span class="citation">(Northrop 2017)</span> to simulate from these densities. In sampling from the marginal posterior density <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span> we use a parameterization designed to improve the efficiency of sampling. In this case we work with <span class="math inline">\((\log\sigma_\alpha, \log\sigma)\)</span>. We illustrate the use of <code>hanova1</code> using two example datasets. Unless stated otherwise we use the default hyperprior <span class="math inline">\(\pi(\mu, \sigma_\alpha, \sigma) \propto 1/\sigma\)</span>, that is, a uniform prior for <span class="math inline">\((\mu, \sigma_\alpha, \log\sigma)\)</span> for <span class="math inline">\(\sigma_\alpha&gt;0, \sigma&gt;0\)</span> (see Sections 5.7 and 11.6 of <span class="citation">Gelman et al. (2014)</span>). A user-defined prior can be set using <code>set_user_prior</code>.</p>
+<p>The <em>bang</em> package simulates from the posterior distributions
+involved in certain Bayesian models. See the vignette <a href="bang-a-vignette.html">Introducing bang: Bayesian Analysis, No
+Gibbs</a> for an introduction. In this vignette we consider the
+hierarchical 1-way Analysis of variance (ANOVA) model: <span class="math display">\[\begin{equation*}
+Y_{ij} = \mu + \alpha_i + \epsilon_{ij} = \theta_i + \epsilon_{ij},
+\quad\mbox{for} \,\, i = 1, \ldots, I, \, j = 1, \ldots, n_i,
+\end{equation*}\]</span> where <span class="math inline">\(\alpha_i \sim
+N(0, \sigma_\alpha^2)\)</span>, so that <span class="math inline">\(\theta_i = \mu + \alpha_i \sim N(\mu,
+\sigma_\alpha^2)\)</span>, and <span class="math inline">\(\epsilon_{ij}
+\sim N(0, \sigma^2)\)</span> and all random variables are independent.
+Variability of the response variable <span class="math inline">\(Y\)</span> about an overall level <span class="math inline">\(\mu\)</span> is decomposed into contributions
+<span class="math inline">\(\alpha_i, i = 1, \ldots, I\)</span> from an
+explanatory factor indicating membership of group <span class="math inline">\(i\)</span> and a random error term <span class="math inline">\(\epsilon_{ij}\)</span>.</p>
+<p>This model has <span class="math inline">\(I + 3\)</span> parameters:
+<span class="math inline">\(\boldsymbol{\mathbf{\phi}} = (\mu,
+\sigma_\alpha, \sigma)\)</span> and <span class="math inline">\(\boldsymbol{\mathbf{\alpha}} = (\alpha_1, \ldots,
+\alpha_I)\)</span>. Equivalently, we could replace <span class="math inline">\(\boldsymbol{\mathbf{\alpha}}\)</span> by <span class="math inline">\(\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots,
+\theta_I)\)</span>. The full posterior <span class="math inline">\(\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}}
+\mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\alpha}} \mid
+\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}}) \,
+\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})\)</span>
+can be factorized into products of lower-dimensional densities. See the
+<a href="#appendix">Appendix</a> for details. If it is assumed that
+<span class="math inline">\(\mu\)</span> and <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> are independent
+<em>a priori</em> and a normal prior is set for <span class="math inline">\(\mu\)</span> then the only challenging part of
+sampling from <span class="math inline">\(\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}}
+\mid \boldsymbol{\mathbf{y}})\)</span> is to simulate from the
+two-dimensional density <span class="math inline">\(\pi(\sigma_\alpha,
+\sigma \mid \boldsymbol{\mathbf{y}})\)</span>. Otherwise, we need to
+simulate from <span class="math inline">\(\pi(\mu, \sigma_\alpha, \sigma
+\mid \boldsymbol{\mathbf{y}})\)</span>. The <em>bang</em> function
+<code>hanova1</code> uses the <em>rust</em> package <span class="citation">(Northrop 2017)</span> to simulate from these
+densities. In sampling from the marginal posterior density <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span> we
+use a parameterization designed to improve the efficiency of sampling.
+In this case we work with <span class="math inline">\((\log\sigma_\alpha, \log\sigma)\)</span>. We
+illustrate the use of <code>hanova1</code> using two example datasets.
+Unless stated otherwise we use the default hyperprior <span class="math inline">\(\pi(\mu, \sigma_\alpha, \sigma) \propto
+1/\sigma\)</span>, that is, a uniform prior for <span class="math inline">\((\mu, \sigma_\alpha, \log\sigma)\)</span> for
+<span class="math inline">\(\sigma_\alpha&gt;0, \sigma&gt;0\)</span>
+(see Sections 5.7 and 11.6 of <span class="citation">Gelman et al.
+(2014)</span>). A user-defined prior can be set using
+<code>set_user_prior</code>.</p>
 <div class="section level2">
 <h2 id="late-21st-century-global-temperature-projection-data">Late 21st Century Global Temperature Projection Data<a class="anchor" aria-label="anchor" href="#late-21st-century-global-temperature-projection-data"></a>
 </h2>
-<p>The data frame <code>temp2</code> contains indices of global temperature change from late 20th century (1970-1999) to late 21st century (2069-2098) based on data produced by the Fifth Coupled Model Intercomparison Project (CMIP5). The dataset is the union of four subsets, each based on a different greenhouse gas emissions scenario called a Representative Concentration Pathway (RCP). Here we analyse only data for RCP2.6. Of course, inferences about the overall temperature change parameter <span class="math inline">\(\mu\)</span> are important, but it is also interesting to compare the magnitudes of <span class="math inline">\(\sigma_\alpha\)</span> and <span class="math inline">\(\sigma\)</span>. If, for example, if <span class="math inline">\(\sigma_\alpha\)</span> is much greater than <span class="math inline">\(\sigma\)</span> then uncertainty about temperature projection associated with choice of GCM is greater than that associated with the choice of simulation run from a particular GCM. See <span class="citation">Northrop and Chandler (2014)</span> for more information.</p>
+<p>The data frame <code>temp2</code> contains indices of global
+temperature change from late 20th century (1970-1999) to late 21st
+century (2069-2098) based on data produced by the Fifth Coupled Model
+Intercomparison Project (CMIP5). The dataset is the union of four
+subsets, each based on a different greenhouse gas emissions scenario
+called a Representative Concentration Pathway (RCP). Here we analyse
+only data for RCP2.6. Of course, inferences about the overall
+temperature change parameter <span class="math inline">\(\mu\)</span>
+are important, but it is also interesting to compare the magnitudes of
+<span class="math inline">\(\sigma_\alpha\)</span> and <span class="math inline">\(\sigma\)</span>. If, for example, if <span class="math inline">\(\sigma_\alpha\)</span> is much greater than <span class="math inline">\(\sigma\)</span> then uncertainty about temperature
+projection associated with choice of GCM is greater than that associated
+with the choice of simulation run from a particular GCM. See <span class="citation">Northrop and Chandler (2014)</span> for more
+information.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span>
-<span class="co"># Extract RCP2.6 data</span>
-<span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span></code></pre></div>
-<p>There are 61 observations in total distributed rather unevenly across the 38 GCMs. Only 28 of the GCMs have at least one run available for RCP2.6.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span></span>
+<span><span class="co"># Extract RCP2.6 data</span></span>
+<span><span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span></span></code></pre></div>
+<p>There are 61 observations in total distributed rather unevenly across
+the 38 GCMs. Only 28 of the GCMs have at least one run available for
+RCP2.6.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Number of observations</span>
-<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"index"</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; [1] 61</span>
-<span class="co"># Numbers of runs for each GCM</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"GCM"</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;      ACCESS1-0      ACCESS1-3     bcc-csm1-1   bcc-csm1-1-m        BNU-ESM </span>
-<span class="co">#&gt;              0              0              1              1              1 </span>
-<span class="co">#&gt;        CanESM2          CCSM4      CESM1-BGC     CESM1-CAM5        CMCC-CM </span>
-<span class="co">#&gt;              5              6              0              3              0 </span>
-<span class="co">#&gt;       CMCC-CMS       CNRM-CM5  CSIRO-Mk3-6-0       EC-EARTH      FGOALS-g2 </span>
-<span class="co">#&gt;              0              1             10              2              1 </span>
-<span class="co">#&gt;        FIO-ESM       GFDL-CM3     GFDL-ESM2G     GFDL-ESM2M      GISS-E2-H </span>
-<span class="co">#&gt;              3              1              1              1              1 </span>
-<span class="co">#&gt;   GISS-E2-H-CC      GISS-E2-R   GISS-E2-R-CC     HadGEM2-AO     HadGEM2-CC </span>
-<span class="co">#&gt;              0              1              0              1              0 </span>
-<span class="co">#&gt;     HadGEM2-ES         inmcm4   IPSL-CM5A-LR   IPSL-CM5A-MR   IPSL-CM5B-LR </span>
-<span class="co">#&gt;              4              0              4              1              0 </span>
-<span class="co">#&gt;      MIROC-ESM MIROC-ESM-CHEM         MIROC5     MPI-ESM-LR     MPI-ESM-MR </span>
-<span class="co">#&gt;              1              1              3              3              1 </span>
-<span class="co">#&gt;      MRI-CGCM3      NorESM1-M     NorESM1-ME </span>
-<span class="co">#&gt;              1              1              1</span>
-<span class="co"># Number of GCMs with at least one run</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"GCM"</span><span class="op">]</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>
-<span class="co">#&gt; [1] 28</span></code></pre></div>
-<p>We use <code>hanova1</code> to sample from the posterior distribution of the parameters based on the (default) improper uniform prior for <span class="math inline">\((\mu, \log\sigma_\alpha, \sigma)\)</span>, described in Section 11.6 of <span class="citation">Gelman et al. (2014)</span>. This prior fits in to the special case considered in the <a href="#appendix">Appendix</a>, with an infinite prior variance <span class="math inline">\(\sigma_0^2\)</span> for <span class="math inline">\(\mu\)</span>.</p>
+<code class="sourceCode R"><span><span class="co"># Number of observations</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"index"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 61</span></span>
+<span><span class="co"># Numbers of runs for each GCM</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"GCM"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      ACCESS1-0      ACCESS1-3     bcc-csm1-1   bcc-csm1-1-m        BNU-ESM </span></span>
+<span><span class="co">#&gt;              0              0              1              1              1 </span></span>
+<span><span class="co">#&gt;        CanESM2          CCSM4      CESM1-BGC     CESM1-CAM5        CMCC-CM </span></span>
+<span><span class="co">#&gt;              5              6              0              3              0 </span></span>
+<span><span class="co">#&gt;       CMCC-CMS       CNRM-CM5  CSIRO-Mk3-6-0       EC-EARTH      FGOALS-g2 </span></span>
+<span><span class="co">#&gt;              0              1             10              2              1 </span></span>
+<span><span class="co">#&gt;        FIO-ESM       GFDL-CM3     GFDL-ESM2G     GFDL-ESM2M      GISS-E2-H </span></span>
+<span><span class="co">#&gt;              3              1              1              1              1 </span></span>
+<span><span class="co">#&gt;   GISS-E2-H-CC      GISS-E2-R   GISS-E2-R-CC     HadGEM2-AO     HadGEM2-CC </span></span>
+<span><span class="co">#&gt;              0              1              0              1              0 </span></span>
+<span><span class="co">#&gt;     HadGEM2-ES         inmcm4   IPSL-CM5A-LR   IPSL-CM5A-MR   IPSL-CM5B-LR </span></span>
+<span><span class="co">#&gt;              4              0              4              1              0 </span></span>
+<span><span class="co">#&gt;      MIROC-ESM MIROC-ESM-CHEM         MIROC5     MPI-ESM-LR     MPI-ESM-MR </span></span>
+<span><span class="co">#&gt;              1              1              3              3              1 </span></span>
+<span><span class="co">#&gt;      MRI-CGCM3      NorESM1-M     NorESM1-ME </span></span>
+<span><span class="co">#&gt;              1              1              1</span></span>
+<span><span class="co"># Number of GCMs with at least one run</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"GCM"</span><span class="op">]</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 28</span></span></code></pre></div>
+<p>We use <code>hanova1</code> to sample from the posterior distribution
+of the parameters based on the (default) improper uniform prior for
+<span class="math inline">\((\mu, \log\sigma_\alpha, \sigma)\)</span>,
+described in Section 11.6 of <span class="citation">Gelman et al.
+(2014)</span>. This prior fits in to the special case considered in the
+<a href="#appendix">Appendix</a>, with an infinite prior variance <span class="math inline">\(\sigma_0^2\)</span> for <span class="math inline">\(\mu\)</span>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The response is the index, the explanatory factor is the GCM</span>
-<span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"index"</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"GCM"</span><span class="op">]</span><span class="op">)</span>
-<span class="co"># Plots relating to the posterior sample of the variance parameters</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, params <span class="op">=</span> <span class="st">"ru"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># The response is the index, the explanatory factor is the GCM</span></span>
+<span><span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"index"</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"GCM"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co"># Plots relating to the posterior sample of the variance parameters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, params <span class="op">=</span> <span class="st">"ru"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-5-1.png" width="331.2"><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-5-2.png" width="331.2"></p>
-<p>The plot on the left shows the values sampled from the posterior distribution of <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> with superimposed density contours. We see that the posterior distribution is located at values for which <span class="math inline">\(\sigma_\alpha\)</span> is much greater than <span class="math inline">\(\sigma\)</span>, by a factor of nearly 10. On the right is a similar plot displayed on the scale used for sampling, <span class="math inline">\((\rho_1, \rho_2)=(\log \sigma_\alpha, \log \sigma)\)</span>, after relocation of the posterior mode to the origin and rotation and scaling to near circularity of the density contours.</p>
-<p>We summarize the marginal posterior distribution of <span class="math inline">\(\mu\)</span> using a histogram with a superimposed kernel density estimate.</p>
+<p>The plot on the left shows the values sampled from the posterior
+distribution of <span class="math inline">\((\sigma_\alpha,
+\sigma)\)</span> with superimposed density contours. We see that the
+posterior distribution is located at values for which <span class="math inline">\(\sigma_\alpha\)</span> is much greater than <span class="math inline">\(\sigma\)</span>, by a factor of nearly 10. On the
+right is a similar plot displayed on the scale used for sampling, <span class="math inline">\((\rho_1, \rho_2)=(\log \sigma_\alpha, \log
+\sigma)\)</span>, after relocation of the posterior mode to the origin
+and rotation and scaling to near circularity of the density
+contours.</p>
+<p>We summarize the marginal posterior distribution of <span class="math inline">\(\mu\)</span> using a histogram with a superimposed
+kernel density estimate.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">[</span>, <span class="st">"mu"</span><span class="op">]</span>,  main <span class="op">=</span> <span class="st">""</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>, prob <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">[</span>, <span class="st">"mu"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">[</span>, <span class="st">"mu"</span><span class="op">]</span>,  main <span class="op">=</span> <span class="st">""</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>, prob <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">[</span>, <span class="st">"mu"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;"></p>
-<p>The following plot summarizes the estimated marginal posterior densities of the mean index for each GCM.</p>
+<p>The following plot summarizes the estimated marginal posterior
+densities of the mean index for each GCM.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, which_pop <span class="op">=</span> <span class="st">"all"</span>, one_plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, which_pop <span class="op">=</span> <span class="st">"all"</span>, one_plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="coagulation-time-data">Coagulation time data<a class="anchor" aria-label="anchor" href="#coagulation-time-data"></a>
 </h2>
-<p>In the temperature projection example sampling was conducted on the scale <span class="math inline">\((\log\sigma_\alpha, \log\alpha)\)</span> and was unproblematic. It would also have been unproblematic had we sampled on the original <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> scale. To show that there are examples where the latter is not the case we consider a small dataset presented in Section 11.6 of <span class="citation">Gelman et al. (2014)</span>. The response variable is the coagulation time of blood drawn from 24 animals allocated to different diets. The crucial aspect of this dataset is that the explanatory factor (diet) has only 4 levels. This means that there is little information about <span class="math inline">\(\sigma_\alpha\)</span> in the data. Unless some prior information about <span class="math inline">\(\sigma_\alpha\)</span> is provided the posterior distribution for <span class="math inline">\(\sigma_\alpha\)</span> will tend to have a heavy upper tail <span class="citation">(Gelman 2006)</span>.</p>
-<p>The generalized ratio-of-uniforms method used by <em>rust</em> can fail for heavy-tailed densities and this is indeed the case for these data if we try to sample directly from <span class="math inline">\(\pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})\)</span> using the <em>rust</em> package’s default settings for the generalized ratio-of-uniforms algorithm. One solution is to reparameterize to <span class="math inline">\((\log\sigma_\alpha, \log\sigma)\)</span>, which <code>hanova1</code> implements by default. Another possibility is to increase the generalized ratio-of-uniforms tuning parameter <code>r</code> from the default value of 1/2 used in <em>rust</em>. These approaches are illustrated below.</p>
+<p>In the temperature projection example sampling was conducted on the
+scale <span class="math inline">\((\log\sigma_\alpha,
+\log\alpha)\)</span> and was unproblematic. It would also have been
+unproblematic had we sampled on the original <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> scale. To show
+that there are examples where the latter is not the case we consider a
+small dataset presented in Section 11.6 of <span class="citation">Gelman
+et al. (2014)</span>. The response variable is the coagulation time of
+blood drawn from 24 animals allocated to different diets. The crucial
+aspect of this dataset is that the explanatory factor (diet) has only 4
+levels. This means that there is little information about <span class="math inline">\(\sigma_\alpha\)</span> in the data. Unless some
+prior information about <span class="math inline">\(\sigma_\alpha\)</span> is provided the posterior
+distribution for <span class="math inline">\(\sigma_\alpha\)</span> will
+tend to have a heavy upper tail <span class="citation">(Gelman
+2006)</span>.</p>
+<p>The generalized ratio-of-uniforms method used by <em>rust</em> can
+fail for heavy-tailed densities and this is indeed the case for these
+data if we try to sample directly from <span class="math inline">\(\pi(\sigma_\alpha, \sigma \mid
+\boldsymbol{\mathbf{y}})\)</span> using the <em>rust</em> package’s
+default settings for the generalized ratio-of-uniforms algorithm. One
+solution is to reparameterize to <span class="math inline">\((\log\sigma_\alpha, \log\sigma)\)</span>, which
+<code>hanova1</code> implements by default. Another possibility is to
+increase the generalized ratio-of-uniforms tuning parameter
+<code>r</code> from the default value of 1/2 used in <em>rust</em>.
+These approaches are illustrated below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coag1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, n <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span>
-<span class="va">coag2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, n <span class="op">=</span> <span class="fl">10000</span>,
-                 param <span class="op">=</span> <span class="st">"original"</span>, r <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coag1</span>, params <span class="op">=</span> <span class="st">"ru"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coag1</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">coag1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, n <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+<span><span class="va">coag2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, n <span class="op">=</span> <span class="fl">10000</span>,</span>
+<span>                 param <span class="op">=</span> <span class="st">"original"</span>, r <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coag1</span>, params <span class="op">=</span> <span class="st">"ru"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coag1</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-8-1.png" width="331.2"><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-8-2.png" width="331.2"></p>
-<p>The heaviness of the upper tail of the marginal posterior density of <span class="math inline">\(\sigma_\alpha\)</span> is evident in the plot on the left. Parameter transformation to <span class="math inline">\((\rho_1, \rho_2)=(\log\sigma_\alpha, \log\sigma)\)</span> results in a density (in the plot on the right) from which it is easier to simulate.</p>
-<p>We produce some summaries of the posterior sample stored in <code>coag1</code>. The summaries calculated from <code>coag2</code> are very similar.</p>
+<p>The heaviness of the upper tail of the marginal posterior density of
+<span class="math inline">\(\sigma_\alpha\)</span> is evident in the
+plot on the left. Parameter transformation to <span class="math inline">\((\rho_1, \rho_2)=(\log\sigma_\alpha,
+\log\sigma)\)</span> results in a density (in the plot on the right)
+from which it is easier to simulate.</p>
+<p>We produce some summaries of the posterior sample stored in
+<code>coag1</code>. The summaries calculated from <code>coag2</code> are
+very similar.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">97.5</span><span class="op">)</span> <span class="op">/</span> <span class="fl">100</span>
-<span class="va">all1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">coag1</span><span class="op">$</span><span class="va">theta_sim_vals</span>, <span class="va">coag1</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">all1</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>
-<span class="co">#&gt;              2.5%  25%  50%  75% 97.5%</span>
-<span class="co">#&gt; theta[1]     58.8 60.4 61.2 62.0  63.8</span>
-<span class="co">#&gt; theta[2]     64.0 65.2 65.9 66.5  67.9</span>
-<span class="co">#&gt; theta[3]     65.7 67.1 67.8 68.4  69.8</span>
-<span class="co">#&gt; theta[4]     59.4 60.5 61.1 61.7  62.9</span>
-<span class="co">#&gt; mu           54.7 62.2 64.0 65.7  73.2</span>
-<span class="co">#&gt; sigma[alpha]  2.0  3.5  5.0  7.9  27.0</span>
-<span class="co">#&gt; sigma         1.8  2.2  2.4  2.7   3.4</span></code></pre></div>
-<p>These posterior summaries are similar to those presented in Table 11.3 of <span class="citation">Gelman et al. (2014)</span> (where <span class="math inline">\(\sigma_\alpha\)</span> is denoted <span class="math inline">\(\tau\)</span>), which were obtained using Gibbs sampling.</p>
-<p>When the number of groups is small <span class="citation">Gelman (2006)</span> advocates the use of a half-Cauchy prior for <span class="math inline">\(\sigma_\alpha\)</span>. The code below implements this using independent half-Cauchy priors for <span class="math inline">\(\sigma_\alpha\)</span> and <span class="math inline">\(\sigma\)</span>, that is, <span class="math display">\[ 
-\pi(\sigma_\alpha, \sigma) \propto 
+<code class="sourceCode R"><span><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">97.5</span><span class="op">)</span> <span class="op">/</span> <span class="fl">100</span></span>
+<span><span class="va">all1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">coag1</span><span class="op">$</span><span class="va">theta_sim_vals</span>, <span class="va">coag1</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">all1</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;              2.5%  25%  50%  75% 97.5%</span></span>
+<span><span class="co">#&gt; theta[1]     58.8 60.4 61.2 62.0  63.8</span></span>
+<span><span class="co">#&gt; theta[2]     64.0 65.2 65.9 66.5  67.9</span></span>
+<span><span class="co">#&gt; theta[3]     65.7 67.1 67.8 68.4  69.8</span></span>
+<span><span class="co">#&gt; theta[4]     59.4 60.5 61.1 61.7  62.9</span></span>
+<span><span class="co">#&gt; mu           54.7 62.2 64.0 65.7  73.2</span></span>
+<span><span class="co">#&gt; sigma[alpha]  2.0  3.5  5.0  7.9  27.0</span></span>
+<span><span class="co">#&gt; sigma         1.8  2.2  2.4  2.7   3.4</span></span></code></pre></div>
+<p>These posterior summaries are similar to those presented in Table
+11.3 of <span class="citation">Gelman et al. (2014)</span> (where <span class="math inline">\(\sigma_\alpha\)</span> is denoted <span class="math inline">\(\tau\)</span>), which were obtained using Gibbs
+sampling.</p>
+<p>When the number of groups is small <span class="citation">Gelman
+(2006)</span> advocates the use of a half-Cauchy prior for <span class="math inline">\(\sigma_\alpha\)</span>. The code below implements
+this using independent half-Cauchy priors for <span class="math inline">\(\sigma_\alpha\)</span> and <span class="math inline">\(\sigma\)</span>, that is, <span class="math display">\[
+\pi(\sigma_\alpha, \sigma) \propto
 \left(1 + \frac{\sigma_\alpha^2}{A_\alpha^2}\right)^{-1}
-\left(1 + \frac{\sigma^2}{A^2}\right)^{-1}, \quad \sigma_\alpha&gt;0, \, \sigma&gt;0.
-\]</span> We choose, somewhat arbitrarily, <span class="math inline">\(\sigma_\alpha = 10\)</span>: in practice <span class="math inline">\(\sigma_\alpha\)</span> should be set by considering the problem in hand. See <span class="citation">Gelman (2006)</span> for details. We set <span class="math inline">\(A\)</span> to be large enough to result in an effectively flat prior for <span class="math inline">\(\sigma\)</span>.</p>
+\left(1 + \frac{\sigma^2}{A^2}\right)^{-1}, \quad \sigma_\alpha&gt;0, \,
+\sigma&gt;0.
+\]</span> We choose, somewhat arbitrarily, <span class="math inline">\(\sigma_\alpha = 10\)</span>: in practice <span class="math inline">\(\sigma_\alpha\)</span> should be set by
+considering the problem in hand. See <span class="citation">Gelman
+(2006)</span> for details. We set <span class="math inline">\(A\)</span>
+to be large enough to result in an effectively flat prior for <span class="math inline">\(\sigma\)</span>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">coag3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,
-                 param <span class="op">=</span> <span class="st">"original"</span>, prior <span class="op">=</span> <span class="st">"cauchy"</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1e6</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">coag3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,</span>
+<span>                 param <span class="op">=</span> <span class="st">"original"</span>, prior <span class="op">=</span> <span class="st">"cauchy"</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1e6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="appendix">Appendix<a class="anchor" aria-label="anchor" href="#appendix"></a>
 </h2>
 <p>Consider the hierarchical 1-way ANOVA model <span class="math display">\[\begin{equation*}
-Y_{ij} = \mu + \alpha_i + \epsilon_{ij}, \quad\mbox{for} \,\, i = 1, \ldots, I, \, 
+Y_{ij} = \mu + \alpha_i + \epsilon_{ij}, \quad\mbox{for} \,\, i = 1,
+\ldots, I, \,
 j = 1, \ldots, n_i,  \label{eqn:1way}
-\end{equation*}\]</span> where <span class="math inline">\(\alpha_i \sim N(0, \sigma_\alpha^2)\)</span> and <span class="math inline">\(\epsilon_{ij} \sim N(0, \sigma^2)\)</span> and all random variables are independent. We specify a prior density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\phi}})\)</span> for <span class="math inline">\(\boldsymbol{\mathbf{\phi}} = (\mu, \sigma_\alpha, \sigma)\)</span>. Let <span class="math inline">\(\boldsymbol{\mathbf{y}} = \{y_{ij}, i=1, \ldots, I, j = 1, \ldots, n_i\}\)</span> and <span class="math inline">\(\boldsymbol{\mathbf{\alpha}} = (\alpha_1, \ldots, \alpha_I)\)</span>.</p>
+\end{equation*}\]</span> where <span class="math inline">\(\alpha_i \sim
+N(0, \sigma_\alpha^2)\)</span> and <span class="math inline">\(\epsilon_{ij} \sim N(0, \sigma^2)\)</span> and all
+random variables are independent. We specify a prior density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\phi}})\)</span> for <span class="math inline">\(\boldsymbol{\mathbf{\phi}} = (\mu, \sigma_\alpha,
+\sigma)\)</span>. Let <span class="math inline">\(\boldsymbol{\mathbf{y}} = \{y_{ij}, i=1, \ldots,
+I, j = 1, \ldots, n_i\}\)</span> and <span class="math inline">\(\boldsymbol{\mathbf{\alpha}} = (\alpha_1, \ldots,
+\alpha_I)\)</span>.</p>
 <div class="section level3">
 <h3 id="marginal-posterior-density-of-boldsymbolmathbfphi">Marginal posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span><a class="anchor" aria-label="anchor" href="#marginal-posterior-density-of-boldsymbolmathbfphi"></a>
 </h3>
-<p>The joint posterior density of <span class="math inline">\((\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}})\)</span> satisfies <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}} 
-\mid \boldsymbol{\mathbf{y}}) &amp;\propto 
+<p>The joint posterior density of <span class="math inline">\((\boldsymbol{\mathbf{\phi}},
+\boldsymbol{\mathbf{\alpha}})\)</span> satisfies <span class="math display">\[\begin{align*}
+\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}}
+\mid \boldsymbol{\mathbf{y}}) &amp;\propto
 \pi(\boldsymbol{\mathbf{\phi}})
-\prod\limits_{i=1}^{I}\prod\limits_{j=1}^{n_i} 
-\sigma^{-1} \exp \left[-\frac{1}{2\sigma^2}(y_{ij} - \mu - \alpha_i)^2\right]
-\prod_{i=1}^{I} 
-\sigma_\alpha^{-1} \exp\left[-\frac{1}{2\sigma^2_\alpha}\alpha_i^2\right]  \nonumber \\
-&amp;= \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
-\prod_{i=1}^I \exp \left\{ -\frac12 \left[ \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu - \alpha_i)^2 
+\prod\limits_{i=1}^{I}\prod\limits_{j=1}^{n_i}
+\sigma^{-1} \exp \left[-\frac{1}{2\sigma^2}(y_{ij} - \mu -
+\alpha_i)^2\right]
+\prod_{i=1}^{I}
+\sigma_\alpha^{-1}
+\exp\left[-\frac{1}{2\sigma^2_\alpha}\alpha_i^2\right]  \nonumber \\
+&amp;= \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \,
+\sigma_\alpha^{-I}
+\prod_{i=1}^I \exp \left\{ -\frac12 \left[ \sigma^{-2} \sum_{j=1}^{n_i}
+(y_{ij} - \mu - \alpha_i)^2
 +\sigma_\alpha^{-2} \alpha_i^2 \right] \right\},
 \label{eqn:joint}
 \end{align*}\]</span></p>
-<p>where <span class="math inline">\(n_\cdot = \sum_{i=1}^{I} n_i\)</span>. Let <span class="math inline">\(\bar{y}_{i\cdot} = (1/n_i) \sum_{j=1}^{n_i} y_{ij}\)</span>. Completing the square in <span class="math inline">\(\alpha_i\)</span> in the term in square brackets gives <span class="math display">\[\begin{align*}
-&amp;\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu - \alpha_i)^2 + \sigma_\alpha^{-2} \alpha_i^2 \\
+<p>where <span class="math inline">\(n_\cdot = \sum_{i=1}^{I}
+n_i\)</span>. Let <span class="math inline">\(\bar{y}_{i\cdot} = (1/n_i)
+\sum_{j=1}^{n_i} y_{ij}\)</span>. Completing the square in <span class="math inline">\(\alpha_i\)</span> in the term in square brackets
+gives <span class="math display">\[\begin{align*}
+&amp;\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu - \alpha_i)^2 +
+\sigma_\alpha^{-2} \alpha_i^2 \\
 &amp;=
-\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2 
-- 2 n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu) \alpha_i + (n_i \sigma^{-2} + \sigma_\alpha^{-2})\alpha_i^2 \\
-&amp;= (\sigma^{-2} n_i + \sigma_{\alpha}^{-2}) 
-\left[ \alpha_i - \frac{n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu)}{n_i \sigma^{-2} + \sigma_{\alpha}^{-2}} \right]^2
-- \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}{n_i \sigma^{-2} + \sigma_{\alpha}^{-2}}
+\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2
+- 2 n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu) \alpha_i + (n_i \sigma^{-2}
++ \sigma_\alpha^{-2})\alpha_i^2 \\
+&amp;= (\sigma^{-2} n_i + \sigma_{\alpha}^{-2})
+\left[ \alpha_i - \frac{n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu)}{n_i
+\sigma^{-2} + \sigma_{\alpha}^{-2}} \right]^2
+- \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}{n_i \sigma^{-2} +
+\sigma_{\alpha}^{-2}}
 + \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2 \\
 &amp;= a_i (\alpha_i - b_i / a_i)^2 + c_i - b_i^2 / a_i,
-\end{align*}\]</span> where <span class="math inline">\(a_i = n_i \sigma^{-2} + \sigma_\alpha^{-2}, b_i = n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu)\)</span> and <span class="math inline">\(c_i = \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2\)</span>. Therefore, <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}}) 
-&amp;\propto 
-\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
-\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right]
-\exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right]. \\
+\end{align*}\]</span> where <span class="math inline">\(a_i = n_i
+\sigma^{-2} + \sigma_\alpha^{-2}, b_i = n_i \sigma^{-2}
+(\bar{y}_{i\cdot} - \mu)\)</span> and <span class="math inline">\(c_i =
+\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2\)</span>. Therefore, <span class="math display">\[\begin{align*}
+\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid
+\boldsymbol{\mathbf{y}})
+&amp;\propto
+\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \,
+\sigma_\alpha^{-I}
+\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right)
+\right]
+\exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2
+\right]. \\
 \end{align*}\]</span></p>
-<p>The marginal posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> is given by <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}}) 
+<p>The marginal posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> is given by
+<span class="math display">\[\begin{align*}
+\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})
 &amp;=
 \int_{-\infty}^{\infty}\cdots\int_{-\infty}^{\infty}
-\pi(\boldsymbol{\mathbf{\alpha}}, \boldsymbol{\mathbf{\phi}} 
-\mid \boldsymbol{\mathbf{y}}) {\rm ~d}\alpha_1 \cdots {\rm ~d}\alpha_I \\
-&amp;\propto 
-\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
-\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right]
-\int_{-\infty}^{\infty} \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right] {\rm ~d}\alpha_i \\
-&amp;\propto 
-\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
-\prod_{i=1}^I a_i^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right] \\
-&amp;\propto 
-\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{I-n_\cdot} \, 
-\prod_{i=1}^I (\sigma_\alpha^2+\sigma^2/n_i)^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^2 / a_i \right) \right].
-\end{align*}\]</span> Manipulating <span class="math inline">\(c_i - b_i ^2 / a_i\)</span> gives <span class="math display">\[\begin{align*}
-c_i - b_i ^ 2 / a_i 
-  &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2 
+\pi(\boldsymbol{\mathbf{\alpha}}, \boldsymbol{\mathbf{\phi}}
+\mid \boldsymbol{\mathbf{y}}) {\rm ~d}\alpha_1 \cdots {\rm ~d}\alpha_I
+\\
+&amp;\propto
+\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \,
+\sigma_\alpha^{-I}
+\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right)
+\right]
+\int_{-\infty}^{\infty} \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i
+- b_i / a_i \right)^2 \right] {\rm ~d}\alpha_i \\
+&amp;\propto
+\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \,
+\sigma_\alpha^{-I}
+\prod_{i=1}^I a_i^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i
+\right) \right] \\
+&amp;\propto
+\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{I-n_\cdot} \,
+\prod_{i=1}^I (\sigma_\alpha^2+\sigma^2/n_i)^{-1/2} \exp\left[ -\frac12
+\left( c_i - b_i ^2 / a_i \right) \right].
+\end{align*}\]</span> Manipulating <span class="math inline">\(c_i - b_i
+^2 / a_i\)</span> gives <span class="math display">\[\begin{align*}
+c_i - b_i ^ 2 / a_i
+  &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2
    - \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}
   {n_i \sigma^{-2} + \sigma_\alpha^{-2}} \\
-  &amp;= \sigma^{-2} \left[ \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2 
+  &amp;= \sigma^{-2} \left[ \sum_{j=1}^{n_i} (y_{ij} -
+\bar{y}_{i\cdot})^2
    + n_i (\bar{y}_{i\cdot} - \mu)^2 \right]
    - \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}
   {n_i \sigma^{-2} + \sigma_\alpha^{-2}} \\
   &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2 +
-   \frac{\left[ n_i \sigma^{-2} \left(n_i \sigma^{-2}+\sigma_\alpha^{-2}\right)
+   \frac{\left[ n_i \sigma^{-2} \left(n_i
+\sigma^{-2}+\sigma_\alpha^{-2}\right)
     - n_i^2 \sigma^{-4} \right]}{n_i \sigma^{-2} + \sigma_\alpha^{-2}}
     (\bar{y}_{i\cdot} - \mu)^2 \\
-  &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2 
-   + \frac{1}{\sigma_\alpha^2 + \sigma^2 / n_i} (\mu - \bar{y}_{i\cdot})^2.
-\end{align*}\]</span> Therefore, the joint posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> satisfies <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}}) 
-&amp;\propto 
-\pi(\boldsymbol{\mathbf{\phi}}) \, 
-\sigma^{I-n_\cdot} \, 
+  &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2
+   + \frac{1}{\sigma_\alpha^2 + \sigma^2 / n_i} (\mu -
+\bar{y}_{i\cdot})^2.
+\end{align*}\]</span> Therefore, the joint posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> satisfies
+<span class="math display">\[\begin{align*}
+\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})
+&amp;\propto
+\pi(\boldsymbol{\mathbf{\phi}}) \,
+\sigma^{I-n_\cdot} \,
 \exp\left( -\frac{1}{2\sigma^{2}} S \right)
-\prod_{i=1}^I \sigma_i^{-1} 
+\prod_{i=1}^I \sigma_i^{-1}
 \exp\left[ -\frac{1}{2 \sigma_i^2} (\mu - \mu_i)^2 \right],
-\end{align*}\]</span> where <span class="math inline">\(S = \sum_{i=1}^I \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2\)</span>, <span class="math inline">\(\mu_i = \bar{y}_{i\cdot}\)</span> and <span class="math inline">\(\sigma_i^2 = \sigma_\alpha^2 + \sigma^2/n_i\)</span>.</p>
+\end{align*}\]</span> where <span class="math inline">\(S = \sum_{i=1}^I
+\sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2\)</span>, <span class="math inline">\(\mu_i = \bar{y}_{i\cdot}\)</span> and <span class="math inline">\(\sigma_i^2 = \sigma_\alpha^2 +
+\sigma^2/n_i\)</span>.</p>
 <div class="section level4">
 <h4 id="a-special-case">A special case<a class="anchor" aria-label="anchor" href="#a-special-case"></a>
 </h4>
-<p>Suppose that a <span class="math inline">\(N(\mu_0, \sigma_0^2\)</span>) prior distribution is specified for <span class="math inline">\(\mu\)</span>, so that <span class="math inline">\(\pi(\mu) \propto \exp[-\sigma_0^{-2}(\mu-\mu_0)^2) / 2]\)</span> and that <span class="math inline">\(\mu\)</span> and <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> are independent <em>a priori</em>. We derive the marginal posterior density for <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> in this case and the conditional posterior density of <span class="math inline">\(\mu\)</span> given <span class="math inline">\((\sigma_\alpha, \sigma)\)</span>. The joint posterior density for <span class="math inline">\((\mu, \sigma_\alpha, \sigma)\)</span> satisfies <span class="math display">\[\begin{align*}
+<p>Suppose that a <span class="math inline">\(N(\mu_0,
+\sigma_0^2\)</span>) prior distribution is specified for <span class="math inline">\(\mu\)</span>, so that <span class="math inline">\(\pi(\mu) \propto \exp[-\sigma_0^{-2}(\mu-\mu_0)^2)
+/ 2]\)</span> and that <span class="math inline">\(\mu\)</span> and
+<span class="math inline">\((\sigma_\alpha, \sigma)\)</span> are
+independent <em>a priori</em>. We derive the marginal posterior density
+for <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> in this
+case and the conditional posterior density of <span class="math inline">\(\mu\)</span> given <span class="math inline">\((\sigma_\alpha, \sigma)\)</span>. The joint
+posterior density for <span class="math inline">\((\mu, \sigma_\alpha,
+\sigma)\)</span> satisfies <span class="math display">\[\begin{align*}
 \pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
-&amp;\propto \pi(\mu) \, \pi(\sigma_\alpha, \sigma) \, 
-\sigma^{I-n_\cdot} \, 
+&amp;\propto \pi(\mu) \, \pi(\sigma_\alpha, \sigma) \,
+\sigma^{I-n_\cdot} \,
 \exp\left( -\frac{1}{2\sigma^{2}} S \right)
-\prod_{i=1}^I \sigma_i^{-1} 
+\prod_{i=1}^I \sigma_i^{-1}
 \exp\left[ -\frac{1}{2 \sigma_i^2} (\mu - \mu_i)^2 \right], \\
 &amp;=
-\pi(\sigma_\alpha, \sigma) \, 
-\sigma^{I-n_\cdot} \, 
+\pi(\sigma_\alpha, \sigma) \,
+\sigma^{I-n_\cdot} \,
 \exp\left( -\frac{1}{2\sigma^{2}} S \right)
 \left(\prod_{i=1}^I \sigma_i^{-1} \right)
 \exp\left[
--\frac{1}{2} \sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2 
+-\frac{1}{2} \sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2
 \right],
-\end{align*}\]</span> Completing the square in <span class="math inline">\(\mu\)</span> in <span class="math inline">\(\sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2\)</span> gives <span class="math display">\[\begin{align*}
-\sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2 
-&amp;= 
+\end{align*}\]</span> Completing the square in <span class="math inline">\(\mu\)</span> in <span class="math inline">\(\sum_{i=0}^{I} \sigma_i^{-2} (\mu -
+\mu_i)^2\)</span> gives <span class="math display">\[\begin{align*}
+\sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2
+&amp;=
 \sum_{i=0}^{I} \sigma_i^{-2} (\mu^2 - 2 \mu \mu_i + \mu_i^2) \\
 &amp;=
-\mu^2 \sum_{i=0}^{I} \sigma_i^{-2} 
-- 2 \mu \sum_{i=0}^{I} \mu_i \sigma_i^{-2} 
-+ \sum_{i=0}^{I} \mu_i ^2 \sigma_i^{-2} \\ 
+\mu^2 \sum_{i=0}^{I} \sigma_i^{-2}
+- 2 \mu \sum_{i=0}^{I} \mu_i \sigma_i^{-2}
++ \sum_{i=0}^{I} \mu_i ^2 \sigma_i^{-2} \\
 &amp;=
 \left(\sum_{i=0}^{I} \sigma_i^{-2} \right)
 \left( \mu - \frac{\sum_{i=0}^{I} \mu_i \sigma_i^{-2}}
@@ -306,57 +458,74 @@ c_i - b_i ^ 2 / a_i
 - \frac{\left( \sum_{i=0}^{I} \mu_i \sigma_i^{-2} \right)^2}
 {\sum_{i=0}^{I} \sigma_i^{-2}}
 + \sum_{i=0}^{I} \mu_i^{2} \sigma_i^{-2} \\
-&amp;= 
+&amp;=
 S_0 (\mu - S_1 S_0^{-1})^2
 - S_1^2 S_0^{-1} + S_2, \\
-\end{align*}\]</span> where <span class="math inline">\(S_j = \sum_{i=0}^{I} \mu_i^{j} \sigma_i^{-2}, \, j = 0, 1, 2\)</span>. Therefore, <span class="math display">\[\begin{align*}
+\end{align*}\]</span> where <span class="math inline">\(S_j =
+\sum_{i=0}^{I} \mu_i^{j} \sigma_i^{-2}, \, j = 0, 1, 2\)</span>.
+Therefore, <span class="math display">\[\begin{align*}
 \pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
 &amp;=
-\int_{-\infty}^{\infty} 
+\int_{-\infty}^{\infty}
 \pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
 {\rm ~d}\mu \\
 &amp;\propto
-\pi(\sigma_\alpha, \sigma) \, 
-\sigma^{I-n_\cdot} \, 
+\pi(\sigma_\alpha, \sigma) \,
+\sigma^{I-n_\cdot} \,
 \exp\left\{ -\frac{1}{2\sigma^{2}} S \right\}
 \left(\prod_{i=1}^I \sigma_i^{-1} \right)
 \exp\left( \frac12 S_1^2 S_0^{-1} - \frac12 S_2 \right) \\
-&amp;\phantom{\propto} \times 
-\int_{-\infty}^{\infty} 
+&amp;\phantom{\propto} \times
+\int_{-\infty}^{\infty}
 \exp\left\{ -\frac{1}{2 S_0^{-1}} (\mu - S_1 S_0^{-1})^2
 \right\}
 {\rm ~d}\mu \\
 &amp;\propto
-\pi(\sigma_\alpha, \sigma) \, 
-\sigma^{I-n_\cdot} \, 
+\pi(\sigma_\alpha, \sigma) \,
+\sigma^{I-n_\cdot} \,
 \exp\left\{ -\frac{1}{2\sigma^{2}} S \right\}
 \left(\prod_{i=1}^I \sigma_i^{-1} \right)
-\exp\left( \frac12 S_1^2 S_0^{-1} - \frac12 S_2 \right) 
+\exp\left( \frac12 S_1^2 S_0^{-1} - \frac12 S_2 \right)
 S_0^{-1/2}.
 \end{align*}\]</span></p>
-<p>Retaining only the terms in <span class="math inline">\(\pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})\)</span> that involve <span class="math inline">\(\mu\)</span> gives <span class="math display">\[\begin{align*}
-\pi(\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}}) 
-&amp;\propto 
+<p>Retaining only the terms in <span class="math inline">\(\pi(\mu,
+\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})\)</span> that
+involve <span class="math inline">\(\mu\)</span> gives <span class="math display">\[\begin{align*}
+\pi(\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}})
+&amp;\propto
 \exp\left[ -\frac{1}{2 S_0^{-1}} (\mu - S_1 / S_0)^2 \right].
-\end{align*}\]</span> Therefore, <span class="math inline">\(\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}} \sim N(S_1 S_0^{-1}, S_0^{-1})\)</span>.</p>
+\end{align*}\]</span> Therefore, <span class="math inline">\(\mu \mid
+\sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}} \sim N(S_1 S_0^{-1},
+S_0^{-1})\)</span>.</p>
 </div>
 </div>
 <div class="section level3">
 <h3 id="the-conditional-posterior-density-of-boldsymbolmathbftheta-given-boldsymbolmathbfphi">The conditional posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\theta}}\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span><a class="anchor" aria-label="anchor" href="#the-conditional-posterior-density-of-boldsymbolmathbftheta-given-boldsymbolmathbfphi"></a>
 </h3>
-<p>The conditional posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\alpha}}\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> satisfies <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{\phi}}, 
-\boldsymbol{\boldsymbol{\mathbf{y}}}) 
-&amp;\propto \prod_{i=1}^I \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right],
-\end{align*}\]</span> because these are the only terms in <span class="math inline">\(\pi (\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}})\)</span> that involve <span class="math inline">\(\alpha_i, i = 1, \ldots, I\)</span>. Therefore, conditional on <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span>, <span class="math inline">\(\alpha_1, \ldots, \alpha_I\)</span> are independent <em>a posteriori</em> and <span class="math inline">\(\alpha_i \mid \boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}} \sim N(b_i a_i^{-1}, a_i^{-1})\)</span>, where <span class="math display">\[\begin{align*}
-b_i a_i^{-1} &amp;= 
-\frac{\sigma_\alpha^2 \, (\bar{y}_{i\cdot} - \mu)} 
+<p>The conditional posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\alpha}}\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> satisfies
+<span class="math display">\[\begin{align*}
+\pi(\boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{\phi}},
+\boldsymbol{\boldsymbol{\mathbf{y}}})
+&amp;\propto \prod_{i=1}^I \exp\left[ -\frac{1}{2a_i^{-1}} \left(
+\alpha_i - b_i / a_i \right)^2 \right],
+\end{align*}\]</span> because these are the only terms in <span class="math inline">\(\pi (\boldsymbol{\mathbf{\phi}},
+\boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}})\)</span> that
+involve <span class="math inline">\(\alpha_i, i = 1, \ldots, I\)</span>.
+Therefore, conditional on <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span>, <span class="math inline">\(\alpha_1, \ldots, \alpha_I\)</span> are
+independent <em>a posteriori</em> and <span class="math inline">\(\alpha_i \mid \boldsymbol{\mathbf{\phi}},
+\boldsymbol{\mathbf{y}} \sim N(b_i a_i^{-1}, a_i^{-1})\)</span>, where
+<span class="math display">\[\begin{align*}
+b_i a_i^{-1} &amp;=
+\frac{\sigma_\alpha^2 \, (\bar{y}_{i\cdot} - \mu)}
 {\sigma_\alpha^{2} + \sigma^2 / n_i} \\
 a_i^{-1} &amp;= \frac{\sigma_\alpha^2 \, \sigma^2 / n_i}
 {\sigma_\alpha^{2} + \sigma^2 / n_i}. \\
-\end{align*}\]</span> Noting that <span class="math inline">\(\theta_i = \mu + \alpha_i\)</span> gives <span class="math inline">\(\theta_i \mid \boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}} \sim N(\hat{\theta}_i, a_i^{-1})\)</span>, where <span class="math display">\[\begin{align*}
-\hat{\theta}_i &amp;= 
-\frac{\bar{y}_{i\cdot} \sigma_\alpha^2 + \mu \, \sigma ^ 2 / n_i} 
+\end{align*}\]</span> Noting that <span class="math inline">\(\theta_i =
+\mu + \alpha_i\)</span> gives <span class="math inline">\(\theta_i \mid
+\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}} \sim
+N(\hat{\theta}_i, a_i^{-1})\)</span>, where <span class="math display">\[\begin{align*}
+\hat{\theta}_i &amp;=
+\frac{\bar{y}_{i\cdot} \sigma_\alpha^2 + \mu \, \sigma ^ 2 / n_i}
 {\sigma_\alpha^{2} + \sigma^2 / n_i}. \\
 \end{align*}\]</span></p>
 </div>
@@ -364,18 +533,30 @@ a_i^{-1} &amp;= \frac{\sigma_\alpha^2 \, \sigma^2 / n_i}
 <h3 id="factorisations-for-simulation">Factorisations for simulation<a class="anchor" aria-label="anchor" href="#factorisations-for-simulation"></a>
 </h3>
 <p>In the most general case considered here the factorisation <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}})
+\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid
+\boldsymbol{\mathbf{y}})
 &amp;= \pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})
-\, \prod_{i=1}^{I} \pi(\alpha_i \mid \boldsymbol{\mathbf{\phi}}, 
+\, \prod_{i=1}^{I} \pi(\alpha_i \mid \boldsymbol{\mathbf{\phi}},
 \boldsymbol{\boldsymbol{\mathbf{y}}})
-\end{align*}\]</span> means that we can simulate first from the three-dimensional <span class="math inline">\(\pi(\boldsymbol{\mathbf{\phi}}, \mid \boldsymbol{\mathbf{y}})\)</span> and then, conditional on the value of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span>, simulate independently from each of the normal distributions of <span class="math inline">\(\alpha_i \mid \boldsymbol{\mathbf{\phi}}, \boldsymbol{\boldsymbol{\mathbf{y}}}\)</span>.</p>
+\end{align*}\]</span> means that we can simulate first from the
+three-dimensional <span class="math inline">\(\pi(\boldsymbol{\mathbf{\phi}}, \mid
+\boldsymbol{\mathbf{y}})\)</span> and then, conditional on the value of
+<span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span>,
+simulate independently from each of the normal distributions of <span class="math inline">\(\alpha_i \mid \boldsymbol{\mathbf{\phi}},
+\boldsymbol{\boldsymbol{\mathbf{y}}}\)</span>.</p>
 <p>In the special case detailed above the factorisation becomes <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}})
+\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid
+\boldsymbol{\mathbf{y}})
 &amp;= \pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
 \, \pi(\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}})
-\, \prod_{i=1}^{I} \pi(\alpha_i \mid \boldsymbol{\mathbf{\phi}}, 
+\, \prod_{i=1}^{I} \pi(\alpha_i \mid \boldsymbol{\mathbf{\phi}},
 \boldsymbol{\boldsymbol{\mathbf{y}}}).
-\end{align*}\]</span> Therefore, the first stage can be performed by simulating from the two-dimensional <span class="math inline">\(\pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})\)</span> and then, conditional on the value of <span class="math inline">\((\sigma_\alpha, \sigma)\)</span>, from the normal distribution of <span class="math inline">\(\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}}\)</span>.</p>
+\end{align*}\]</span> Therefore, the first stage can be performed by
+simulating from the two-dimensional <span class="math inline">\(\pi(\sigma_\alpha, \sigma \mid
+\boldsymbol{\mathbf{y}})\)</span> and then, conditional on the value of
+<span class="math inline">\((\sigma_\alpha, \sigma)\)</span>, from the
+normal distribution of <span class="math inline">\(\mu \mid
+\sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}}\)</span>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -385,16 +566,22 @@ a_i^{-1} &amp;= \frac{\sigma_\alpha^2 \, \sigma^2 / n_i}
    MathJax.Hub.Config({  "HTML-CSS": { minScaleAdjust: 125, availableFonts: [] }  });
 </script><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Gelman2006" class="csl-entry">
-Gelman, A. 2006. <span>“Prior Distributions for Variance Parameters in Hierarchical Models.”</span> <em><span>B</span>ayesian Analysis</em> 1 (3): 515–33. <a href="https://doi.org/10.1214/06-BA117A" class="external-link">https://doi.org/10.1214/06-BA117A</a>.
+Gelman, A. 2006. <span>“Prior Distributions for Variance Parameters in
+Hierarchical Models.”</span> <em><span>B</span>ayesian Analysis</em> 1
+(3): 515–33. <a href="https://doi.org/10.1214/06-BA117A" class="external-link">https://doi.org/10.1214/06-BA117A</a>.
 </div>
 <div id="ref-BDA2014" class="csl-entry">
-Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2014. <em>Bayesian Data Analysis</em>. Third. Florida, USA: Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book/" class="external-link">http://www.stat.columbia.edu/~gelman/book/</a>.
+Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D.
+B. Rubin. 2014. <em>Bayesian Data Analysis</em>. Third. Florida, USA:
+Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book/" class="external-link">http://www.stat.columbia.edu/~gelman/book/</a>.
 </div>
 <div id="ref-rust" class="csl-entry">
-Northrop, P. J. 2017. <em><span class="nocase">r</span>ust: Ratio-of-Uniforms Simulation with Transformation</em>. <a href="https://CRAN.R-project.org/package=rust" class="external-link">https://CRAN.R-project.org/package=rust</a>.
+Northrop, P. J. 2017. <em><span class="nocase">r</span>ust:
+Ratio-of-Uniforms Simulation with Transformation</em>. <a href="https://CRAN.R-project.org/package=rust" class="external-link">https://CRAN.R-project.org/package=rust</a>.
 </div>
 <div id="ref-NC2014" class="csl-entry">
-Northrop, P. J., and R. E. Chandler. 2014. <span>“Quantifying Sources of Uncertainty in Projections of Future Climate”</span> 27: 8793–8808. <a href="https://doi.org/10.1175/JCLI-D-14-00265.1" class="external-link">https://doi.org/10.1175/JCLI-D-14-00265.1</a>.
+Northrop, P. J., and R. E. Chandler. 2014. <span>“Quantifying Sources of
+Uncertainty in Projections of Future Climate”</span> 27: 8793–8808. <a href="https://doi.org/10.1175/JCLI-D-14-00265.1" class="external-link">https://doi.org/10.1175/JCLI-D-14-00265.1</a>.
 </div>
 </div>
 </div>
@@ -417,7 +604,7 @@ Northrop, P. J., and R. E. Chandler. 2014. <span>“Quantifying Sources of Uncer
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

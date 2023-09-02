@@ -18,7 +18,7 @@ of a 1-way hierarchical ANOVA model."><!-- mathjax --><script src="https://cdnjs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -27,7 +27,7 @@ of a 1-way hierarchical ANOVA model."><!-- mathjax --><script src="https://cdnjs
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -74,24 +74,42 @@ of a 1-way hierarchical ANOVA model.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">hanova1</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, <span class="va">resp</span>, <span class="va">fac</span>, <span class="va">...</span>, prior <span class="op">=</span> <span class="st">"default"</span>, hpars <span class="op">=</span> <span class="cn">NULL</span>,
-  param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"trans"</span>, <span class="st">"original"</span><span class="op">)</span>, init <span class="op">=</span> <span class="cn">NULL</span>, mu0 <span class="op">=</span> <span class="fl">0</span>,
-  sigma0 <span class="op">=</span> <span class="cn">Inf</span>, nrep <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hanova1</span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  <span class="va">resp</span>,</span>
+<span>  <span class="va">fac</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  prior <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  hpars <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"trans"</span>, <span class="st">"original"</span><span class="op">)</span>,</span>
+<span>  init <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mu0 <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sigma0 <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  nrep <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>n</dt>
 <dd><p>A numeric scalar.  The size of posterior sample required.</p></dd>
+
+
 <dt>resp</dt>
 <dd><p>A numeric vector.  Response values.</p></dd>
+
+
 <dt>fac</dt>
-<dd><p>A vector of class <a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a> indicating the group from
+<dd><p>A vector of class <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></code> indicating the group from
 which the corresponding element of <code>resp</code> originates.
 Must have the same length as <code>resp</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Optional further arguments to be passed to
 <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code>.</p></dd>
+
+
 <dt>prior</dt>
 <dd><p>The log-prior for the parameters of the hyperprior
 distribution.  If the user wishes to specify their own prior then
@@ -101,11 +119,15 @@ Otherwise, <code>prior</code> is a character scalar giving the name of the
 required in-built prior.
 If <code>prior</code> is not supplied then a default prior is used.
 See <strong>Details</strong>.</p></dd>
+
+
 <dt>hpars</dt>
 <dd><p>A numeric vector.  Used to set parameters (if any) in
 an in-built prior.  If <code>prior = cauchy</code> then <code>hpars</code> is
 a numeric vector of length 2 giving the respective scale parameters
 of the half-Cauchy priors for \(\sigma_\alpha\) and \(\sigma\).</p></dd>
+
+
 <dt>param</dt>
 <dd><p>A character scalar.
 If <code>param = "trans"</code> (the default) then the marginal posterior
@@ -116,6 +138,8 @@ i.e. \(\sigma_\alpha, \sigma\) is used.
 The former tends to make the optimizations involved in the
 ratio-of-uniforms algorithm more stable and to increase the probability
 of acceptance, but at the expense of slower function evaluations.</p></dd>
+
+
 <dt>init</dt>
 <dd><p>A numeric vector. Optional initial estimates sent to
 <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code> in the search for the mode of the posterior
@@ -125,6 +149,8 @@ marginal posterior density of \((\sigma_\alpha, \sigma)\), so
 <code>init</code> must have length 2.  Otherwise, <code>init</code> has length
 equal to the argument <code>anova_d</code> supplied to
 <code><a href="set_user_prior.html">set_user_prior</a></code>.</p></dd>
+
+
 <dt>mu0, sigma0</dt>
 <dd><p>A numeric scalar.  Mean and standard deviation of a
 normal prior for \(\mu\).  Only used if an in-built prior is used
@@ -132,6 +158,8 @@ or if <code>anova_d = 2</code> is supplied in a call to
 <code><a href="set_user_prior.html">set_user_prior</a></code> to set a user-defined prior.
 The default, <code>sigma0 = Inf</code>, sets an improper uniform prior
 for \(\mu\).</p></dd>
+
+
 <dt>nrep</dt>
 <dd><p>A numeric scalar.  If <code>nrep</code> is not <code>NULL</code> then
 <code>nrep</code> gives the number of replications of the original dataset
@@ -139,21 +167,35 @@ simulated from the posterior predictive distribution.
 Each replication is based on one of the samples from the posterior
 distribution.  Therefore, <code>nrep</code> must not be greater than <code>n</code>.
 In that event <code>nrep</code> is set equal to <code>n</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object (list) of class <code>"hef"</code>, which has the same
+    
+
+<p>An object (list) of class <code>"hef"</code>, which has the same
   structure as an object of class "ru" returned from <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code>.
-  In particular, the columns of the <code>n</code>-row matrix <code>sim_vals</code>  contain the simulated values of \(\phi\).
-  In addition this list contains the arguments <code>model</code>, <code>resp</code>,
-<code>fac</code> and <code>prior</code> detailed above and an <code>n</code> by \(I\)  matrix <code>theta_sim_vals</code>: column \(i\) contains the simulated
-  values of  \(\theta\)\(i\).  Also included are
-<code>data = cbind(resp, fac)</code> and <code>summary_stats</code> a list
+  In particular, the columns of the <code>n</code>-row matrix <code>sim_vals</code></p>
+
+
+<p>contain the simulated values of \(\phi\).
+  In addition this list contains the arguments <code>model</code>, <code>resp</code>,</p>
+<p></p>
+<p><code>fac</code> and <code>prior</code> detailed above and an <code>n</code> by \(I\)</p>
+
+
+<p>matrix <code>theta_sim_vals</code>: column \(i\) contains the simulated
+  values of  \(\theta\)\(i\).  Also included are</p>
+<p></p>
+<p><code>data = cbind(resp, fac)</code> and <code>summary_stats</code> a list
   containing: the number of groups <code>I</code>; the numbers of responses
   each group <code>ni</code>; the total number of observations; the sample mean
   response in each group; the sum of squared deviations from the
-  group means <code>s</code>; the arguments to <code>hanova1</code><code>mu0</code> and
-<code>sigma0</code>; <code>call</code>: the matched call to <code>hanova1</code>.</p>
+  group means <code>s</code>; the arguments to <code>hanova1</code></p>
+<p></p>
+<p><code>mu0</code> and</p>
+<p></p>
+<p><code>sigma0</code>; <code>call</code>: the matched call to <code>hanova1</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -170,7 +212,7 @@ In that event <code>nrep</code> is set equal to <code>n</code>.</p></dd>
   A <em>hyperprior</em> is placed on \(\phi\).
   The user can either choose parameter values of a default hyperprior or
   specify their own hyperprior using <code><a href="set_user_prior.html">set_user_prior</a></code>.</p>
-<p>The <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code> function in the <code><a href="https://paulnorthrop.github.io/rust/reference/rust.html" class="external-link">rust</a></code>
+<p>The <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code> function in the <code><a href="https://paulnorthrop.github.io/rust/reference/rust-package.html" class="external-link">rust</a></code>
   package is used to draw a random sample from the marginal posterior
   of the hyperparameter vector \(\phi\).
   Then, conditional on these values, population parameters are sampled
@@ -225,110 +267,110 @@ The default setting is <code>hpars = c(10, 10).</code></p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># ======= Late 21st Century Global Temperature Data =======</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Extract data for RCP2.6</span></span>
-<span class="r-in"><span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Sample from the posterior under the default `noninformative' flat prior</span></span>
-<span class="r-in"><span class="co"># for (mu, sigma_alpha, log(sigma)).  Ratio-of-uniforms is used to sample</span></span>
-<span class="r-in"><span class="co"># from the marginal posterior for (log(sigma_alpha), log(sigma)).</span></span>
-<span class="r-in"><span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu">hanova1</span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Plot of sampled values of (sigma_alpha, sigma)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, params <span class="op">=</span> <span class="st">"ru"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># ======= Late 21st Century Global Temperature Data =======</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Extract data for RCP2.6</span></span></span>
+<span class="r-in"><span><span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Sample from the posterior under the default `noninformative' flat prior</span></span></span>
+<span class="r-in"><span><span class="co"># for (mu, sigma_alpha, log(sigma)).  Ratio-of-uniforms is used to sample</span></span></span>
+<span class="r-in"><span><span class="co"># from the marginal posterior for (log(sigma_alpha), log(sigma)).</span></span></span>
+<span class="r-in"><span><span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu">hanova1</span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot of sampled values of (sigma_alpha, sigma)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, params <span class="op">=</span> <span class="st">"ru"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hanova1-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Plot of sampled values of (log(sigma_alpha), log(sigma))</span></span>
-<span class="r-in"><span class="co"># (centred at (0,0))</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot of sampled values of (log(sigma_alpha), log(sigma))</span></span></span>
+<span class="r-in"><span><span class="co"># (centred at (0,0))</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hanova1-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Plot of sampled values of (mu, sigma_alpha, sigma)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot of sampled values of (mu, sigma_alpha, sigma)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hanova1-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Estimated marginal posterior densities of the mean for each GCM</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, which_pop <span class="op">=</span> <span class="st">"all"</span>, one_plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Estimated marginal posterior densities of the mean for each GCM</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, which_pop <span class="op">=</span> <span class="st">"all"</span>, one_plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hanova1-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Posterior sample quantiles</span></span>
-<span class="r-in"><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">97.5</span><span class="op">)</span> <span class="op">/</span> <span class="fl">100</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Posterior sample quantiles</span></span></span>
+<span class="r-in"><span><span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">97.5</span><span class="op">)</span> <span class="op">/</span> <span class="fl">100</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              2.5%  25%  50%  75% 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mu           1.07 1.18 1.24 1.30  1.41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha] 0.34 0.40 0.44 0.48  0.59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mu           1.06 1.18 1.24 1.30  1.42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha] 0.34 0.40 0.44 0.48  0.61</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sigma        0.04 0.05 0.06 0.06  0.07</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Ratio-of-uniforms information and posterior sample summaries</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Ratio-of-uniforms information and posterior sample summaries</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ru bounding box:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                box         vals1        vals2 conv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a        1.0000000  0.0000000000  0.000000000    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b1minus -0.1466810 -0.2326509994  0.001997345    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2minus -0.1475368 -0.0004397794 -0.234538810    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b1plus   0.1755008  0.3048045191  0.001126515    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.1739269 -0.0010104514  0.300416383    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.1739269 -0.0010104519  0.300416382    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5099439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.551572</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        mu          sigma[alpha]        sigma        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.9339   Min.   :0.2935   Min.   :0.03675  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:1.1797   1st Qu.:0.3984   1st Qu.:0.05176  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :1.2377   Median :0.4393   Median :0.05629  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.2393   Mean   :0.4452   Mean   :0.05712  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.2993   3rd Qu.:0.4837   3rd Qu.:0.06153  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :1.5230   Max.   :0.6920   Max.   :0.08956  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ======= Coagulation time data, from Table 11.2 Gelman et al (2014) =======</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># With only 4 groups the posterior for sigma_alpha has a heavy right tail if</span></span>
-<span class="r-in"><span class="co"># the default `noninformative' flat prior for (mu, sigma_alpha, log(sigma))</span></span>
-<span class="r-in"><span class="co"># is used.  If we try to sample from the marginal posterior for</span></span>
-<span class="r-in"><span class="co"># (sigma_alpha, sigma) using the default generalized ratio-of-uniforms</span></span>
-<span class="r-in"><span class="co"># runing parameter value r = 1/2 then the acceptance region is not bounded.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Two remedies: reparameterize the posterior and/or increase the value of r.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># (log(sigma_alpha), log(sigma)) parameterization, ru parameter r = 1/2</span></span>
-<span class="r-in"><span class="va">coag1</span> <span class="op">&lt;-</span> <span class="fu">hanova1</span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># (sigma_alpha, sigma) parameterization, ru parameter r = 1</span></span>
-<span class="r-in"><span class="va">coag2</span> <span class="op">&lt;-</span> <span class="fu">hanova1</span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,</span>
-<span class="r-in">               param <span class="op">=</span> <span class="st">"original"</span>, r <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Values to compare to those in Table 11.3 of Gelman et al (2014)</span></span>
-<span class="r-in"><span class="va">all1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">coag1</span><span class="op">$</span><span class="va">theta_sim_vals</span>, <span class="va">coag1</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">all2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">coag2</span><span class="op">$</span><span class="va">theta_sim_vals</span>, <span class="va">coag2</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">all1</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.8771   Min.   :0.2817   Min.   :0.03916  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:1.1837   1st Qu.:0.3994   1st Qu.:0.05155  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :1.2395   Median :0.4403   Median :0.05625  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.2394   Mean   :0.4477   Mean   :0.05708  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.2953   3rd Qu.:0.4842   3rd Qu.:0.06213  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :1.6213   Max.   :0.8046   Max.   :0.09173  </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ======= Coagulation time data, from Table 11.2 Gelman et al (2014) =======</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># With only 4 groups the posterior for sigma_alpha has a heavy right tail if</span></span></span>
+<span class="r-in"><span><span class="co"># the default `noninformative' flat prior for (mu, sigma_alpha, log(sigma))</span></span></span>
+<span class="r-in"><span><span class="co"># is used.  If we try to sample from the marginal posterior for</span></span></span>
+<span class="r-in"><span><span class="co"># (sigma_alpha, sigma) using the default generalized ratio-of-uniforms</span></span></span>
+<span class="r-in"><span><span class="co"># runing parameter value r = 1/2 then the acceptance region is not bounded.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Two remedies: reparameterize the posterior and/or increase the value of r.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># (log(sigma_alpha), log(sigma)) parameterization, ru parameter r = 1/2</span></span></span>
+<span class="r-in"><span><span class="va">coag1</span> <span class="op">&lt;-</span> <span class="fu">hanova1</span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># (sigma_alpha, sigma) parameterization, ru parameter r = 1</span></span></span>
+<span class="r-in"><span><span class="va">coag2</span> <span class="op">&lt;-</span> <span class="fu">hanova1</span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>               param <span class="op">=</span> <span class="st">"original"</span>, r <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Values to compare to those in Table 11.3 of Gelman et al (2014)</span></span></span>
+<span class="r-in"><span><span class="va">all1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">coag1</span><span class="op">$</span><span class="va">theta_sim_vals</span>, <span class="va">coag1</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">all2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">coag2</span><span class="op">$</span><span class="va">theta_sim_vals</span>, <span class="va">coag2</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">all1</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              2.5%  25%  50%  75% 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[1]     58.9 60.4 61.2 62.1  63.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[2]     63.9 65.3 66.0 66.6  68.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[3]     65.8 67.2 67.8 68.5  69.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[4]     59.6 60.5 61.1 61.7  62.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mu           53.3 61.9 64.1 65.7  73.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha]  2.1  3.6  5.4  8.4  29.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma         1.8  2.1  2.4  2.6   3.4</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">all2</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[1]     59.0 60.3 61.2 62.0  63.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[2]     64.0 65.2 65.9 66.6  67.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[3]     65.6 67.1 67.8 68.4  69.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[4]     59.4 60.6 61.1 61.7  62.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mu           55.5 62.2 64.0 65.7  73.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha]  1.9  3.6  5.1  7.8  25.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma         1.8  2.2  2.4  2.7   3.3</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">all2</span>, <span class="fl">2</span>, <span class="va">quantile</span>, probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              2.5%  25%  50%  75% 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[1]     58.8 60.5 61.3 62.1  63.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[2]     63.8 65.2 65.8 66.5  68.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[3]     65.4 67.1 67.8 68.4  69.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> theta[4]     59.4 60.6 61.1 61.8  62.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mu           54.1 62.2 64.0 65.7  71.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha]  1.9  3.4  4.9  7.8  27.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma         1.8  2.2  2.4  2.7   3.5</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Pairwise plots of posterior samples from the group means</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coag1</span>, which_pop <span class="op">=</span> <span class="st">"all"</span>, plot_type <span class="op">=</span> <span class="st">"pairs"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[1]     58.7 60.6 61.3 62.1  63.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[2]     63.8 65.2 65.8 66.5  68.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[3]     65.7 67.1 67.7 68.4  69.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> theta[4]     59.3 60.5 61.1 61.7  62.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mu           55.2 62.2 64.0 65.9  73.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma[alpha]  2.0  3.6  5.0  8.2  24.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma         1.8  2.2  2.4  2.7   3.3</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Pairwise plots of posterior samples from the group means</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coag1</span>, which_pop <span class="op">=</span> <span class="st">"all"</span>, plot_type <span class="op">=</span> <span class="st">"pairs"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hanova1-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Independent half-Cauchy priors for sigma_alpha and sigma</span></span>
-<span class="r-in"><span class="va">coag3</span> <span class="op">&lt;-</span> <span class="fu">hanova1</span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,</span>
-<span class="r-in">                 param <span class="op">=</span> <span class="st">"original"</span>, prior <span class="op">=</span> <span class="st">"cauchy"</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1e6</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Independent half-Cauchy priors for sigma_alpha and sigma</span></span></span>
+<span class="r-in"><span><span class="va">coag3</span> <span class="op">&lt;-</span> <span class="fu">hanova1</span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>                 param <span class="op">=</span> <span class="st">"original"</span>, prior <span class="op">=</span> <span class="st">"cauchy"</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1e6</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -343,7 +385,7 @@ The default setting is <code>hpars = c(10, 10).</code></p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

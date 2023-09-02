@@ -18,7 +18,7 @@ of certain hierarchical exponential family models."><!-- mathjax --><script src=
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -27,7 +27,7 @@ of certain hierarchical exponential family models."><!-- mathjax --><script src=
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -74,26 +74,42 @@ of certain hierarchical exponential family models.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">hef</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"beta_binom"</span>, <span class="st">"gamma_pois"</span><span class="op">)</span>, <span class="va">data</span>, <span class="va">...</span>,
-  prior <span class="op">=</span> <span class="st">"default"</span>, hpars <span class="op">=</span> <span class="cn">NULL</span>, param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"trans"</span>, <span class="st">"original"</span><span class="op">)</span>,
-  init <span class="op">=</span> <span class="cn">NULL</span>, nrep <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hef</span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"beta_binom"</span>, <span class="st">"gamma_pois"</span><span class="op">)</span>,</span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  prior <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  hpars <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"trans"</span>, <span class="st">"original"</span><span class="op">)</span>,</span>
+<span>  init <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  nrep <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>n</dt>
 <dd><p>An integer scalar.  The size of the posterior sample required.</p></dd>
+
+
 <dt>model</dt>
 <dd><p>A character string.  Abbreviated name for the
 response-population distribution combination.
 For a hierarchical normal model see <code><a href="hanova1.html">hanova1</a></code>
 (hierarchical one-way analysis of variance (ANOVA)).</p></dd>
+
+
 <dt>data</dt>
 <dd><p>A numeric matrix.  The format depends on <code>model</code>.
 See <strong>Details</strong>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Optional further arguments to be passed to
 <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code>.</p></dd>
+
+
 <dt>prior</dt>
 <dd><p>The log-prior for the parameters of the hyperprior
 distribution.  If the user wishes to specify their own prior then
@@ -103,9 +119,13 @@ Otherwise, <code>prior</code> is a character scalar giving the name of the
 required in-built prior.
 If <code>prior</code> is not supplied then a default prior is used.
 See <strong>Details</strong>.</p></dd>
+
+
 <dt>hpars</dt>
 <dd><p>A numeric vector.  Used to set parameters (if any) in
 an in-built prior.</p></dd>
+
+
 <dt>param</dt>
 <dd><p>A character scalar.
 If <code>param = "trans"</code> (the default) then the marginal posterior
@@ -115,10 +135,14 @@ If <code>param = "original"</code> the original parameterization is used.
 The former tends to make the optimizations involved in the
 ratio-of-uniforms algorithm more stable and to increase the probability
 of acceptance, but at the expense of slower function evaluations.</p></dd>
+
+
 <dt>init</dt>
 <dd><p>A numeric vector of length 2.  Optional initial estimates
 for the search for the mode of the posterior density of the
 hyperparameter vector \(\phi\).</p></dd>
+
+
 <dt>nrep</dt>
 <dd><p>A numeric scalar.  If <code>nrep</code> is not <code>NULL</code> then
 <code>nrep</code> gives the number of replications of the original dataset
@@ -126,17 +150,31 @@ simulated from the posterior predictive distribution.
 Each replication is based on one of the samples from the posterior
 distribution.  Therefore, <code>nrep</code> must not be greater than <code>n</code>.
 In that event <code>nrep</code> is set equal to <code>n</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object (list) of class <code>"hef"</code>, which has the same
+    
+
+<p>An object (list) of class <code>"hef"</code>, which has the same
   structure as an object of class "ru" returned from <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code>.
-  In particular, the columns of the <code>n</code>-row matrix <code>sim_vals</code>  contain the simulated values of \(\phi\).
-  In addition this list contains the arguments <code>model</code>, <code>data</code>  and <code>prior</code> detailed above, an <code>n</code> by \(J\) matrix
-<code>theta_sim_vals</code>: column \(j\) contains the simulated values of
-\(\theta\)\(j\) and <code>call</code>: the matched call to <code>hef</code>.
-  If <code>nrep</code> is not <code>NULL</code> then this list also contains
-<code>data_rep</code>, a numerical matrix with <code>nrep</code> columns.
+  In particular, the columns of the <code>n</code>-row matrix <code>sim_vals</code></p>
+
+
+<p>contain the simulated values of \(\phi\).
+  In addition this list contains the arguments <code>model</code>, <code>data</code></p>
+
+
+<p>and <code>prior</code> detailed above, an <code>n</code> by \(J\) matrix</p>
+<p></p>
+<p><code>theta_sim_vals</code>: column \(j\) contains the simulated values of</p>
+<p></p>
+<p>\(\theta\)\(j\) and <code>call</code>: the matched call to <code>hef</code>.</p>
+
+
+<p>If <code>nrep</code> is not <code>NULL</code> then this list also contains</p>
+<p></p>
+<p><code>data_rep</code>, a numerical matrix with <code>nrep</code> columns.
   Each column contains a replication of the first column of the original
   data <code>data[, 1]</code>, simulated from the posterior predictive
   distribution.</p>
@@ -157,7 +195,7 @@ In that event <code>nrep</code> is set equal to <code>n</code>.</p></dd>
   A <em>hyperprior</em> is placed on \(\phi\).  The user can either
   choose parameter values of a default hyperprior or specify their own
   hyperprior using <code><a href="set_user_prior.html">set_user_prior</a></code>.</p>
-<p>The <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code> function in the <code><a href="https://paulnorthrop.github.io/rust/reference/rust.html" class="external-link">rust</a></code>
+<p>The <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code> function in the <code><a href="https://paulnorthrop.github.io/rust/reference/rust-package.html" class="external-link">rust</a></code>
   package is used to draw a random sample
   from the marginal posterior of the hyperparameter vector \(\phi\).
   Then, conditional on these values, population parameters are sampled
@@ -239,60 +277,60 @@ where the respective shape (\(s1\), \(s2\)) and rate
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">############################ Beta-binomial #################################</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ------------------------- Rat tumor data ------------------------------- #</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale</span></span>
-<span class="r-in"><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="co"># Hyperparameters alpha and beta</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">############################ Beta-binomial #################################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ------------------------- Rat tumor data ------------------------------- #</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale</span></span></span>
+<span class="r-in"><span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Hyperparameters alpha and beta</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># Parameterization used for sampling</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Parameterization used for sampling</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ru bounding box:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                box       vals1       vals2 conv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a        1.0000000  0.00000000  0.00000000    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b1minus -0.2382163 -0.40313465 -0.03906170    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2minus -0.2174510  0.05447431 -0.35297539    0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> b1plus   0.2231876  0.36718411 -0.06551353    0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> b1plus   0.2231876  0.36718396 -0.06551365    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.2512577  0.05665707  0.44459818    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5083884</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5058169</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha              beta        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 0.9621   Min.   :  5.185  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 1.7954   1st Qu.: 10.713  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 2.2742   Median : 13.281  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 2.5082   Mean   : 14.928  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 2.8243   3rd Qu.: 16.891  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :83.4309   Max.   :474.125  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Choose rats with extreme sample probabilities</span></span>
-<span class="r-in"><span class="va">pops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">rat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">rat</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">rat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">rat</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Population-specific posterior samples: separate plots</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, plot_type <span class="op">=</span> <span class="st">"both"</span>, which_pop <span class="op">=</span> <span class="va">pops</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 0.793   Min.   : 4.693  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 1.802   1st Qu.:10.656  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 2.224   Median :13.282  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 2.428   Mean   :14.478  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 2.841   3rd Qu.:17.001  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :11.683   Max.   :69.715  </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Choose rats with extreme sample probabilities</span></span></span>
+<span class="r-in"><span><span class="va">pops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">rat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">rat</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">rat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">rat</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Population-specific posterior samples: separate plots</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, plot_type <span class="op">=</span> <span class="st">"both"</span>, which_pop <span class="op">=</span> <span class="va">pops</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># Population-specific posterior samples: one plot</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, plot_type <span class="op">=</span> <span class="st">"dens"</span>, which_pop <span class="op">=</span> <span class="va">pops</span>,</span>
-<span class="r-in">     one_plot <span class="op">=</span> <span class="cn">TRUE</span>, add_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Population-specific posterior samples: one plot</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, plot_type <span class="op">=</span> <span class="st">"dens"</span>, which_pop <span class="op">=</span> <span class="va">pops</span>,</span></span>
+<span class="r-in"><span>     one_plot <span class="op">=</span> <span class="cn">TRUE</span>, add_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Default prior, sampling on (rotated) (alpha, beta) scale</span></span>
-<span class="r-in"><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, param <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Default prior, sampling on (rotated) (alpha, beta) scale</span></span></span>
+<span class="r-in"><span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, param <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ru bounding box:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                box       vals1      vals2 conv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a        1.0000000  0.00000000  0.0000000    0</span>
@@ -302,43 +340,43 @@ where the respective shape (\(s1\), \(s2\)) and rate
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   1.6246189  0.52814754  3.8051940    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5083884</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5050505</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha              beta       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 0.9446   Min.   : 4.957  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 1.7791   1st Qu.:10.698  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 2.2275   Median :13.151  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 2.4029   Mean   :14.280  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 2.7970   3rd Qu.:17.027  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :10.8674   Max.   :58.777  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># To produce a plot akin to Figure 5.3 of Gelman et al. (2014) we</span></span>
-<span class="r-in"><span class="co"># (a) Use the same prior for (alpha, beta)</span></span>
-<span class="r-in"><span class="co"># (b) Don't use axis rotation (rotate = FALSE)</span></span>
-<span class="r-in"><span class="co"># (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)</span></span>
-<span class="r-in"><span class="co"># (d) Note that the mode is relocated to (0, 0) in the plot</span></span>
-<span class="r-in"><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, rotate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha              beta      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 0.7957   Min.   : 4.89  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 1.8137   1st Qu.:10.89  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 2.2596   Median :13.48  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 2.4662   Mean   :14.70  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 2.8730   3rd Qu.:17.07  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :12.1904   Max.   :72.35  </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To produce a plot akin to Figure 5.3 of Gelman et al. (2014) we</span></span></span>
+<span class="r-in"><span><span class="co"># (a) Use the same prior for (alpha, beta)</span></span></span>
+<span class="r-in"><span><span class="co"># (b) Don't use axis rotation (rotate = FALSE)</span></span></span>
+<span class="r-in"><span><span class="co"># (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)</span></span></span>
+<span class="r-in"><span><span class="co"># (d) Note that the mode is relocated to (0, 0) in the plot</span></span></span>
+<span class="r-in"><span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, rotate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-7.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="co"># This is the estimated location of the posterior mode</span></span>
-<span class="r-in"><span class="va">rat_res</span><span class="op">$</span><span class="va">f_mode</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># This is the estimated location of the posterior mode</span></span></span>
+<span class="r-in"><span><span class="va">rat_res</span><span class="op">$</span><span class="va">f_mode</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.785783  2.741549</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># User-defined prior, passing parameters</span></span>
-<span class="r-in"><span class="co"># (equivalent to prior = "gamma" with hpars = c(1, 0.01, 1, 0.01))</span></span>
-<span class="r-in"><span class="va">user_prior</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">hpars</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">dexp</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">hpars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">dexp</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">hpars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="va">user_prior_fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="set_user_prior.html">set_user_prior</a></span><span class="op">(</span><span class="va">user_prior</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, prior <span class="op">=</span> <span class="va">user_prior_fn</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># User-defined prior, passing parameters</span></span></span>
+<span class="r-in"><span><span class="co"># (equivalent to prior = "gamma" with hpars = c(1, 0.01, 1, 0.01))</span></span></span>
+<span class="r-in"><span><span class="va">user_prior</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">hpars</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">dexp</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">hpars</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">dexp</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">hpars</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">user_prior_fn</span> <span class="op">&lt;-</span> <span class="fu"><a href="set_user_prior.html">set_user_prior</a></span><span class="op">(</span><span class="va">user_prior</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, prior <span class="op">=</span> <span class="va">user_prior_fn</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-8.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ru bounding box:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                box       vals1       vals2 conv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a        1.0000000  0.00000000  0.00000000    0</span>
@@ -348,31 +386,31 @@ where the respective shape (\(s1\), \(s2\)) and rate
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.2730012  0.06004980  0.51162996    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5141388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5243838</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 1.077   Min.   :  6.103  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 2.276   1st Qu.: 13.943  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 2.972   Median : 17.984  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 3.302   Mean   : 19.867  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 3.897   3rd Qu.: 23.456  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :18.579   Max.   :106.048  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">############################ Gamma-Poisson #################################</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ------------------------ Pump failure data ------------------------------ #</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Hyperparameters alpha and beta</span></span>
-<span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 1.137   Min.   : 7.043  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 2.339   1st Qu.:14.178  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 3.021   Median :18.011  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 3.311   Mean   :19.792  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 3.836   3rd Qu.:22.873  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :16.487   Max.   :99.786  </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">############################ Gamma-Poisson #################################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ------------------------ Pump failure data ------------------------------ #</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu">hef</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Hyperparameters alpha and beta</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-9.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"><span class="co"># Parameterization used for sampling</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># Parameterization used for sampling</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-10.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ru bounding box:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                box       vals1       vals2 conv</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a        1.0000000  0.00000000  0.00000000    0</span>
@@ -382,20 +420,20 @@ where the respective shape (\(s1\), \(s2\)) and rate
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.4224941  0.08788857  0.67847965    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5367687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5138746</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.2889   Min.   :0.2452  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.7973   1st Qu.:1.2731  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :1.0759   Median :1.8298  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.1437   Mean   :2.1012  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.4005   3rd Qu.:2.6880  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :3.2284   Max.   :7.7540  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Choose pumps with extreme sample rates</span></span>
-<span class="r-in"><span class="va">pops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">pump</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">pump</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">pump</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">pump</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, plot_type <span class="op">=</span> <span class="st">"dens"</span>, which_pop <span class="op">=</span> <span class="va">pops</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.2695   Min.   : 0.1589  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.8062   1st Qu.: 1.2759  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :1.0617   Median : 1.9930  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.1595   Mean   : 2.2409  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.4226   3rd Qu.: 2.8664  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :4.1382   Max.   :11.9177  </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Choose pumps with extreme sample rates</span></span></span>
+<span class="r-in"><span><span class="va">pops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">pump</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">pump</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">pump</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">pump</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span>, params <span class="op">=</span> <span class="st">"pop"</span>, plot_type <span class="op">=</span> <span class="st">"dens"</span>, which_pop <span class="op">=</span> <span class="va">pops</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="hef-11.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -411,7 +449,7 @@ where the respective shape (\(s1\), \(s2\)) and rate
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

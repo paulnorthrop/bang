@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -88,9 +88,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Posterior Predictive Checking</h1>
-                        <h4 data-toc-skip class="author">Paul J. Northrop</h4>
+                        <h4 data-toc-skip class="author">Paul J.
+Northrop</h4>
             
-            <h4 data-toc-skip class="date">2022-04-11</h4>
+            <h4 data-toc-skip class="date">2023-09-02</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/paulnorthrop/bang/blob/HEAD/vignettes/bang-d-ppc-vignette.Rmd" class="external-link"><code>vignettes/bang-d-ppc-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>bang-d-ppc-vignette.Rmd</code></div>
@@ -99,59 +100,85 @@
 
     
     
-<p>This short vignette illustrates the use of the <code>pp_check</code> method <code>pp_check.hef</code>, which provides an interface to the posterior predictive checking graphics in the <em>bayesplot</em> package <span class="citation">(Gabry and Mahr 2017)</span>. For details see the bayesplot vignette <a href="https://CRAN.R-project.org/package=bayesplot" class="external-link">Graphical posterior predictive checks</a>. and/or Chapter 6 of <span class="citation">Gelman et al. (2014)</span>. <em>bayesplot</em> functions return a <code>ggplot</code> object that can be customised using the <em>gglot2</em> package <span class="citation">(Wickham 2016)</span>.</p>
-<p>We revisit the examples presented in the vignettes <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of Variance</a> and <a href="bang-b-hef-vignette.html">Conjugate Hierarchical Models</a>. In the code below <code>hef</code> and <code>hanova1</code> have been called with the extra argument <code>nrep = 50</code>. This results in 50 simulated replicates of the data, returned in <code>object$data_rep</code>, on which posterior predictive checking can be based. The general idea is that if the model fits well then the observed data should not appear unusual when compared to replicates from the posterior predictive distribution.</p>
+<p>This short vignette illustrates the use of the <code>pp_check</code>
+method <code>pp_check.hef</code>, which provides an interface to the
+posterior predictive checking graphics in the <em>bayesplot</em> package
+<span class="citation">(Gabry and Mahr 2017)</span>. For details see the
+bayesplot vignette <a href="https://CRAN.R-project.org/package=bayesplot" class="external-link">Graphical posterior
+predictive checks</a>. and/or Chapter 6 of <span class="citation">Gelman
+et al. (2014)</span>. <em>bayesplot</em> functions return a
+<code>ggplot</code> object that can be customised using the
+<em>gglot2</em> package <span class="citation">(Wickham
+2016)</span>.</p>
+<p>We revisit the examples presented in the vignettes <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of
+Variance</a> and <a href="bang-b-hef-vignette.html">Conjugate
+Hierarchical Models</a>. In the code below <code>hef</code> and
+<code>hanova1</code> have been called with the extra argument
+<code>nrep = 50</code>. This results in 50 simulated replicates of the
+data, returned in <code>object$data_rep</code>, on which posterior
+predictive checking can be based. The general idea is that if the model
+fits well then the observed data should not appear unusual when compared
+to replicates from the posterior predictive distribution.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span>
-<span class="co"># Beta-binomial rat tumor example</span>
-<span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
-<span class="co"># Gamma-Poisson pump failure example</span>
-<span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>
-<span class="co"># 1-way Hierarchical ANOVA global warming example</span>
-<span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span>
-<span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></code></pre></div>
-<p>We show some examples of the graphical posterior predictive checks that are available from <em>bayesplot</em>, but make no comments on their content. The commented lines above the calls to <code>pp_check</code> describe briefly the type of plot produced.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span></span>
+<span><span class="co"># Beta-binomial rat tumor example</span></span>
+<span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="co"># Gamma-Poisson pump failure example</span></span>
+<span><span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
+<span><span class="co"># 1-way Hierarchical ANOVA global warming example</span></span>
+<span><span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span></span>
+<span><span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code></pre></div>
+<p>We show some examples of the graphical posterior predictive checks
+that are available from <em>bayesplot</em>, but make no comments on
+their content. The commented lines above the calls to
+<code>pp_check</code> describe briefly the type of plot produced.</p>
 <div class="section level2">
 <h2 id="beta-binomial-model">Beta-binomial model<a class="anchor" aria-label="anchor" href="#beta-binomial-model"></a>
 </h2>
-<p>The aspect of the data that appears in these plots is the proportion of successful trials.</p>
+<p>The aspect of the data that appears in these plots is the proportion
+of successful trials.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mc-stan.org/bayesplot/" class="external-link">bayesplot</a></span><span class="op">)</span>
-<span class="co">#&gt; This is bayesplot version 1.8.1</span>
-<span class="co">#&gt; - Online documentation and vignettes at mc-stan.org/bayesplot</span>
-<span class="co">#&gt; - bayesplot theme set to bayesplot::theme_default()</span>
-<span class="co">#&gt;    * Does _not_ affect other ggplot2 plots</span>
-<span class="co">#&gt;    * See ?bayesplot_theme_set for details on theme setting</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-<span class="co"># Overlaid density estimates</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span>
-<span class="co"># Overlaid distribution function estimates</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"ecdf_overlay"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mc-stan.org/bayesplot/" class="external-link">bayesplot</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; This is bayesplot version 1.10.0</span></span>
+<span><span class="co">#&gt; - Online documentation and vignettes at mc-stan.org/bayesplot</span></span>
+<span><span class="co">#&gt; - bayesplot theme set to bayesplot::theme_default()</span></span>
+<span><span class="co">#&gt;    * Does _not_ affect other ggplot2 plots</span></span>
+<span><span class="co">#&gt;    * See ?bayesplot_theme_set for details on theme setting</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="co"># Overlaid density estimates</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+<span><span class="co"># Overlaid distribution function estimates</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"ecdf_overlay"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-3-1.png" width="331.2"><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-3-2.png" width="331.2"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Multiple histograms</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"hist"</span>, nrep <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>
-<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
-<span class="co"># Multiple boxplots</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Multiple histograms</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"hist"</span>, nrep <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
+<span><span class="co"># Multiple boxplots</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"boxplot"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-4-1.png" width="672"><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-4-2.png" width="672"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Predictive medians vs observed median</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"stat"</span>, stat <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span>
-<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
-<span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Predictive medians vs observed median</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"stat"</span>, stat <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
+<span><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-5-1.png" width="672"><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-5-2.png" width="672"></p>
 </div>
 <div class="section level2">
 <h2 id="gamma-poisson-model">Gamma-Poisson model<a class="anchor" aria-label="anchor" href="#gamma-poisson-model"></a>
 </h2>
-<p>The aspect of the data that appears in these plots is the exposure-adjusted rate <span class="math inline">\(y_j / e_j\)</span>, where <span class="math inline">\(y_j\)</span> is the observed count and <span class="math inline">\(e_j\)</span> a measure of exposure. See the <a href="bang-b-hef-vignette.html">Conjugate Hierarchical Models</a> vignette for more detail.</p>
+<p>The aspect of the data that appears in these plots is the
+exposure-adjusted rate <span class="math inline">\(y_j / e_j\)</span>,
+where <span class="math inline">\(y_j\)</span> is the observed count and
+<span class="math inline">\(e_j\)</span> a measure of exposure. See the
+<a href="bang-b-hef-vignette.html">Conjugate Hierarchical Models</a>
+vignette for more detail.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Overlaid density estimates</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span>
-<span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">pump_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Overlaid density estimates</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span>
+<span><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">pump_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-6-1.png" width="672"><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
 </div>
 <div class="section level2">
@@ -159,10 +186,10 @@
 </h2>
 <p>The raw responses appear in these plots.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Overlaid density estimates</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span>
-<span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span>
-<span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">temp_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Overlaid density estimates</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">)</span></span>
+<span><span class="co"># Predictive (mean, sd) vs observed (mean, sd)</span></span>
+<span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">temp_res</span>, fun <span class="op">=</span> <span class="st">"stat_2d"</span>, stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-7-1.png" width="672"><img src="bang-d-ppc-vignette_files/figure-html/unnamed-chunk-7-2.png" width="672"></p>
 </div>
 <div class="section level2">
@@ -172,13 +199,17 @@
    MathJax.Hub.Config({  "HTML-CSS": { minScaleAdjust: 125, availableFonts: [] }  });
 </script><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-bayesplot" class="csl-entry">
-Gabry, Jonah, and Tristan Mahr. 2017. <em>Bayesplot: Plotting for Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=bayesplot" class="external-link">https://CRAN.R-project.org/package=bayesplot</a>.
+Gabry, Jonah, and Tristan Mahr. 2017. <em>Bayesplot: Plotting for
+Bayesian Models</em>. <a href="https://CRAN.R-project.org/package=bayesplot" class="external-link">https://CRAN.R-project.org/package=bayesplot</a>.
 </div>
 <div id="ref-BDA2014" class="csl-entry">
-Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2014. <em>Bayesian Data Analysis</em>. Third. Florida, USA: Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book/" class="external-link">http://www.stat.columbia.edu/~gelman/book/</a>.
+Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D.
+B. Rubin. 2014. <em>Bayesian Data Analysis</em>. Third. Florida, USA:
+Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book/" class="external-link">http://www.stat.columbia.edu/~gelman/book/</a>.
 </div>
 <div id="ref-ggplot2" class="csl-entry">
-Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org" class="external-link">https://ggplot2.tidyverse.org</a>.
+Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data
+Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org" class="external-link">https://ggplot2.tidyverse.org</a>.
 </div>
 </div>
 </div>
@@ -201,7 +232,7 @@ Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Spr
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

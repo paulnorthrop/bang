@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -87,10 +87,12 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Introducing bang: Bayesian Analysis, No Gibbs</h1>
-                        <h4 data-toc-skip class="author">Paul Northrop</h4>
+      <h1 data-toc-skip>Introducing bang: Bayesian Analysis, No
+Gibbs</h1>
+                        <h4 data-toc-skip class="author">Paul
+Northrop</h4>
             
-            <h4 data-toc-skip class="date">2022-04-11</h4>
+            <h4 data-toc-skip class="date">2023-09-02</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/paulnorthrop/bang/blob/HEAD/vignettes/bang-a-vignette.Rmd" class="external-link"><code>vignettes/bang-a-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>bang-a-vignette.Rmd</code></div>
@@ -99,35 +101,97 @@
 
     
     
-<p>The <em>bang</em> package uses the <em>rust</em> package <span class="citation">(Northrop 2017b)</span> to produce random samples, using the generalized ratio-of-uniforms method, from the posterior distributions involved in certain Bayesian models. <em>rust</em> was originally created to perform this role in the package <em>revdbayes</em> <span class="citation">(Northrop 2017a)</span>, which deals with basic extreme value models with only 2 or 3 parameters. The aim of <em>bang</em> is to tackle further models.</p>
-<p>See also the vignettes <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of Variance</a> and <a href="bang-b-hef-vignette.html">Conjugate Hierarchical Models</a>.</p>
+<p>The <em>bang</em> package uses the <em>rust</em> package <span class="citation">(Northrop 2017b)</span> to produce random samples,
+using the generalized ratio-of-uniforms method, from the posterior
+distributions involved in certain Bayesian models. <em>rust</em> was
+originally created to perform this role in the package
+<em>revdbayes</em> <span class="citation">(Northrop 2017a)</span>, which
+deals with basic extreme value models with only 2 or 3 parameters. The
+aim of <em>bang</em> is to tackle further models.</p>
+<p>See also the vignettes <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of
+Variance</a> and <a href="bang-b-hef-vignette.html">Conjugate
+Hierarchical Models</a>.</p>
 <div class="section level2">
-<h2 id="the-generalized-ratio-of-uniforms-method-as-an-alternative-to-mcmc">The generalized ratio-of-uniforms method as an alternative to MCMC<a class="anchor" aria-label="anchor" href="#the-generalized-ratio-of-uniforms-method-as-an-alternative-to-mcmc"></a>
+<h2 id="the-generalized-ratio-of-uniforms-method-as-an-alternative-to-mcmc">The generalized ratio-of-uniforms method as an alternative to
+MCMC<a class="anchor" aria-label="anchor" href="#the-generalized-ratio-of-uniforms-method-as-an-alternative-to-mcmc"></a>
 </h2>
-<p>The ratio-of-uniforms method is an acceptance-rejection type algorithm whose efficiency decreases quickly as the dimension of the target distribution increases. Therefore, it may not be a feasible method of sampling directly from a distribution with the order of 10 parameters. However, for some models it is possible to factorize the joint posterior density into a product of a marginal posterior density for a low-dimensional set of parameters and conditional posteriors densities of the other parameters given the parameters in this set. In such cases we can sample values from the marginal posterior and then sample from the conditional posteriors given these values. The examples considered in the first release of <em>bang</em> are hierarchical models in which the marginal density is not of a simple form (so we use <em>rust</em> to sample from it) but the conditional densities are of a simple form and we can simulate from them using standard simulation algorithms.</p>
-<p>In comparison to sampling from a posterior distribution using a Markov Chain Monte Carlo (MCMC) method, such as Gibbs sampling, direct simulation to produce a random sample has some advantages: no need to monitor convergence, no serial dependence in the sample. However, the generalized ratio-of-uniforms method can only be applied to densities for which its acceptance region can be enclosed within a bounding region of finite volume from which it is simple to simulate, usually a cuboid. Conditions on the density for this to be achievable depend on the value of a non-negative tuning parameter <span class="math inline">\(r\)</span> and are given in <span class="citation">Wakefield, Gelfand, and Smith (1991)</span>. If a density has heavy tails then it may not be possible to form the bounding cuboid if <span class="math inline">\(r\)</span> is too small. In <em>rust</em> <span class="math inline">\(r = 1/2\)</span> is used as a default because it is optimal for a Gaussian density, but a larger value, such as <span class="math inline">\(r = 1\)</span> or greater may be needed if the density has heavy tails. Alternatively, a transformation of variable can be used to ensure the validity of the method and/or improve the efficiency of the algorithm. See the <em>Introducing rust: Ratio-of-Uniforms Simulation with Transformation</em> vignette of the <em>rust</em> package for details. These strategies (increasing <span class="math inline">\(r\)</span> or transformation of variable) are illustrated in the vignette <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of Variance</a></p>
-<p>Only in some simple special cases is it possible to find algebraically the dimensions of the smallest possible bounding cuboid. In practice, these dimensions are found using optimization methods. The first stage is to find the mode of the target density, after which the density is relocated so that its mode is at the origin. This simple strategy will tend to increase the efficiency of the method <span class="citation">(Wakefield, Gelfand, and Smith 1991)</span>. This also makes the search for the remaining dimensions of the bounding cuboid more reliable as does the target density being unimodal. Unimodality of the density is not a necessary condition for the ratio-of-uniforms algorithm to be applicable but a lack of local modes does mean that the numerical optimizations should find the correct bounding cuboid.</p>
-<p>Direct simulation methods like the ratio-of-uniforms methods will not replace MCMC as a general method for simulating from posterior densities. However, they may provide a useful alternative for some commonly-used models.</p>
+<p>The ratio-of-uniforms method is an acceptance-rejection type
+algorithm whose efficiency decreases quickly as the dimension of the
+target distribution increases. Therefore, it may not be a feasible
+method of sampling directly from a distribution with the order of 10
+parameters. However, for some models it is possible to factorize the
+joint posterior density into a product of a marginal posterior density
+for a low-dimensional set of parameters and conditional posteriors
+densities of the other parameters given the parameters in this set. In
+such cases we can sample values from the marginal posterior and then
+sample from the conditional posteriors given these values. The examples
+considered in the first release of <em>bang</em> are hierarchical models
+in which the marginal density is not of a simple form (so we use
+<em>rust</em> to sample from it) but the conditional densities are of a
+simple form and we can simulate from them using standard simulation
+algorithms.</p>
+<p>In comparison to sampling from a posterior distribution using a
+Markov Chain Monte Carlo (MCMC) method, such as Gibbs sampling, direct
+simulation to produce a random sample has some advantages: no need to
+monitor convergence, no serial dependence in the sample. However, the
+generalized ratio-of-uniforms method can only be applied to densities
+for which its acceptance region can be enclosed within a bounding region
+of finite volume from which it is simple to simulate, usually a cuboid.
+Conditions on the density for this to be achievable depend on the value
+of a non-negative tuning parameter <span class="math inline">\(r\)</span> and are given in <span class="citation">Wakefield, Gelfand, and Smith (1991)</span>. If a
+density has heavy tails then it may not be possible to form the bounding
+cuboid if <span class="math inline">\(r\)</span> is too small. In
+<em>rust</em> <span class="math inline">\(r = 1/2\)</span> is used as a
+default because it is optimal for a Gaussian density, but a larger
+value, such as <span class="math inline">\(r = 1\)</span> or greater may
+be needed if the density has heavy tails. Alternatively, a
+transformation of variable can be used to ensure the validity of the
+method and/or improve the efficiency of the algorithm. See the
+<em>Introducing rust: Ratio-of-Uniforms Simulation with
+Transformation</em> vignette of the <em>rust</em> package for details.
+These strategies (increasing <span class="math inline">\(r\)</span> or
+transformation of variable) are illustrated in the vignette <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of
+Variance</a></p>
+<p>Only in some simple special cases is it possible to find
+algebraically the dimensions of the smallest possible bounding cuboid.
+In practice, these dimensions are found using optimization methods. The
+first stage is to find the mode of the target density, after which the
+density is relocated so that its mode is at the origin. This simple
+strategy will tend to increase the efficiency of the method <span class="citation">(Wakefield, Gelfand, and Smith 1991)</span>. This also
+makes the search for the remaining dimensions of the bounding cuboid
+more reliable as does the target density being unimodal. Unimodality of
+the density is not a necessary condition for the ratio-of-uniforms
+algorithm to be applicable but a lack of local modes does mean that the
+numerical optimizations should find the correct bounding cuboid.</p>
+<p>Direct simulation methods like the ratio-of-uniforms methods will not
+replace MCMC as a general method for simulating from posterior
+densities. However, they may provide a useful alternative for some
+commonly-used models.</p>
 </div>
 <div class="section level2">
 <h2 id="an-example-hierarchical-beta-binomial-model">An example: hierarchical beta-binomial model<a class="anchor" aria-label="anchor" href="#an-example-hierarchical-beta-binomial-model"></a>
 </h2>
-<p>As a brief example we use the analysis of the `rat tumor’ data presented in Section 5.3 of <span class="citation">Gelman et al. (2014)</span> based on a hierarchical binomial-beta model. This example is considered in more detail in the vignette <a href="bang-b-hef-vignette.html">Conjugate Hierarchical Models</a>. The following code reproduces (up to a shift in origin) the content of Figure 5.3 of <span class="citation">Gelman et al. (2014)</span>.</p>
+<p>As a brief example we use the analysis of the `rat tumor’ data
+presented in Section 5.3 of <span class="citation">Gelman et al.
+(2014)</span> based on a hierarchical binomial-beta model. This example
+is considered in more detail in the vignette <a href="bang-b-hef-vignette.html">Conjugate Hierarchical Models</a>. The
+following code reproduces (up to a shift in origin) the content of
+Figure 5.3 of <span class="citation">Gelman et al. (2014)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span>
-<span class="co"># To produce a plot akin to Figure 5.3 of Gelman et al. (2014) we</span>
-<span class="co"># (a) Use the same prior for (alpha, beta)</span>
-<span class="co"># (b) Don't use axis rotation (rotate = FALSE)</span>
-<span class="co"># (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)</span>
-<span class="co"># (d) Note that the mode is relocated to (0, 0) in the plot</span>
-<span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, rotate <span class="op">=</span> <span class="cn">FALSE</span>, n <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span>
-<span class="co"># Plot of simulated values and posterior density contours</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span></span>
+<span><span class="co"># To produce a plot akin to Figure 5.3 of Gelman et al. (2014) we</span></span>
+<span><span class="co"># (a) Use the same prior for (alpha, beta)</span></span>
+<span><span class="co"># (b) Don't use axis rotation (rotate = FALSE)</span></span>
+<span><span class="co"># (c) Plot on the scale used for ratio-of-uniforms sampling (ru_scale = TRUE)</span></span>
+<span><span class="co"># (d) Note that the mode is relocated to (0, 0) in the plot</span></span>
+<span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, rotate <span class="op">=</span> <span class="cn">FALSE</span>, n <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+<span><span class="co"># Plot of simulated values and posterior density contours</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-a-vignette_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># The estimated posterior mode, which agrees with Figure 5.3 of Gelman et al. (2014)</span>
-<span class="va">rat_res</span><span class="op">$</span><span class="va">f_mode</span>
-<span class="co">#&gt; [1] -1.785783  2.741549</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># The estimated posterior mode, which agrees with Figure 5.3 of Gelman et al. (2014)</span></span>
+<span><span class="va">rat_res</span><span class="op">$</span><span class="va">f_mode</span></span>
+<span><span class="co">#&gt; [1] -1.785783  2.741549</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -136,16 +200,22 @@
    MathJax.Hub.Config({  "HTML-CSS": { minScaleAdjust: 125, availableFonts: [] }  });
 </script><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-BDA2014" class="csl-entry">
-Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2014. <em>Bayesian Data Analysis</em>. Third. Florida, USA: Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book/" class="external-link">http://www.stat.columbia.edu/~gelman/book/</a>.
+Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D.
+B. Rubin. 2014. <em>Bayesian Data Analysis</em>. Third. Florida, USA:
+Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book/" class="external-link">http://www.stat.columbia.edu/~gelman/book/</a>.
 </div>
 <div id="ref-revdbayes" class="csl-entry">
-Northrop, P. J. 2017a. <em>Revdbayes: Ratio-of-Uniforms Sampling for Bayesian Extreme Value Analysis</em>. <a href="https://CRAN.R-project.org/package=revdbayes" class="external-link">https://CRAN.R-project.org/package=revdbayes</a>.
+Northrop, P. J. 2017a. <em>Revdbayes: Ratio-of-Uniforms Sampling for
+Bayesian Extreme Value Analysis</em>. <a href="https://CRAN.R-project.org/package=revdbayes" class="external-link">https://CRAN.R-project.org/package=revdbayes</a>.
 </div>
 <div id="ref-rust" class="csl-entry">
-———. 2017b. <em><span class="nocase">r</span>ust: Ratio-of-Uniforms Simulation with Transformation</em>. <a href="https://CRAN.R-project.org/package=rust" class="external-link">https://CRAN.R-project.org/package=rust</a>.
+———. 2017b. <em><span class="nocase">r</span>ust: Ratio-of-Uniforms
+Simulation with Transformation</em>. <a href="https://CRAN.R-project.org/package=rust" class="external-link">https://CRAN.R-project.org/package=rust</a>.
 </div>
 <div id="ref-WGS1991" class="csl-entry">
-Wakefield, J. C., A. E. Gelfand, and A. F. M. Smith. 1991. <span>“Efficient Generation of Random Variates via the Ratio-of-Uniforms Method.”</span> <em>Statistics and Computing</em> 1 (2): 129–33. <a href="https://doi.org/10.1007/BF01889987" class="external-link">https://doi.org/10.1007/BF01889987</a>.
+Wakefield, J. C., A. E. Gelfand, and A. F. M. Smith. 1991.
+<span>“Efficient Generation of Random Variates via the Ratio-of-Uniforms
+Method.”</span> <em>Statistics and Computing</em> 1 (2): 129–33. <a href="https://doi.org/10.1007/BF01889987" class="external-link">https://doi.org/10.1007/BF01889987</a>.
 </div>
 </div>
 </div>
@@ -168,7 +238,7 @@ Wakefield, J. C., A. E. Gelfand, and A. F. M. Smith. 1991. <span>“Efficient Ge
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

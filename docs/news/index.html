@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -67,10 +67,12 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.0.1.9000" id="bang-1019000">bang 1.0.1.9000<a class="anchor" aria-label="anchor" href="#bang-1019000"></a></h2>
+<h2 class="page-header" data-toc-text="1.0.2" id="bang-102">bang 1.0.2<a class="anchor" aria-label="anchor" href="#bang-102"></a></h2>
 <div class="section level3">
-<h3 id="bug-fixes-and-minor-improvements-1-0-1-9000">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-1-0-1-9000"></a></h3>
-<ul><li>Activated 3rd edition of the <code>testthat</code> package</li>
+<h3 id="bug-fixes-and-minor-improvements-1-0-2">Bug fixes and minor improvements<a class="anchor" aria-label="anchor" href="#bug-fixes-and-minor-improvements-1-0-2"></a></h3>
+<ul><li><p>In <code>beta_init_ests()</code> the initial estimate of <code>beta</code> has been corrected in the case <code>vp &gt; mp * (1 - mp)</code>, where <code>vp</code> and <code>mp</code> are respectively the sample variance and sample mean of the input probabilities. Thank you to Thomas Richardson for spotting this.</p></li>
+<li><p>Create the help file for the package correctly, with alias chandwich-package.</p></li>
+<li><p>Activated 3rd edition of the <code>testthat</code> package</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -98,7 +100,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

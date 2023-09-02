@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -88,9 +88,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Conjugate Hierarchical Models</h1>
-                        <h4 data-toc-skip class="author">Paul Northrop</h4>
+                        <h4 data-toc-skip class="author">Paul
+Northrop</h4>
             
-            <h4 data-toc-skip class="date">2022-04-11</h4>
+            <h4 data-toc-skip class="date">2023-09-02</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/paulnorthrop/bang/blob/HEAD/vignettes/bang-b-hef-vignette.Rmd" class="external-link"><code>vignettes/bang-b-hef-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>bang-b-hef-vignette.Rmd</code></div>
@@ -99,96 +100,201 @@
 
     
     
-<p>The <em>bang</em> package simulates from the posterior distributions involved in certain Bayesian models. See the vignette <a href="bang-a-vignette.html">Introducing bang: Bayesian Analysis, No Gibbs</a> for an introduction. In this vignette we consider the Bayesian analysis of certain conjugate hierarchical models. We give only a brief outline of the structure of these models. For a full description see Chapter 5 of <span class="citation">Gelman et al. (2014)</span>.</p>
-<p>Suppose that, for <span class="math inline">\(j = 1, \ldots, J\)</span>, experiment <span class="math inline">\(j\)</span> of <span class="math inline">\(J\)</span> experiments yields a data vector <span class="math inline">\(Y_j\)</span> and associated parameter vector <span class="math inline">\(\theta_j\)</span>. Conditional on <span class="math inline">\(\theta_j\)</span> the data <span class="math inline">\(Y_j\)</span> are assumed to follow independent response distributions from the exponential family of probability distributions. A prior distribution <span class="math inline">\(\pi(\theta_j \mid \phi)\)</span> is placed on each of the <em>population parameters</em> <span class="math inline">\(\theta_1, \ldots, \theta_J\)</span>, where <span class="math inline">\(\phi\)</span> is a vector of hyperparameters. For mathematical convenience <span class="math inline">\(\pi(\theta_j \mid \phi)\)</span> is selected to be <em>conditionally conjugate</em>, that is, conditionally on <span class="math inline">\(\phi\)</span> the posterior distribution of <span class="math inline">\(\theta_j\)</span> of the same type as <span class="math inline">\(\pi(\theta_j \mid \phi)\)</span>.</p>
-<p>Use of a conditionally conjugate prior means that it is possible to derive, and simulate from, the marginal posterior density <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span>. The <code>hef</code> function does this using the generalized ratio-of-uniforms method, implemented by the function <code>ru</code> in the <em>rust</em> package <span class="citation">(Northrop 2017)</span>). By default a model-specific transformation of the parameter vector <span class="math inline">\(\phi\)</span> is used to improve efficiency. See the documentation of <code>hef</code> and the two examples below for details. Simulation from the full posterior density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}}, \phi \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}} \mid \phi, \boldsymbol{\mathbf{y}}) \pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span> follows directly because conditional conjugacy means that it is simple to simulate from <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}} \mid \phi, \boldsymbol{\mathbf{y}})\)</span>, given the values simulated from <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span>. The simulation is performed in the function <code>hef</code>.</p>
+<p>The <em>bang</em> package simulates from the posterior distributions
+involved in certain Bayesian models. See the vignette <a href="bang-a-vignette.html">Introducing bang: Bayesian Analysis, No
+Gibbs</a> for an introduction. In this vignette we consider the Bayesian
+analysis of certain conjugate hierarchical models. We give only a brief
+outline of the structure of these models. For a full description see
+Chapter 5 of <span class="citation">Gelman et al. (2014)</span>.</p>
+<p>Suppose that, for <span class="math inline">\(j = 1, \ldots,
+J\)</span>, experiment <span class="math inline">\(j\)</span> of <span class="math inline">\(J\)</span> experiments yields a data vector <span class="math inline">\(Y_j\)</span> and associated parameter vector <span class="math inline">\(\theta_j\)</span>. Conditional on <span class="math inline">\(\theta_j\)</span> the data <span class="math inline">\(Y_j\)</span> are assumed to follow independent
+response distributions from the exponential family of probability
+distributions. A prior distribution <span class="math inline">\(\pi(\theta_j \mid \phi)\)</span> is placed on each
+of the <em>population parameters</em> <span class="math inline">\(\theta_1, \ldots, \theta_J\)</span>, where <span class="math inline">\(\phi\)</span> is a vector of hyperparameters. For
+mathematical convenience <span class="math inline">\(\pi(\theta_j \mid
+\phi)\)</span> is selected to be <em>conditionally conjugate</em>, that
+is, conditionally on <span class="math inline">\(\phi\)</span> the
+posterior distribution of <span class="math inline">\(\theta_j\)</span>
+of the same type as <span class="math inline">\(\pi(\theta_j \mid
+\phi)\)</span>.</p>
+<p>Use of a conditionally conjugate prior means that it is possible to
+derive, and simulate from, the marginal posterior density <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span>.
+The <code>hef</code> function does this using the generalized
+ratio-of-uniforms method, implemented by the function <code>ru</code> in
+the <em>rust</em> package <span class="citation">(Northrop
+2017)</span>). By default a model-specific transformation of the
+parameter vector <span class="math inline">\(\phi\)</span> is used to
+improve efficiency. See the documentation of <code>hef</code> and the
+two examples below for details. Simulation from the full posterior
+density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}},
+\phi \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}}
+\mid \phi, \boldsymbol{\mathbf{y}}) \pi(\phi \mid
+\boldsymbol{\mathbf{y}})\)</span> follows directly because conditional
+conjugacy means that it is simple to simulate from <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}} \mid \phi,
+\boldsymbol{\mathbf{y}})\)</span>, given the values simulated from <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span>.
+The simulation is performed in the function <code>hef</code>.</p>
 <div class="section level2">
 <h2 id="beta-binomial-model">Beta-binomial model<a class="anchor" aria-label="anchor" href="#beta-binomial-model"></a>
 </h2>
-<p>We consider the example presented in Section 5.3 of <span class="citation">Gelman et al. (2014)</span>, in which the data <span class="citation">(Tarone 1982)</span> in the matrix <code>rat</code> are analysed. These data contain information about an experiment in which, for each of 71 groups of rats, the total number of rats in the group and the numbers of rats who develop a tumor is recorded, so that <span class="math inline">\(J = 71\)</span>. Conditional on <span class="math inline">\(\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots, \theta_J) = (p_1, \ldots, p_J)\)</span> we assume independent binomial distributions for <span class="math inline">\((Y_1, \ldots, Y_J)\)</span>, that is, <span class="math inline">\(Y_j \sim {\rm binomial}(n_j, p_j)\)</span>. We use the conditionally conjugate priors <span class="math inline">\(p_j \sim {\rm Beta}(\alpha, \beta)\)</span>, so that <span class="math inline">\(\phi = (\alpha, \beta)\)</span>.</p>
-<p>The conditional conjagacy of the priors means that the marginal posterior of <span class="math inline">\((\alpha, \beta)\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{y}} = (y_1, \ldots, y_J)\)</span> can be determined (equation (5.8) of <span class="citation">Gelman et al. (2014)</span>) as <span class="math display">\[ \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha, \beta) 
-\prod_{j=1}^J \frac{B(\alpha + y_j, \beta + n_j - y_j)}{B(\alpha, \beta)}, \]</span> where <span class="math inline">\(\pi(\alpha, \beta)\)</span> is the hyperprior density for <span class="math inline">\((\alpha, \beta)\)</span>. By default <span class="math inline">\(\phi = (\alpha, \beta)\)</span> is transformed prior to sampling using <span class="math inline">\((\rho_1, \rho_2)=(\log (\alpha/\beta), \log (\alpha+\beta))\)</span>. The aim of this is to improve efficiency by rotating and scaling the (mode-relocated) conditional posterior density in an attempt to produce near circularity of this density’s contours.</p>
-<p>To simulate from the full posterior density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}}, \alpha, \beta \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}} \mid \alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})\)</span> we first sample from <span class="math inline">\(\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})\)</span>. Simulation from the conditional posterior distribution of <span class="math inline">\(\boldsymbol{\mathbf{\theta}}\)</span> given <span class="math inline">\((\alpha, \beta, \boldsymbol{\mathbf{y}})\)</span> is then straightforward on noting that <span class="math display">\[ \theta_j \mid \alpha, \beta, y_j \sim {\rm beta}(\alpha + y_j, \beta + n_j - y_j) \]</span> and that <span class="math inline">\(\theta_j, j = 1, \ldots, J\)</span> are conditionally independent.</p>
-<p>The hyperprior for <span class="math inline">\((\alpha, \beta)\)</span> used by default in <code>hef</code> is <span class="math inline">\(\pi(\alpha, \beta) \propto (\alpha+\beta)^{-5/2}, \alpha&gt;0, \beta&gt;0\)</span>, following Section 5.3 of <span class="citation">Gelman et al. (2014)</span>. A user-defined prior may be set using <code>set_user_prior</code>.</p>
+<p>We consider the example presented in Section 5.3 of <span class="citation">Gelman et al. (2014)</span>, in which the data <span class="citation">(Tarone 1982)</span> in the matrix <code>rat</code> are
+analysed. These data contain information about an experiment in which,
+for each of 71 groups of rats, the total number of rats in the group and
+the numbers of rats who develop a tumor is recorded, so that <span class="math inline">\(J = 71\)</span>. Conditional on <span class="math inline">\(\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots,
+\theta_J) = (p_1, \ldots, p_J)\)</span> we assume independent binomial
+distributions for <span class="math inline">\((Y_1, \ldots,
+Y_J)\)</span>, that is, <span class="math inline">\(Y_j \sim {\rm
+binomial}(n_j, p_j)\)</span>. We use the conditionally conjugate priors
+<span class="math inline">\(p_j \sim {\rm Beta}(\alpha, \beta)\)</span>,
+so that <span class="math inline">\(\phi = (\alpha, \beta)\)</span>.</p>
+<p>The conditional conjagacy of the priors means that the marginal
+posterior of <span class="math inline">\((\alpha, \beta)\)</span> given
+<span class="math inline">\(\boldsymbol{\mathbf{y}} = (y_1, \ldots,
+y_J)\)</span> can be determined (equation (5.8) of <span class="citation">Gelman et al. (2014)</span>) as <span class="math display">\[ \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})
+\propto \pi(\alpha, \beta)
+\prod_{j=1}^J \frac{B(\alpha + y_j, \beta + n_j - y_j)}{B(\alpha,
+\beta)}, \]</span> where <span class="math inline">\(\pi(\alpha,
+\beta)\)</span> is the hyperprior density for <span class="math inline">\((\alpha, \beta)\)</span>. By default <span class="math inline">\(\phi = (\alpha, \beta)\)</span> is transformed
+prior to sampling using <span class="math inline">\((\rho_1,
+\rho_2)=(\log (\alpha/\beta), \log (\alpha+\beta))\)</span>. The aim of
+this is to improve efficiency by rotating and scaling the
+(mode-relocated) conditional posterior density in an attempt to produce
+near circularity of this density’s contours.</p>
+<p>To simulate from the full posterior density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}}, \alpha, \beta
+\mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}} \mid
+\alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid
+\boldsymbol{\mathbf{y}})\)</span> we first sample from <span class="math inline">\(\pi(\alpha, \beta \mid
+\boldsymbol{\mathbf{y}})\)</span>. Simulation from the conditional
+posterior distribution of <span class="math inline">\(\boldsymbol{\mathbf{\theta}}\)</span> given <span class="math inline">\((\alpha, \beta, \boldsymbol{\mathbf{y}})\)</span>
+is then straightforward on noting that <span class="math display">\[
+\theta_j \mid \alpha, \beta, y_j \sim {\rm beta}(\alpha + y_j, \beta +
+n_j - y_j) \]</span> and that <span class="math inline">\(\theta_j, j =
+1, \ldots, J\)</span> are conditionally independent.</p>
+<p>The hyperprior for <span class="math inline">\((\alpha,
+\beta)\)</span> used by default in <code>hef</code> is <span class="math inline">\(\pi(\alpha, \beta) \propto (\alpha+\beta)^{-5/2},
+\alpha&gt;0, \beta&gt;0\)</span>, following Section 5.3 of <span class="citation">Gelman et al. (2014)</span>. A user-defined prior may
+be set using <code>set_user_prior</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span>
-<span class="co"># Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale</span>
-<span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, n <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span></span>
+<span><span class="co"># Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale</span></span>
+<span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, n <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-b-hef-vignette_files/figure-html/unnamed-chunk-2-1.png" width="331.2"><img src="bang-b-hef-vignette_files/figure-html/unnamed-chunk-2-2.png" width="331.2"></p>
-<p>The plot on the left shows the values sampled from the posterior distribution of <span class="math inline">\((\alpha, \beta)\)</span> with superimposed density contours. On the right is a similar plot displayed on the scale used for sampling, that is, <span class="math inline">\((\rho_1, \rho_2)\)</span>.</p>
-<p>The following summary is of properties of the generalized ratio-of uniforms algorithm, in particular the probability of acceptance, and summary statistics of the posterior sample of <span class="math inline">\((\alpha, \beta)\)</span>.</p>
+<p>The plot on the left shows the values sampled from the posterior
+distribution of <span class="math inline">\((\alpha, \beta)\)</span>
+with superimposed density contours. On the right is a similar plot
+displayed on the scale used for sampling, that is, <span class="math inline">\((\rho_1, \rho_2)\)</span>.</p>
+<p>The following summary is of properties of the generalized ratio-of
+uniforms algorithm, in particular the probability of acceptance, and
+summary statistics of the posterior sample of <span class="math inline">\((\alpha, \beta)\)</span>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span>
-<span class="co">#&gt; ru bounding box:  </span>
-<span class="co">#&gt;                box       vals1       vals2 conv</span>
-<span class="co">#&gt; a        1.0000000  0.00000000  0.00000000    0</span>
-<span class="co">#&gt; b1minus -0.2382163 -0.40313465 -0.03906170    0</span>
-<span class="co">#&gt; b2minus -0.2174510  0.05447431 -0.35297539    0</span>
-<span class="co">#&gt; b1plus   0.2231876  0.36718411 -0.06551353    0</span>
-<span class="co">#&gt; b2plus   0.2512577  0.05665707  0.44459818    0</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; estimated probability of acceptance:  </span>
-<span class="co">#&gt; [1] 0.5258729</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; sample summary </span>
-<span class="co">#&gt;      alpha              beta       </span>
-<span class="co">#&gt;  Min.   : 0.6152   Min.   : 3.883  </span>
-<span class="co">#&gt;  1st Qu.: 1.7895   1st Qu.:10.675  </span>
-<span class="co">#&gt;  Median : 2.2198   Median :13.329  </span>
-<span class="co">#&gt;  Mean   : 2.4051   Mean   :14.341  </span>
-<span class="co">#&gt;  3rd Qu.: 2.8034   3rd Qu.:16.830  </span>
-<span class="co">#&gt;  Max.   :14.1474   Max.   :80.895</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ru bounding box:  </span></span>
+<span><span class="co">#&gt;                box       vals1       vals2 conv</span></span>
+<span><span class="co">#&gt; a        1.0000000  0.00000000  0.00000000    0</span></span>
+<span><span class="co">#&gt; b1minus -0.2382163 -0.40313465 -0.03906170    0</span></span>
+<span><span class="co">#&gt; b2minus -0.2174510  0.05447431 -0.35297539    0</span></span>
+<span><span class="co">#&gt; b1plus   0.2231876  0.36718396 -0.06551365    0</span></span>
+<span><span class="co">#&gt; b2plus   0.2512577  0.05665707  0.44459818    0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; estimated probability of acceptance:  </span></span>
+<span><span class="co">#&gt; [1] 0.5258729</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sample summary </span></span>
+<span><span class="co">#&gt;      alpha              beta       </span></span>
+<span><span class="co">#&gt;  Min.   : 0.6152   Min.   : 3.883  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 1.7895   1st Qu.:10.675  </span></span>
+<span><span class="co">#&gt;  Median : 2.2198   Median :13.329  </span></span>
+<span><span class="co">#&gt;  Mean   : 2.4051   Mean   :14.341  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: 2.8034   3rd Qu.:16.830  </span></span>
+<span><span class="co">#&gt;  Max.   :14.1474   Max.   :80.895</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="gamma-poisson-model">Gamma-Poisson Model<a class="anchor" aria-label="anchor" href="#gamma-poisson-model"></a>
 </h2>
-<p>We perform a fully Bayesian analysis of an empirical Bayesian example presented in Section 4.2 of <span class="citation">Gelfand and Smith (1990)</span>, who fix the hyperparameter <span class="math inline">\(\alpha\)</span> described below at a point estimate derived from the data. The <code>pump</code> dataset <span class="citation">(Gaver and O’Muircheartaigh 1987)</span> is a matrix in which each row gives information about one of 10 different pump systems. The first column contains the number of pump failures. The second column contains the length of operating time, in thousands of hours.</p>
+<p>We perform a fully Bayesian analysis of an empirical Bayesian example
+presented in Section 4.2 of <span class="citation">Gelfand and Smith
+(1990)</span>, who fix the hyperparameter <span class="math inline">\(\alpha\)</span> described below at a point
+estimate derived from the data. The <code>pump</code> dataset <span class="citation">(Gaver and O’Muircheartaigh 1987)</span> is a matrix in
+which each row gives information about one of 10 different pump systems.
+The first column contains the number of pump failures. The second column
+contains the length of operating time, in thousands of hours.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pump</span>
-<span class="co">#&gt;       failures    time</span>
-<span class="co">#&gt;  [1,]        5  94.320</span>
-<span class="co">#&gt;  [2,]        1  15.720</span>
-<span class="co">#&gt;  [3,]        5  62.880</span>
-<span class="co">#&gt;  [4,]       14 125.760</span>
-<span class="co">#&gt;  [5,]        3   5.240</span>
-<span class="co">#&gt;  [6,]       19  31.440</span>
-<span class="co">#&gt;  [7,]        1   1.048</span>
-<span class="co">#&gt;  [8,]        1   1.048</span>
-<span class="co">#&gt;  [9,]        4   2.096</span>
-<span class="co">#&gt; [10,]       22  10.480</span></code></pre></div>
-<p>The general setup is similar to the beta-binomial model described above but now the response distribution is taken to be Poisson, the prior distribution is gamma and <span class="math inline">\(J = 10\)</span>. For <span class="math inline">\(j = 1, \ldots, J\)</span> let <span class="math inline">\(Y_j\)</span> denote the number of failures and <span class="math inline">\(e_j\)</span> the length of operating time for pump system <span class="math inline">\(j\)</span>. Conditional on <span class="math inline">\(\boldsymbol{\mathbf{\lambda}} = (\lambda_1, \ldots, \lambda_J)\)</span> we assume independent Poisson distributions for <span class="math inline">\((Y_1, \ldots, Y_J)\)</span> with means that are proportional to the <em>exposure</em> time <span class="math inline">\(e_j\)</span>, that is, <span class="math inline">\(Y_j \sim {\rm Poisson}(e_j \lambda_j)\)</span>. We use the conditionally conjugate priors <span class="math inline">\(\lambda_j \sim {\rm gamma}(\alpha, \beta)\)</span>, so that <span class="math inline">\(\phi = (\alpha, \beta)\)</span>. We use the parameterization where <span class="math inline">\(\beta\)</span> is a rate parameter, so that <span class="math inline">\({\rm E}(\lambda_j) = \alpha/\beta\)</span> <em>a priori</em>.</p>
-<p>The marginal posterior of <span class="math inline">\((\alpha, \beta)\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{y}} = (y_1, \ldots, y_J)\)</span> can be determined as <span class="math display">\[ \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha, \beta) 
-\prod_{j=1}^J \frac{\beta^\alpha\Gamma(\alpha + y_j)}{(\beta+e_j)^{\alpha+y_j} \Gamma(\alpha)}, 
-\]</span> where <span class="math inline">\(\pi(\alpha, \beta)\)</span> is the hyperprior density for <span class="math inline">\((\alpha, \beta)\)</span>. The scale used for sampling is <span class="math inline">\((\rho_1, \rho_2)=(\log (\alpha/\beta), \log \beta))\)</span>.</p>
-<p>To simulate from the full posterior <span class="math inline">\(\pi(\boldsymbol{\mathbf{\lambda}}, \alpha, \beta \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\lambda}} \mid \alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})\)</span> we first sample from <span class="math inline">\(\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})\)</span> and then note that <span class="math display">\[ \lambda_j \mid \alpha, \beta, y_j \sim {\rm gamma}(\alpha + y_j, \beta + e_j) \]</span> and that <span class="math inline">\(\lambda_j, j = 1, \ldots, J\)</span> are conditionally independent.</p>
-<p>By default <code>hef</code> takes <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> to be independent gamma random variables <em>a priori</em>. The parameters of these gamma distributions can be set by the user, using the argument <code>hpars</code> or a different prior may be set using <code>set_user_prior</code>.</p>
+<code class="sourceCode R"><span><span class="va">pump</span></span>
+<span><span class="co">#&gt;       failures    time</span></span>
+<span><span class="co">#&gt;  [1,]        5  94.320</span></span>
+<span><span class="co">#&gt;  [2,]        1  15.720</span></span>
+<span><span class="co">#&gt;  [3,]        5  62.880</span></span>
+<span><span class="co">#&gt;  [4,]       14 125.760</span></span>
+<span><span class="co">#&gt;  [5,]        3   5.240</span></span>
+<span><span class="co">#&gt;  [6,]       19  31.440</span></span>
+<span><span class="co">#&gt;  [7,]        1   1.048</span></span>
+<span><span class="co">#&gt;  [8,]        1   1.048</span></span>
+<span><span class="co">#&gt;  [9,]        4   2.096</span></span>
+<span><span class="co">#&gt; [10,]       22  10.480</span></span></code></pre></div>
+<p>The general setup is similar to the beta-binomial model described
+above but now the response distribution is taken to be Poisson, the
+prior distribution is gamma and <span class="math inline">\(J =
+10\)</span>. For <span class="math inline">\(j = 1, \ldots, J\)</span>
+let <span class="math inline">\(Y_j\)</span> denote the number of
+failures and <span class="math inline">\(e_j\)</span> the length of
+operating time for pump system <span class="math inline">\(j\)</span>.
+Conditional on <span class="math inline">\(\boldsymbol{\mathbf{\lambda}}
+= (\lambda_1, \ldots, \lambda_J)\)</span> we assume independent Poisson
+distributions for <span class="math inline">\((Y_1, \ldots,
+Y_J)\)</span> with means that are proportional to the <em>exposure</em>
+time <span class="math inline">\(e_j\)</span>, that is, <span class="math inline">\(Y_j \sim {\rm Poisson}(e_j \lambda_j)\)</span>. We
+use the conditionally conjugate priors <span class="math inline">\(\lambda_j \sim {\rm gamma}(\alpha,
+\beta)\)</span>, so that <span class="math inline">\(\phi = (\alpha,
+\beta)\)</span>. We use the parameterization where <span class="math inline">\(\beta\)</span> is a rate parameter, so that <span class="math inline">\({\rm E}(\lambda_j) = \alpha/\beta\)</span> <em>a
+priori</em>.</p>
+<p>The marginal posterior of <span class="math inline">\((\alpha,
+\beta)\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{y}} = (y_1, \ldots,
+y_J)\)</span> can be determined as <span class="math display">\[
+\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha,
+\beta)
+\prod_{j=1}^J \frac{\beta^\alpha\Gamma(\alpha +
+y_j)}{(\beta+e_j)^{\alpha+y_j} \Gamma(\alpha)},
+\]</span> where <span class="math inline">\(\pi(\alpha, \beta)\)</span>
+is the hyperprior density for <span class="math inline">\((\alpha,
+\beta)\)</span>. The scale used for sampling is <span class="math inline">\((\rho_1, \rho_2)=(\log (\alpha/\beta), \log
+\beta))\)</span>.</p>
+<p>To simulate from the full posterior <span class="math inline">\(\pi(\boldsymbol{\mathbf{\lambda}}, \alpha, \beta
+\mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\lambda}} \mid
+\alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid
+\boldsymbol{\mathbf{y}})\)</span> we first sample from <span class="math inline">\(\pi(\alpha, \beta \mid
+\boldsymbol{\mathbf{y}})\)</span> and then note that <span class="math display">\[ \lambda_j \mid \alpha, \beta, y_j \sim {\rm
+gamma}(\alpha + y_j, \beta + e_j) \]</span> and that <span class="math inline">\(\lambda_j, j = 1, \ldots, J\)</span> are
+conditionally independent.</p>
+<p>By default <code>hef</code> takes <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> to be independent gamma random
+variables <em>a priori</em>. The parameters of these gamma distributions
+can be set by the user, using the argument <code>hpars</code> or a
+different prior may be set using <code>set_user_prior</code>.</p>
 <p>We produce similar output to the beta-binomial example above.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.01</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span>
-<span class="co">#&gt; ru bounding box:  </span>
-<span class="co">#&gt;                box       vals1       vals2 conv</span>
-<span class="co">#&gt; a        1.0000000  0.00000000  0.00000000    0</span>
-<span class="co">#&gt; b1minus -0.5174980 -0.91869101 -0.06060116    0</span>
-<span class="co">#&gt; b2minus -0.5150835  0.15757254 -0.92429417    0</span>
-<span class="co">#&gt; b1plus   0.4124640  0.65433383 -0.11046433    0</span>
-<span class="co">#&gt; b2plus   0.4224941  0.08788857  0.67847965    0</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; estimated probability of acceptance:  </span>
-<span class="co">#&gt; [1] 0.5094244</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; sample summary </span>
-<span class="co">#&gt;      alpha             beta        </span>
-<span class="co">#&gt;  Min.   :0.2007   Min.   :0.08544  </span>
-<span class="co">#&gt;  1st Qu.:0.8185   1st Qu.:1.29559  </span>
-<span class="co">#&gt;  Median :1.0598   Median :1.94558  </span>
-<span class="co">#&gt;  Mean   :1.1496   Mean   :2.16025  </span>
-<span class="co">#&gt;  3rd Qu.:1.3915   3rd Qu.:2.73560  </span>
-<span class="co">#&gt;  Max.   :3.6629   Max.   :9.28544</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.01</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pump_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pump_res</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ru bounding box:  </span></span>
+<span><span class="co">#&gt;                box       vals1       vals2 conv</span></span>
+<span><span class="co">#&gt; a        1.0000000  0.00000000  0.00000000    0</span></span>
+<span><span class="co">#&gt; b1minus -0.5174980 -0.91869101 -0.06060116    0</span></span>
+<span><span class="co">#&gt; b2minus -0.5150835  0.15757254 -0.92429417    0</span></span>
+<span><span class="co">#&gt; b1plus   0.4124640  0.65433383 -0.11046433    0</span></span>
+<span><span class="co">#&gt; b2plus   0.4224941  0.08788857  0.67847965    0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; estimated probability of acceptance:  </span></span>
+<span><span class="co">#&gt; [1] 0.5094244</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sample summary </span></span>
+<span><span class="co">#&gt;      alpha             beta        </span></span>
+<span><span class="co">#&gt;  Min.   :0.2007   Min.   :0.08544  </span></span>
+<span><span class="co">#&gt;  1st Qu.:0.8185   1st Qu.:1.29559  </span></span>
+<span><span class="co">#&gt;  Median :1.0598   Median :1.94558  </span></span>
+<span><span class="co">#&gt;  Mean   :1.1496   Mean   :2.16025  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:1.3915   3rd Qu.:2.73560  </span></span>
+<span><span class="co">#&gt;  Max.   :3.6629   Max.   :9.28544</span></span></code></pre></div>
 <p><img src="bang-b-hef-vignette_files/figure-html/unnamed-chunk-5-1.png" width="331.2"><img src="bang-b-hef-vignette_files/figure-html/unnamed-chunk-5-2.png" width="331.2"></p>
 </div>
 <div class="section level2">
@@ -198,19 +304,28 @@
    MathJax.Hub.Config({  "HTML-CSS": { minScaleAdjust: 125, availableFonts: [] }  });
 </script><div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-GoM1987" class="csl-entry">
-Gaver, Donald P., and I. G. O’Muircheartaigh. 1987. <span>“Robust Empirical Bayes Analyses of Event Rates.”</span> <em>Technometrics</em> 29 (1): 1–15. <a href="http://www.jstor.org/stable/1269878" class="external-link">http://www.jstor.org/stable/1269878</a>.
+Gaver, Donald P., and I. G. O’Muircheartaigh. 1987. <span>“Robust
+Empirical Bayes Analyses of Event Rates.”</span> <em>Technometrics</em>
+29 (1): 1–15. <a href="http://www.jstor.org/stable/1269878" class="external-link">http://www.jstor.org/stable/1269878</a>.
 </div>
 <div id="ref-GS1990" class="csl-entry">
-Gelfand, Alan E., and Adrian F. M. Smith. 1990. <span>“Sampling-Based Approaches to Calculating Marginal Densities.”</span> <em>Journal of the American Statistical Association</em> 85 (410): 398–409. <a href="http://www.jstor.org/stable/2289776" class="external-link">http://www.jstor.org/stable/2289776</a>.
+Gelfand, Alan E., and Adrian F. M. Smith. 1990. <span>“Sampling-Based
+Approaches to Calculating Marginal Densities.”</span> <em>Journal of the
+American Statistical Association</em> 85 (410): 398–409. <a href="http://www.jstor.org/stable/2289776" class="external-link">http://www.jstor.org/stable/2289776</a>.
 </div>
 <div id="ref-BDA2014" class="csl-entry">
-Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2014. <em>Bayesian Data Analysis</em>. Third. Florida, USA: Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book/" class="external-link">http://www.stat.columbia.edu/~gelman/book/</a>.
+Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D.
+B. Rubin. 2014. <em>Bayesian Data Analysis</em>. Third. Florida, USA:
+Chapman &amp; Hall / CRC. <a href="http://www.stat.columbia.edu/~gelman/book/" class="external-link">http://www.stat.columbia.edu/~gelman/book/</a>.
 </div>
 <div id="ref-rust" class="csl-entry">
-Northrop, P. J. 2017. <em><span class="nocase">r</span>ust: Ratio-of-Uniforms Simulation with Transformation</em>. <a href="https://CRAN.R-project.org/package=rust" class="external-link">https://CRAN.R-project.org/package=rust</a>.
+Northrop, P. J. 2017. <em><span class="nocase">r</span>ust:
+Ratio-of-Uniforms Simulation with Transformation</em>. <a href="https://CRAN.R-project.org/package=rust" class="external-link">https://CRAN.R-project.org/package=rust</a>.
 </div>
 <div id="ref-Tarone1982" class="csl-entry">
-Tarone, Robert E. 1982. <span>“The Use of Historical Control Information in Testing for a Trend in Proportions.”</span> <em>Biometrics</em> 38 (1): 215–20. <a href="http://www.jstor.org/stable/2530304" class="external-link">http://www.jstor.org/stable/2530304</a>.
+Tarone, Robert E. 1982. <span>“The Use of Historical Control Information
+in Testing for a Trend in Proportions.”</span> <em>Biometrics</em> 38
+(1): 215–20. <a href="http://www.jstor.org/stable/2530304" class="external-link">http://www.jstor.org/stable/2530304</a>.
 </div>
 </div>
 </div>
@@ -233,7 +348,7 @@ Tarone, Robert E. 1982. <span>“The Use of Historical Control Information in Te
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
