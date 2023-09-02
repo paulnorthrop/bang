@@ -196,7 +196,7 @@
 #'  Chapman & Hall / CRC.
 #' @references Gelman, A. (2006) Prior distributions for variance
 #'   parameters in hierarchical models. \emph{Bayesian Analysis},
-#'   \strong{1}(3), 515-533. \url{https://doi.org/10.1214/06-BA117A}.
+#'   \strong{1}(3), 515-533. \doi{10.1214/06-BA117A}.
 #' @export
 hanova1 <- function(n = 1000, resp, fac, ..., prior = "default", hpars = NULL,
                     param = c("trans", "original"), init = NULL,

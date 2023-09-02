@@ -54,12 +54,12 @@ Column 4 is the simulation run number.
 Northrop, P.J. and R.E. Chandler (2014). Quantifying
   Sources of Uncertainty in Projections of Future Climate.
   \emph{Journal of Climate}, \strong{27}, 8793-8808.
-  \url{https://doi.org/10.1175/JCLI-D-14-00265.1}
+  \doi{10.1175/JCLI-D-14-00265.1}
 
 Van Vuuren, D. P., Edmonds, J., Kainuma, M., Riahi, K.
   Thomson, A., Hibbard, K., Hurtt, G. C., Kram, T., Krey, V.,
   Lamarque, J.-F. (2011). The representative concentration pathways:
   an overview. \emph{Climatic change}, \strong{109}, 5-31.
-  \url{https://doi.org/10.1007/s10584-011-0148-z}
+  \doi{10.1007/s10584-011-0148-z}
 }
 \keyword{datasets}

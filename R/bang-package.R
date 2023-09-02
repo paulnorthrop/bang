@@ -62,7 +62,7 @@
 #'   \url{http://www.stat.columbia.edu/~gelman/book/data/rats.asc}
 #' @references Tarone, R. E. (1982) The use of historical information in
 #'   testing for a trend in proportions. \emph{Biometrics}, \strong{38},
-#'   215-220. \url{https://doi.org/10.2307/2530304}
+#'   215-220. \doi{10.2307/2530304}
 "rat"
 
 #' Pump-failure data
@@ -79,11 +79,11 @@
 #'   See also Gelfand, A. E. and Smith, A. F. M. (1990).
 #' @references Gaver, D. P. and O'Muircheartaigh, I. G. (1987)
 #'   Robust Empirical Bayes Analyses of Event Rates. \emph{Technometrics},
-#'   \strong{29}, 1-15. \url{https://doi.org/10.1080/00401706.1987.10488178}
+#'   \strong{29}, 1-15. \doi{10.1080/00401706.1987.10488178}
 #' @references Gelfand, A. E. and Smith, A. F. M. (1990)
 #' Sampling-Based Approaches to Calculating Marginal Densities.
 #' \emph{Journal of the American Statistical Association}, \strong{85}(410),
-#' 398-409. \url{https://doi.org/10.1080/01621459.1990.10476213}
+#' 398-409. \doi{10.1080/01621459.1990.10476213}
 #'
 "pump"
 
@@ -145,12 +145,12 @@
 #' @references Northrop, P.J. and R.E. Chandler (2014). Quantifying
 #'   Sources of Uncertainty in Projections of Future Climate.
 #'   \emph{Journal of Climate}, \strong{27}, 8793-8808.
-#'   \url{https://doi.org/10.1175/JCLI-D-14-00265.1}
+#'   \doi{10.1175/JCLI-D-14-00265.1}
 #' @references Van Vuuren, D. P., Edmonds, J., Kainuma, M., Riahi, K.
 #'   Thomson, A., Hibbard, K., Hurtt, G. C., Kram, T., Krey, V.,
 #'   Lamarque, J.-F. (2011). The representative concentration pathways:
 #'   an overview. \emph{Climatic change}, \strong{109}, 5-31.
-#'   \url{https://doi.org/10.1007/s10584-011-0148-z}
+#'   \doi{10.1007/s10584-011-0148-z}
 "temp1"
 
 #' Late 21st Century Global Temperature Projection Data
@@ -194,12 +194,12 @@
 #' @references Northrop, P.J. and R.E. Chandler (2014). Quantifying
 #'   Sources of Uncertainty in Projections of Future Climate.
 #'   \emph{Journal of Climate}, \strong{27}, 8793-8808.
-#'   \url{https://doi.org/10.1175/JCLI-D-14-00265.1}
+#'   \doi{10.1175/JCLI-D-14-00265.1}
 #' @references Van Vuuren, D. P., Edmonds, J., Kainuma, M., Riahi, K.
 #'   Thomson, A., Hibbard, K., Hurtt, G. C., Kram, T., Krey, V.,
 #'   Lamarque, J.-F. (2011). The representative concentration pathways:
 #'   an overview. \emph{Climatic change}, \strong{109}, 5-31.
-#'   \url{https://doi.org/10.1007/s10584-011-0148-z}
+#'   \doi{10.1007/s10584-011-0148-z}
 "temp2"
 
 #' Weight Gained by Rats
