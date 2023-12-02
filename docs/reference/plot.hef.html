@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
       </span>
     </div>
 
@@ -108,16 +108,16 @@ parameterization used for ratio-of-uniforms sampling.</p></dd>
 
 <dt>params</dt>
 <dd><p>A character scalar that determines to which parameters the
- plots relate.</p><ul><li><p>"hyper": the posterior sample of <em>all</em> hyperparameter
+ plots relate.</p><ul><li><p><code>"hyper"</code>: the posterior sample of <em>all</em> hyperparameter
     values in \(\phi\) is plotted using <code><a href="https://paulnorthrop.github.io/rust/reference/plot.ru.html" class="external-link">plot.ru</a></code>.</p></li>
-<li><p>"ru": then only the posterior sample generated using
+<li><p><code>"ru"</code>: only the posterior sample generated using
     <code><a href="https://paulnorthrop.github.io/rust/reference/ru.html" class="external-link">ru</a></code> is plotted using <code><a href="https://paulnorthrop.github.io/rust/reference/plot.ru.html" class="external-link">plot.ru</a></code>.
     This produces a different plot to <code>params = "hyper"</code> if <code>ru</code>
     is used only on a subset of \(\phi\).  For example, this may be
     the case if <code>x</code> is the result of a call to <code><a href="hanova1.html">hanova1</a></code>.
     See vignette("bang-c-anova-vignette", package = "bang") for
     information.</p></li>
-<li><p>"pop": posterior samples and/or densities of the
+<li><p><code>"pop"</code>: posterior samples and/or densities of the
     population-specific parameter \(\theta\) are plotted.  The
     population(s) included are determined by <code>which_pop</code> and the
     type of plot is determined by <code>plot_type</code>.
@@ -138,12 +138,12 @@ this may fail if <code>plot_type = "pairs"</code> and/or
 <dt>plot_type</dt>
 <dd><p>A character scalar that determines the type of plot
  produced when <code>params = "pop"</code>.  If <code>plot_type</code> is supplied
- then <code>params</code> is set automatically to <code>"pop"</code>.</p><ul><li><p>"sim": histograms of the posterior samples
+ then <code>params</code> is set automatically to <code>"pop"</code>.</p><ul><li><p><code>"sim"</code>: histograms of the posterior samples
     of \(\theta\) for the populations in <code>which_pop</code>.</p></li>
-<li><p>"dens": estimates of the marginal posterior
+<li><p><code>"dens"</code>: estimates of the marginal posterior
     densities of \(\theta\) for the populations in <code>which_pop</code>.</p></li>
-<li><p>"both": both the histograms and estimated posterior densities.</p></li>
-<li><p>"pairs": pairwise scatter plots of the posterior samples of
+<li><p><code>"both"</code>: both the histograms and estimated posterior densities.</p></li>
+<li><p><code>"pairs"</code>: pairwise scatter plots of the posterior samples of
     \(\theta\) for the populations in <code>which_pop</code>, which must have
     length greater than one.</p></li>
 </ul></dd>

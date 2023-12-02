@@ -18,7 +18,7 @@ of certain hierarchical exponential family models."><!-- mathjax --><script src=
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">bang</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
       </span>
     </div>
 
@@ -301,16 +301,16 @@ where the respective shape (\(s1\), \(s2\)) and rate
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.2512577  0.05665707  0.44459818    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5219207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5227392</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.8987   Min.   : 5.071  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:1.7933   1st Qu.:10.513  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :2.2538   Median :13.299  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :2.4185   Mean   :14.421  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:2.8184   3rd Qu.:17.019  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :8.6450   Max.   :49.000  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.9206   Min.   : 4.626  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:1.7910   1st Qu.:10.707  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :2.2577   Median :13.602  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :2.4619   Mean   :14.634  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:2.9172   3rd Qu.:17.358  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :8.2214   Max.   :53.075  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Choose rats with extreme sample probabilities</span></span></span>
 <span class="r-in"><span><span class="va">pops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">rat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">rat</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">rat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">rat</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -340,16 +340,16 @@ where the respective shape (\(s1\), \(s2\)) and rate
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   1.6246189  0.52814754  3.8051940    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5149331</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4887586</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.8937   Min.   : 4.831  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:1.7849   1st Qu.:10.436  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :2.2176   Median :13.500  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :2.3554   Mean   :14.062  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:2.7996   3rd Qu.:16.632  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :6.7039   Max.   :43.179  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.8098   Min.   : 4.724  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:1.7870   1st Qu.:10.554  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :2.2291   Median :13.360  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :2.4032   Mean   :14.307  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:2.8371   3rd Qu.:16.941  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :8.6539   Max.   :46.981  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># To produce a plot akin to Figure 5.3 of Gelman et al. (2014) we</span></span></span>
 <span class="r-in"><span><span class="co"># (a) Use the same prior for (alpha, beta)</span></span></span>
@@ -386,16 +386,16 @@ where the respective shape (\(s1\), \(s2\)) and rate
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.2730012  0.06004980  0.51162996    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5356186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5173306</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 1.150   Min.   :  6.482  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 2.341   1st Qu.: 14.321  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 3.007   Median : 17.997  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 3.367   Mean   : 20.181  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 3.923   3rd Qu.: 23.414  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :22.358   Max.   :129.624  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   : 1.023   Min.   : 5.893  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.: 2.390   1st Qu.:14.269  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median : 2.994   Median :17.903  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   : 3.262   Mean   :19.602  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.: 3.846   3rd Qu.:23.207  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :13.801   Max.   :77.446  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">############################ Gamma-Poisson #################################</span></span></span>
 <span class="r-in"><span></span></span>
@@ -420,16 +420,16 @@ where the respective shape (\(s1\), \(s2\)) and rate
 <span class="r-out co"><span class="r-pr">#&gt;</span> b2plus   0.4224941  0.08788857  0.67847965    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> estimated probability of acceptance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5186722</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample summary </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      alpha             beta       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.2365   Min.   :0.2121  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.8042   1st Qu.:1.3168  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :1.0813   Median :1.9352  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.1711   Mean   :2.1905  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.4289   3rd Qu.:2.7475  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :3.2203   Max.   :9.3140  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.3101   Min.   :0.1861  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.8079   1st Qu.:1.2861  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :1.0650   Median :1.9649  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.1643   Mean   :2.2067  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.4035   3rd Qu.:2.7481  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :4.0158   Max.   :9.9296  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Choose pumps with extreme sample rates</span></span></span>
 <span class="r-in"><span><span class="va">pops</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">pump</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">pump</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="va">pump</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="va">pump</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
