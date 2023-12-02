@@ -7,13 +7,13 @@
 \format{
 A data frame with 270 rows and 4 columns.
   \itemize{
-    \item{Column 1, \code{index}: }{anomaly of 2069-2098 mean relative to
-      the 1970-1999 mean.}
-    \item{Column 2, \code{GCM}: }{Abbreviated name of General Circulation
-      Model.}
-    \item{Column 3, \code{RCP}: }{Representative Concentration Pathway.
-      One of rcp26, rcp45, rcp60, rcp85.}
-    \item{Column 4, \code{run}: }{Simulation run number.}
+    \item Column 1, \code{index}: anomaly of 2069-2098 mean relative to
+      the 1970-1999 mean.
+    \item Column 2, \code{GCM}: Abbreviated name of General Circulation
+      Model.
+    \item Column 3, \code{RCP}: Representative Concentration Pathway.
+      One of rcp26, rcp45, rcp60, rcp85.
+    \item Column 4, \code{run}: Simulation run number.
  }
 }
 \source{

@@ -32,20 +32,20 @@ parameterization used for ratio-of-uniforms sampling.}
 \item{params}{A character scalar that determines to which parameters the
  plots relate.
 \itemize{
-  \item{"hyper": }{the posterior sample of \emph{all} hyperparameter
-    values in \eqn{\phi} is plotted using \code{\link[rust]{plot.ru}}.}
-  \item{"ru": }{then only the posterior sample generated using
+  \item \code{"hyper"}: the posterior sample of \emph{all} hyperparameter
+    values in \eqn{\phi} is plotted using \code{\link[rust]{plot.ru}}.
+  \item \code{"ru"}: only the posterior sample generated using
     \code{\link[rust]{ru}} is plotted using \code{\link[rust]{plot.ru}}.
     This produces a different plot to \code{params = "hyper"} if \code{ru}
     is used only on a subset of \eqn{\phi}.  For example, this may be
     the case if \code{x} is the result of a call to \code{\link{hanova1}}.
     See vignette("bang-c-anova-vignette", package = "bang") for
-    information.}
-  \item{"pop": }{posterior samples and/or densities of the
+    information.
+  \item \code{"pop"}: posterior samples and/or densities of the
     population-specific parameter \eqn{\theta} are plotted.  The
     population(s) included are determined by \code{which_pop} and the
     type of plot is determined by \code{plot_type}.
-    If \code{plot_type} is not supplied then it is set to \code{"dens"}.}
+    If \code{plot_type} is not supplied then it is set to \code{"dens"}.
 }}
 
 \item{which_pop}{An integer vector or character scalar.
@@ -60,14 +60,14 @@ this may fail if \code{plot_type = "pairs"} and/or
  produced when \code{params = "pop"}.  If \code{plot_type} is supplied
  then \code{params} is set automatically to \code{"pop"}.
 \itemize{
-  \item{"sim": }{histograms of the posterior samples
-    of \eqn{\theta} for the populations in \code{which_pop}.}
-  \item{"dens": }{estimates of the marginal posterior
-    densities of \eqn{\theta} for the populations in \code{which_pop}.}
-  \item{"both": }{both the histograms and estimated posterior densities.}
-  \item{"pairs": }{pairwise scatter plots of the posterior samples of
+  \item \code{"sim"}: histograms of the posterior samples
+    of \eqn{\theta} for the populations in \code{which_pop}.
+  \item \code{"dens"}: estimates of the marginal posterior
+    densities of \eqn{\theta} for the populations in \code{which_pop}.
+  \item \code{"both"}: both the histograms and estimated posterior densities.
+  \item \code{"pairs"}: pairwise scatter plots of the posterior samples of
     \eqn{\theta} for the populations in \code{which_pop}, which must have
-    length greater than one.}
+    length greater than one.
 }}
 
 \item{one_plot, add_legend, legend_position, legend_text}{Only relevant if

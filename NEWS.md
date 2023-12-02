@@ -1,3 +1,9 @@
+# bang 1.0.3
+
+## Bug fixes
+
+* Fixed issues with the incorrect use of \itemize in some Rd files.
+
 # bang 1.0.2
 
 ## Bug fixes and minor improvements
