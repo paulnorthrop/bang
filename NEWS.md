@@ -1,3 +1,9 @@
+# bang 1.0.4
+
+## Bug fixes and minor improvements
+
+* Fixed 2 \link{} targets with missing (rust) package anchors in Rd files for `hanova1()` and `hef()`.
+
 # bang 1.0.3
 
 ## Bug fixes
