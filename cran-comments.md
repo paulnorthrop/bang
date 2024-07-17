@@ -1,4 +1,4 @@
-A patch to fix the problems at https://cran.r-project.org/web/checks/check_results_bang.html has been fixed.
+A patch to fix the NOTEs at https://cran.r-project.org/web/checks/check_results_bang.html
 
 ## R CMD check results
 
