@@ -146,7 +146,7 @@
 #'  Vehtari, A. and Rubin, D. B. (2014) \emph{Bayesian Data Analysis}.
 #'  Chapman & Hall / CRC.
 #'   \url{http://www.stat.columbia.edu/~gelman/book/}
-#' @seealso The \code{\link[rust]{ru}} function in the \code{\link{rust}}
+#' @seealso The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
 #'   package for details of the arguments that can be passed to \code{ru} via
 #'   \code{hef}.
 #' @seealso \code{\link{hanova1}} for hierarchical one-way analysis of

@@ -226,7 +226,7 @@ Gelman, A. (2006) Prior distributions for variance
   \strong{1}(3), 515-533. \doi{10.1214/06-BA117A}.
 }
 \seealso{
-The \code{\link[rust]{ru}} function in the \code{\link{rust}}
+The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
   package for details of the arguments that can be passed to \code{ru} via
   \code{hanova1}.
 

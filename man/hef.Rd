@@ -252,7 +252,7 @@ Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
   \url{http://www.stat.columbia.edu/~gelman/book/}
 }
 \seealso{
-The \code{\link[rust]{ru}} function in the \code{\link{rust}}
+The \code{\link[rust]{ru}} function in the \code{\link[rust]{rust}}
   package for details of the arguments that can be passed to \code{ru} via
   \code{hef}.
 
