@@ -17,7 +17,8 @@ Table 5.1 of Gelman, A., Carlin, J. B., Stern, H. S. Dunson, D. B.,
 rat
 }
 \description{
-Tumor incidence in 71 groups of rate from Tarone (1982).
+Tumor incidence in 71 groups of rats: 70 groups from Tarone (1982) and an
+additional group (the last one) from Table 5.1 of Gelman at al (2014).
 The matrix \code{rat} has 71 rows and 2 columns.
 Each row relates to a different group of rats.
 The first column (\code{y}) contains the number of rats with tumors.

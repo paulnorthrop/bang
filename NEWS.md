@@ -1,3 +1,9 @@
+# bang 1.0.4.9000
+
+## Bug fixes and minor improvements
+
+* Corrected the description the `rat` data in its help file. Thank you to Léo Belzile for spotting this. [Issue 3](https://github.com/paulnorthrop/bang/issues/3#issue-2833715433)
+
 # bang 1.0.4
 
 ## Bug fixes and minor improvements
