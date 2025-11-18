@@ -3,6 +3,7 @@
 ## Bug fixes and minor improvements
 
 * Corrected the description the `rat` data in its help file. Thank you to Léo Belzile for spotting this. [Issue 3](https://github.com/paulnorthrop/bang/issues/3#issue-2833715433)
+* Corrected log(mean) to logit(mean) in a comment in the first chunk in the Beta-binomial section. Thank you to Chris Williams for spotting this.
 
 # bang 1.0.4
 
