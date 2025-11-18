@@ -182,11 +182,11 @@ The marginal posterior density of $\boldsymbol{\mathbf{\phi}}$ is given by
 &=
 \int_{-\infty}^{\infty}\cdots\int_{-\infty}^{\infty}
 \pi(\boldsymbol{\mathbf{\alpha}}, \boldsymbol{\mathbf{\phi}} 
-\mid \boldsymbol{\mathbf{y}}) {\rm ~d}\alpha_1 \cdots {\rm ~d}\alpha_I \\
+\mid \boldsymbol{\mathbf{y}}) \text{~d}\alpha_1 \cdots \text{~d}\alpha_I \\
 &\propto 
 \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
 \prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right]
-\int_{-\infty}^{\infty} \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right] {\rm ~d}\alpha_i \\
+\int_{-\infty}^{\infty} \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right] \text{~d}\alpha_i \\
 &\propto 
 \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
 \prod_{i=1}^I a_i^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right] \\
@@ -276,7 +276,7 @@ Therefore,
 &=
 \int_{-\infty}^{\infty} 
 \pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
-{\rm ~d}\mu \\
+\text{~d}\mu \\
 &\propto
 \pi(\sigma_\alpha, \sigma) \, 
 \sigma^{I-n_\cdot} \, 
@@ -287,7 +287,7 @@ Therefore,
 \int_{-\infty}^{\infty} 
 \exp\left\{ -\frac{1}{2 S_0^{-1}} (\mu - S_1 S_0^{-1})^2
 \right\}
-{\rm ~d}\mu \\
+\text{~d}\mu \\
 &\propto
 \pi(\sigma_\alpha, \sigma) \, 
 \sigma^{I-n_\cdot} \, 

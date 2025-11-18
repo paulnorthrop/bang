@@ -25,7 +25,7 @@ Use of a conditionally conjugate prior means that it is possible to derive, and 
 
 ## Beta-binomial model
 
-We consider the example presented in Section 5.3 of @BDA2014, in which the data [@Tarone1982] in the matrix `rat` are analysed.  These data contain information about an experiment in which, for each of 71 groups of rats, the total number of rats in the group and the numbers of rats who develop a tumor is recorded, so that $J = 71$. Conditional on $\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots, \theta_J) = (p_1, \ldots, p_J)$ we assume independent binomial distributions for $(Y_1, \ldots, Y_J)$, that is, $Y_j \sim {\rm binomial}(n_j, p_j)$.  We use the conditionally conjugate priors $p_j \sim {\rm Beta}(\alpha, \beta)$, so that $\phi = (\alpha, \beta)$.
+We consider the example presented in Section 5.3 of @BDA2014, in which the data [@Tarone1982] in the matrix `rat` are analysed.  These data contain information about an experiment in which, for each of 71 groups of rats, the total number of rats in the group and the numbers of rats who develop a tumor is recorded, so that $J = 71$. Conditional on $\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots, \theta_J) = (p_1, \ldots, p_J)$ we assume independent binomial distributions for $(Y_1, \ldots, Y_J)$, that is, $Y_j \sim \text{Binomial}(n_j, p_j)$.  We use the conditionally conjugate priors $p_j \sim \text{Beta}(\alpha, \beta)$, so that $\phi = (\alpha, \beta)$.
 
 The conditional conjagacy of the priors means that the marginal posterior of $(\alpha, \beta)$ given $\boldsymbol{\mathbf{y}} = (y_1, \ldots, y_J)$ can be determined (equation (5.8) of @BDA2014) as 
 \[ \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha, \beta) 
@@ -34,7 +34,7 @@ where $\pi(\alpha, \beta)$ is the hyperprior density for $(\alpha, \beta)$.
 By default $\phi = (\alpha, \beta)$ is transformed prior to sampling using $(\rho_1, \rho_2)=(\log (\alpha/\beta), \log (\alpha+\beta))$. The aim of this is to improve efficiency by rotating and scaling the (mode-relocated) conditional posterior density in an attempt to produce near circularity of this density's contours.    
 
 To simulate from the full posterior density $\pi(\boldsymbol{\mathbf{\theta}}, \alpha, \beta \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}} \mid \alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$ we first sample from $\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$.  Simulation from the conditional posterior distribution of $\boldsymbol{\mathbf{\theta}}$ given $(\alpha, \beta, \boldsymbol{\mathbf{y}})$ is then straightforward on noting that 
-\[ \theta_j \mid \alpha, \beta, y_j \sim {\rm beta}(\alpha + y_j, \beta + n_j - y_j) \]
+\[ \theta_j \mid \alpha, \beta, y_j \sim \text{Beta}(\alpha + y_j, \beta + n_j - y_j) \]
 and that $\theta_j, j = 1, \ldots, J$ are conditionally independent.
 
 The hyperprior for $(\alpha, \beta)$ used by default in `hef` is $\pi(\alpha, \beta) \propto (\alpha+\beta)^{-5/2}, \alpha>0, \beta>0$, following Section 5.3 of @BDA2014.  A user-defined prior may be set using `set_user_prior`.
@@ -63,7 +63,7 @@ We perform a fully Bayesian analysis of an empirical Bayesian example presented 
 pump
 ```
 
-The general setup is similar to the beta-binomial model described above but now the response distribution is taken to be Poisson, the prior distribution is gamma and $J = 10$.  For $j = 1, \ldots, J$ let $Y_j$ denote the number of failures and $e_j$ the length of operating time for pump system $j$.  Conditional on $\boldsymbol{\mathbf{\lambda}} = (\lambda_1, \ldots, \lambda_J)$ we assume independent Poisson distributions for $(Y_1, \ldots, Y_J)$ with means that are proportional to the *exposure* time $e_j$, that is, $Y_j \sim {\rm Poisson}(e_j \lambda_j)$.  We use the conditionally conjugate priors $\lambda_j \sim {\rm gamma}(\alpha, \beta)$, so that $\phi = (\alpha, \beta)$.  We use the parameterization where $\beta$ is a rate parameter, so that ${\rm E}(\lambda_j) = \alpha/\beta$ *a priori*.
+The general setup is similar to the beta-binomial model described above but now the response distribution is taken to be Poisson, the prior distribution is gamma and $J = 10$.  For $j = 1, \ldots, J$ let $Y_j$ denote the number of failures and $e_j$ the length of operating time for pump system $j$.  Conditional on $\boldsymbol{\mathbf{\lambda}} = (\lambda_1, \ldots, \lambda_J)$ we assume independent Poisson distributions for $(Y_1, \ldots, Y_J)$ with means that are proportional to the *exposure* time $e_j$, that is, $Y_j \sim \text{Poisson}(e_j \lambda_j)$.  We use the conditionally conjugate priors $\lambda_j \sim \text{gamma}(\alpha, \beta)$, so that $\phi = (\alpha, \beta)$.  We use the parameterization where $\beta$ is a rate parameter, so that $\text{E}(\lambda_j) = \alpha/\beta\,$ *a priori*.
 
 The marginal posterior of $(\alpha, \beta)$ given $\boldsymbol{\mathbf{y}} = (y_1, \ldots, y_J)$ can be determined as 
 \[ \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha, \beta) 
@@ -71,7 +71,7 @@ The marginal posterior of $(\alpha, \beta)$ given $\boldsymbol{\mathbf{y}} = (y_
 \]
 where $\pi(\alpha, \beta)$ is the hyperprior density for $(\alpha, \beta)$.  The scale used for sampling is $(\rho_1, \rho_2)=(\log (\alpha/\beta), \log \beta))$.
 
-To simulate from the full posterior $\pi(\boldsymbol{\mathbf{\lambda}}, \alpha, \beta \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\lambda}} \mid \alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$ we first sample from $\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$ and then note that \[ \lambda_j \mid \alpha, \beta, y_j \sim {\rm gamma}(\alpha + y_j, \beta + e_j) \]
+To simulate from the full posterior $\pi(\boldsymbol{\mathbf{\lambda}}, \alpha, \beta \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\lambda}} \mid \alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$ we first sample from $\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})$ and then note that \[ \lambda_j \mid \alpha, \beta, y_j \sim \text{gamma}(\alpha + y_j, \beta + e_j) \]
 and that $\lambda_j, j = 1, \ldots, J$ are conditionally independent.
 
 By default `hef` takes $\alpha$ and $\beta$ to be independent gamma random variables *a priori*.  The parameters of these gamma distributions can be set by the user, using the argument `hpars` or a different prior may be set using `set_user_prior`.

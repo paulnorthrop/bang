@@ -6,13 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Conjugate Hierarchical Models • bang</title>
-<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
-  window.MathJax = {
-    chtml: {
-      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
-    }
-  };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -83,32 +77,54 @@ Gibbs</a> for an introduction. In this vignette we consider the Bayesian
 analysis of certain conjugate hierarchical models. We give only a brief
 outline of the structure of these models. For a full description see
 Chapter 5 of <span class="citation">Gelman et al. (2014)</span>.</p>
-<p>Suppose that, for <span class="math inline">\(j = 1, \ldots,
-J\)</span>, experiment <span class="math inline">\(j\)</span> of <span class="math inline">\(J\)</span> experiments yields a data vector <span class="math inline">\(Y_j\)</span> and associated parameter vector <span class="math inline">\(\theta_j\)</span>. Conditional on <span class="math inline">\(\theta_j\)</span> the data <span class="math inline">\(Y_j\)</span> are assumed to follow independent
-response distributions from the exponential family of probability
-distributions. A prior distribution <span class="math inline">\(\pi(\theta_j \mid \phi)\)</span> is placed on each
-of the <em>population parameters</em> <span class="math inline">\(\theta_1, \ldots, \theta_J\)</span>, where <span class="math inline">\(\phi\)</span> is a vector of hyperparameters. For
-mathematical convenience <span class="math inline">\(\pi(\theta_j \mid
-\phi)\)</span> is selected to be <em>conditionally conjugate</em>, that
-is, conditionally on <span class="math inline">\(\phi\)</span> the
-posterior distribution of <span class="math inline">\(\theta_j\)</span>
-of the same type as <span class="math inline">\(\pi(\theta_j \mid
-\phi)\)</span>.</p>
+<p>Suppose that, for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">j = 1, \ldots, J</annotation></semantics></math>,
+experiment
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
+of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>J</mi><annotation encoding="application/x-tex">J</annotation></semantics></math>
+experiments yields a data vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>j</mi></msub><annotation encoding="application/x-tex">Y_j</annotation></semantics></math>
+and associated parameter vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\theta_j</annotation></semantics></math>.
+Conditional on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\theta_j</annotation></semantics></math>
+the data
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>j</mi></msub><annotation encoding="application/x-tex">Y_j</annotation></semantics></math>
+are assumed to follow independent response distributions from the
+exponential family of probability distributions. A prior distribution
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>j</mi></msub><mo>∣</mo><mi>ϕ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\theta_j \mid \phi)</annotation></semantics></math>
+is placed on each of the <em>population parameters</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>θ</mi><mi>J</mi></msub></mrow><annotation encoding="application/x-tex">\theta_1, \ldots, \theta_J</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϕ</mi><annotation encoding="application/x-tex">\phi</annotation></semantics></math>
+is a vector of hyperparameters. For mathematical convenience
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>j</mi></msub><mo>∣</mo><mi>ϕ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\theta_j \mid \phi)</annotation></semantics></math>
+is selected to be <em>conditionally conjugate</em>, that is,
+conditionally on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϕ</mi><annotation encoding="application/x-tex">\phi</annotation></semantics></math>
+the posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>j</mi></msub><annotation encoding="application/x-tex">\theta_j</annotation></semantics></math>
+of the same type as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mi>j</mi></msub><mo>∣</mo><mi>ϕ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\theta_j \mid \phi)</annotation></semantics></math>.</p>
 <p>Use of a conditionally conjugate prior means that it is possible to
-derive, and simulate from, the marginal posterior density <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span>.
+derive, and simulate from, the marginal posterior density
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>ϕ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\phi \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>.
 The <code>hef</code> function does this using the generalized
 ratio-of-uniforms method, implemented by the function <code>ru</code> in
 the <em>rust</em> package <span class="citation">(Northrop
 2017)</span>). By default a model-specific transformation of the
-parameter vector <span class="math inline">\(\phi\)</span> is used to
-improve efficiency. See the documentation of <code>hef</code> and the
-two examples below for details. Simulation from the full posterior
-density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}},
-\phi \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}}
-\mid \phi, \boldsymbol{\mathbf{y}}) \pi(\phi \mid
-\boldsymbol{\mathbf{y}})\)</span> follows directly because conditional
-conjugacy means that it is simple to simulate from <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}} \mid \phi,
-\boldsymbol{\mathbf{y}})\)</span>, given the values simulated from <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span>.
+parameter vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϕ</mi><annotation encoding="application/x-tex">\phi</annotation></semantics></math>
+is used to improve efficiency. See the documentation of <code>hef</code>
+and the two examples below for details. Simulation from the full
+posterior density
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛉</mi><mo>,</mo><mi>ϕ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛉</mi><mo>∣</mo><mi>ϕ</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>ϕ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\boldsymbol{\mathbf{\theta}}, \phi \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}} \mid \phi, \boldsymbol{\mathbf{y}}) \pi(\phi \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+follows directly because conditional conjugacy means that it is simple
+to simulate from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛉</mi><mo>∣</mo><mi>ϕ</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\boldsymbol{\mathbf{\theta}} \mid \phi, \boldsymbol{\mathbf{y}})</annotation></semantics></math>,
+given the values simulated from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>ϕ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\phi \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>.
 The simulation is performed in the function <code>hef</code>.</p>
 <div class="section level2">
 <h2 id="beta-binomial-model">Beta-binomial model<a class="anchor" aria-label="anchor" href="#beta-binomial-model"></a>
@@ -116,54 +132,76 @@ The simulation is performed in the function <code>hef</code>.</p>
 <p>We consider the example presented in Section 5.3 of <span class="citation">Gelman et al. (2014)</span>, in which the data <span class="citation">(Tarone 1982)</span> in the matrix <code>rat</code> are
 analysed. These data contain information about an experiment in which,
 for each of 71 groups of rats, the total number of rats in the group and
-the numbers of rats who develop a tumor is recorded, so that <span class="math inline">\(J = 71\)</span>. Conditional on <span class="math inline">\(\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots,
-\theta_J) = (p_1, \ldots, p_J)\)</span> we assume independent binomial
-distributions for <span class="math inline">\((Y_1, \ldots,
-Y_J)\)</span>, that is, <span class="math inline">\(Y_j \sim {\rm
-binomial}(n_j, p_j)\)</span>. We use the conditionally conjugate priors
-<span class="math inline">\(p_j \sim {\rm Beta}(\alpha, \beta)\)</span>,
-so that <span class="math inline">\(\phi = (\alpha, \beta)\)</span>.</p>
+the numbers of rats who develop a tumor is recorded, so that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mo>=</mo><mn>71</mn></mrow><annotation encoding="application/x-tex">J = 71</annotation></semantics></math>.
+Conditional on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝛉</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>θ</mi><mi>J</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>p</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>p</mi><mi>J</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots, \theta_J) = (p_1, \ldots, p_J)</annotation></semantics></math>
+we assume independent binomial distributions for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Y</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>Y</mi><mi>J</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(Y_1, \ldots, Y_J)</annotation></semantics></math>,
+that is,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>j</mi></msub><mo>∼</mo><mtext mathvariant="normal">Binomial</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>j</mi></msub><mo>,</mo><msub><mi>p</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Y_j \sim \text{Binomial}(n_j, p_j)</annotation></semantics></math>.
+We use the conditionally conjugate priors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>j</mi></msub><mo>∼</mo><mtext mathvariant="normal">Beta</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">p_j \sim \text{Beta}(\alpha, \beta)</annotation></semantics></math>,
+so that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\phi = (\alpha, \beta)</annotation></semantics></math>.</p>
 <p>The conditional conjagacy of the priors means that the marginal
-posterior of <span class="math inline">\((\alpha, \beta)\)</span> given
-<span class="math inline">\(\boldsymbol{\mathbf{y}} = (y_1, \ldots,
-y_J)\)</span> can be determined (equation (5.8) of <span class="citation">Gelman et al. (2014)</span>) as <span class="math display">\[ \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})
-\propto \pi(\alpha, \beta)
-\prod_{j=1}^J \frac{B(\alpha + y_j, \beta + n_j - y_j)}{B(\alpha,
-\beta)}, \]</span> where <span class="math inline">\(\pi(\alpha,
-\beta)\)</span> is the hyperprior density for <span class="math inline">\((\alpha, \beta)\)</span>. By default <span class="math inline">\(\phi = (\alpha, \beta)\)</span> is transformed
-prior to sampling using <span class="math inline">\((\rho_1,
-\rho_2)=(\log (\alpha/\beta), \log (\alpha+\beta))\)</span>. The aim of
-this is to improve efficiency by rotating and scaling the
+posterior of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha, \beta)</annotation></semantics></math>
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐲</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mi>J</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{y}} = (y_1, \ldots, y_J)</annotation></semantics></math>
+can be determined (equation (5.8) of <span class="citation">Gelman et
+al. (2014)</span>) as
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><munderover><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>J</mi></munderover><mfrac><mrow><mi>B</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><msub><mi>y</mi><mi>j</mi></msub><mo>,</mo><mi>β</mi><mo>+</mo><msub><mi>n</mi><mi>j</mi></msub><mo>−</mo><msub><mi>y</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>B</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex"> \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha, \beta) 
+\prod_{j=1}^J \frac{B(\alpha + y_j, \beta + n_j - y_j)}{B(\alpha, \beta)}, </annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\alpha, \beta)</annotation></semantics></math>
+is the hyperprior density for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha, \beta)</annotation></semantics></math>.
+By default
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\phi = (\alpha, \beta)</annotation></semantics></math>
+is transformed prior to sampling using
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>ρ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>ρ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mi>/</mi><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">(\rho_1, \rho_2)=(\log (\alpha/\beta), \log (\alpha+\beta))</annotation></semantics></math>.
+The aim of this is to improve efficiency by rotating and scaling the
 (mode-relocated) conditional posterior density in an attempt to produce
 near circularity of this density’s contours.</p>
-<p>To simulate from the full posterior density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\theta}}, \alpha, \beta
-\mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}} \mid
-\alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid
-\boldsymbol{\mathbf{y}})\)</span> we first sample from <span class="math inline">\(\pi(\alpha, \beta \mid
-\boldsymbol{\mathbf{y}})\)</span>. Simulation from the conditional
-posterior distribution of <span class="math inline">\(\boldsymbol{\mathbf{\theta}}\)</span> given <span class="math inline">\((\alpha, \beta, \boldsymbol{\mathbf{y}})\)</span>
-is then straightforward on noting that <span class="math display">\[
-\theta_j \mid \alpha, \beta, y_j \sim {\rm beta}(\alpha + y_j, \beta +
-n_j - y_j) \]</span> and that <span class="math inline">\(\theta_j, j =
-1, \ldots, J\)</span> are conditionally independent.</p>
-<p>The hyperprior for <span class="math inline">\((\alpha,
-\beta)\)</span> used by default in <code>hef</code> is <span class="math inline">\(\pi(\alpha, \beta) \propto (\alpha+\beta)^{-5/2},
-\alpha&gt;0, \beta&gt;0\)</span>, following Section 5.3 of <span class="citation">Gelman et al. (2014)</span>. A user-defined prior may
-be set using <code>set_user_prior</code>.</p>
+<p>To simulate from the full posterior density
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛉</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛉</mi><mo>∣</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\boldsymbol{\mathbf{\theta}}, \alpha, \beta \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\theta}} \mid \alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+we first sample from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>.
+Simulation from the conditional posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛉</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\theta}}</annotation></semantics></math>
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha, \beta, \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+is then straightforward on noting that
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>j</mi></msub><mo>∣</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>,</mo><msub><mi>y</mi><mi>j</mi></msub><mo>∼</mo><mtext mathvariant="normal">Beta</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><msub><mi>y</mi><mi>j</mi></msub><mo>,</mo><mi>β</mi><mo>+</mo><msub><mi>n</mi><mi>j</mi></msub><mo>−</mo><msub><mi>y</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> \theta_j \mid \alpha, \beta, y_j \sim \text{Beta}(\alpha + y_j, \beta + n_j - y_j) </annotation></semantics></math>
+and that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>j</mi></msub><mo>,</mo><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">\theta_j, j = 1, \ldots, J</annotation></semantics></math>
+are conditionally independent.</p>
+<p>The hyperprior for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha, \beta)</annotation></semantics></math>
+used by default in <code>hef</code> is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∝</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>−</mi><mn>5</mn><mi>/</mi><mn>2</mn></mrow></msup><mo>,</mo><mi>α</mi><mo>&gt;</mo><mn>0</mn><mo>,</mo><mi>β</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\pi(\alpha, \beta) \propto (\alpha+\beta)^{-5/2}, \alpha&gt;0, \beta&gt;0</annotation></semantics></math>,
+following Section 5.3 of <span class="citation">Gelman et al.
+(2014)</span>. A user-defined prior may be set using
+<code>set_user_prior</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'bang' was built under R version 4.5.2</span></span>
 <span><span class="co"># Default prior, sampling on (rotated) (logit(mean), log(alpha + beta)) scale</span></span>
 <span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, n <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rat_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-b-hef-vignette_files/figure-html/unnamed-chunk-2-1.png" width="331.2"><img src="bang-b-hef-vignette_files/figure-html/unnamed-chunk-2-2.png" width="331.2"></p>
 <p>The plot on the left shows the values sampled from the posterior
-distribution of <span class="math inline">\((\alpha, \beta)\)</span>
+distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha, \beta)</annotation></semantics></math>
 with superimposed density contours. On the right is a similar plot
-displayed on the scale used for sampling, that is, <span class="math inline">\((\rho_1, \rho_2)\)</span>.</p>
+displayed on the scale used for sampling, that is,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>ρ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>ρ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\rho_1, \rho_2)</annotation></semantics></math>.</p>
 <p>The following summary is of properties of the generalized ratio-of
 uniforms algorithm, in particular the probability of acceptance, and
-summary statistics of the posterior sample of <span class="math inline">\((\alpha, \beta)\)</span>.</p>
+summary statistics of the posterior sample of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha, \beta)</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ru bounding box:  </span></span>
@@ -191,11 +229,14 @@ summary statistics of the posterior sample of <span class="math inline">\((\alph
 </h2>
 <p>We perform a fully Bayesian analysis of an empirical Bayesian example
 presented in Section 4.2 of <span class="citation">Gelfand and Smith
-(1990)</span>, who fix the hyperparameter <span class="math inline">\(\alpha\)</span> described below at a point
-estimate derived from the data. The <code>pump</code> dataset <span class="citation">(Gaver and O’Muircheartaigh 1987)</span> is a matrix in
-which each row gives information about one of 10 different pump systems.
-The first column contains the number of pump failures. The second column
-contains the length of operating time, in thousands of hours.</p>
+(1990)</span>, who fix the hyperparameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+described below at a point estimate derived from the data. The
+<code>pump</code> dataset <span class="citation">(Gaver and
+O’Muircheartaigh 1987)</span> is a matrix in which each row gives
+information about one of 10 different pump systems. The first column
+contains the number of pump failures. The second column contains the
+length of operating time, in thousands of hours.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pump</span></span>
 <span><span class="co">#&gt;       failures    time</span></span>
@@ -211,42 +252,62 @@ contains the length of operating time, in thousands of hours.</p>
 <span><span class="co">#&gt; [10,]       22  10.480</span></span></code></pre></div>
 <p>The general setup is similar to the beta-binomial model described
 above but now the response distribution is taken to be Poisson, the
-prior distribution is gamma and <span class="math inline">\(J =
-10\)</span>. For <span class="math inline">\(j = 1, \ldots, J\)</span>
-let <span class="math inline">\(Y_j\)</span> denote the number of
-failures and <span class="math inline">\(e_j\)</span> the length of
-operating time for pump system <span class="math inline">\(j\)</span>.
-Conditional on <span class="math inline">\(\boldsymbol{\mathbf{\lambda}}
-= (\lambda_1, \ldots, \lambda_J)\)</span> we assume independent Poisson
-distributions for <span class="math inline">\((Y_1, \ldots,
-Y_J)\)</span> with means that are proportional to the <em>exposure</em>
-time <span class="math inline">\(e_j\)</span>, that is, <span class="math inline">\(Y_j \sim {\rm Poisson}(e_j \lambda_j)\)</span>. We
-use the conditionally conjugate priors <span class="math inline">\(\lambda_j \sim {\rm gamma}(\alpha,
-\beta)\)</span>, so that <span class="math inline">\(\phi = (\alpha,
-\beta)\)</span>. We use the parameterization where <span class="math inline">\(\beta\)</span> is a rate parameter, so that <span class="math inline">\({\rm E}(\lambda_j) = \alpha/\beta\)</span> <em>a
-priori</em>.</p>
-<p>The marginal posterior of <span class="math inline">\((\alpha,
-\beta)\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{y}} = (y_1, \ldots,
-y_J)\)</span> can be determined as <span class="math display">\[
-\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha,
-\beta)
-\prod_{j=1}^J \frac{\beta^\alpha\Gamma(\alpha +
-y_j)}{(\beta+e_j)^{\alpha+y_j} \Gamma(\alpha)},
-\]</span> where <span class="math inline">\(\pi(\alpha, \beta)\)</span>
-is the hyperprior density for <span class="math inline">\((\alpha,
-\beta)\)</span>. The scale used for sampling is <span class="math inline">\((\rho_1, \rho_2)=(\log (\alpha/\beta), \log
-\beta))\)</span>.</p>
-<p>To simulate from the full posterior <span class="math inline">\(\pi(\boldsymbol{\mathbf{\lambda}}, \alpha, \beta
-\mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\lambda}} \mid
-\alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid
-\boldsymbol{\mathbf{y}})\)</span> we first sample from <span class="math inline">\(\pi(\alpha, \beta \mid
-\boldsymbol{\mathbf{y}})\)</span> and then note that <span class="math display">\[ \lambda_j \mid \alpha, \beta, y_j \sim {\rm
-gamma}(\alpha + y_j, \beta + e_j) \]</span> and that <span class="math inline">\(\lambda_j, j = 1, \ldots, J\)</span> are
-conditionally independent.</p>
-<p>By default <code>hef</code> takes <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> to be independent gamma random
-variables <em>a priori</em>. The parameters of these gamma distributions
-can be set by the user, using the argument <code>hpars</code> or a
-different prior may be set using <code>set_user_prior</code>.</p>
+prior distribution is gamma and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">J = 10</annotation></semantics></math>.
+For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">j = 1, \ldots, J</annotation></semantics></math>
+let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>Y</mi><mi>j</mi></msub><annotation encoding="application/x-tex">Y_j</annotation></semantics></math>
+denote the number of failures and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>e</mi><mi>j</mi></msub><annotation encoding="application/x-tex">e_j</annotation></semantics></math>
+the length of operating time for pump system
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>.
+Conditional on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝛌</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>λ</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>λ</mi><mi>J</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\lambda}} = (\lambda_1, \ldots, \lambda_J)</annotation></semantics></math>
+we assume independent Poisson distributions for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>Y</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>Y</mi><mi>J</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(Y_1, \ldots, Y_J)</annotation></semantics></math>
+with means that are proportional to the <em>exposure</em> time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>e</mi><mi>j</mi></msub><annotation encoding="application/x-tex">e_j</annotation></semantics></math>,
+that is,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>j</mi></msub><mo>∼</mo><mtext mathvariant="normal">Poisson</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>e</mi><mi>j</mi></msub><msub><mi>λ</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Y_j \sim \text{Poisson}(e_j \lambda_j)</annotation></semantics></math>.
+We use the conditionally conjugate priors
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>j</mi></msub><mo>∼</mo><mtext mathvariant="normal">gamma</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\lambda_j \sim \text{gamma}(\alpha, \beta)</annotation></semantics></math>,
+so that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\phi = (\alpha, \beta)</annotation></semantics></math>.
+We use the parameterization where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
+is a rate parameter, so that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">E</mtext><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>λ</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>α</mi><mi>/</mi><mi>β</mi><mspace width="0.167em"></mspace></mrow><annotation encoding="application/x-tex">\text{E}(\lambda_j) = \alpha/\beta\,</annotation></semantics></math><em>a priori</em>.</p>
+<p>The marginal posterior of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha, \beta)</annotation></semantics></math>
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐲</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>y</mi><mi>J</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{y}} = (y_1, \ldots, y_J)</annotation></semantics></math>
+can be determined as
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><munderover><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>J</mi></munderover><mfrac><mrow><msup><mi>β</mi><mi>α</mi></msup><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><msub><mi>y</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>β</mi><mo>+</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>α</mi><mo>+</mo><msub><mi>y</mi><mi>j</mi></msub></mrow></msup><mi>Γ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex"> \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}}) \propto \pi(\alpha, \beta) 
+\prod_{j=1}^J \frac{\beta^\alpha\Gamma(\alpha + y_j)}{(\beta+e_j)^{\alpha+y_j} \Gamma(\alpha)}, 
+</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\alpha, \beta)</annotation></semantics></math>
+is the hyperprior density for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\alpha, \beta)</annotation></semantics></math>.
+The scale used for sampling is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>ρ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>ρ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mi>/</mi><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mo>log</mo><mi>β</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\rho_1, \rho_2)=(\log (\alpha/\beta), \log \beta))</annotation></semantics></math>.</p>
+<p>To simulate from the full posterior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛌</mi><mo>,</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛌</mi><mo>∣</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\boldsymbol{\mathbf{\lambda}}, \alpha, \beta \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\lambda}} \mid \alpha, \beta, \boldsymbol{\mathbf{y}}) \pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+we first sample from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\alpha, \beta \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+and then note that
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>j</mi></msub><mo>∣</mo><mi>α</mi><mo>,</mo><mi>β</mi><mo>,</mo><msub><mi>y</mi><mi>j</mi></msub><mo>∼</mo><mtext mathvariant="normal">gamma</mtext><mrow><mo stretchy="true" form="prefix">(</mo><mi>α</mi><mo>+</mo><msub><mi>y</mi><mi>j</mi></msub><mo>,</mo><mi>β</mi><mo>+</mo><msub><mi>e</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> \lambda_j \mid \alpha, \beta, y_j \sim \text{gamma}(\alpha + y_j, \beta + e_j) </annotation></semantics></math>
+and that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>j</mi></msub><mo>,</mo><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>J</mi></mrow><annotation encoding="application/x-tex">\lambda_j, j = 1, \ldots, J</annotation></semantics></math>
+are conditionally independent.</p>
+<p>By default <code>hef</code> takes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
+to be independent gamma random variables <em>a priori</em>. The
+parameters of these gamma distributions can be set by the user, using
+the argument <code>hpars</code> or a different prior may be set using
+<code>set_user_prior</code>.</p>
 <p>We produce similar output to the beta-binomial example above.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pump_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"gamma_pois"</span>, data <span class="op">=</span> <span class="va">pump</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0.01</span>, <span class="fl">1</span>, <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span></span>

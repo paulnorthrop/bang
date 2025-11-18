@@ -6,13 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introducing bang: Bayesian Analysis, No Gibbs • bang</title>
-<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
-  window.MathJax = {
-    chtml: {
-      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
-    }
-  };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -114,19 +108,25 @@ generalized ratio-of-uniforms method can only be applied to densities
 for which its acceptance region can be enclosed within a bounding region
 of finite volume from which it is simple to simulate, usually a cuboid.
 Conditions on the density for this to be achievable depend on the value
-of a non-negative tuning parameter <span class="math inline">\(r\)</span> and are given in <span class="citation">Wakefield, Gelfand, and Smith (1991)</span>. If a
-density has heavy tails then it may not be possible to form the bounding
-cuboid if <span class="math inline">\(r\)</span> is too small. In
-<em>rust</em> <span class="math inline">\(r = 1/2\)</span> is used as a
-default because it is optimal for a Gaussian density, but a larger
-value, such as <span class="math inline">\(r = 1\)</span> or greater may
-be needed if the density has heavy tails. Alternatively, a
-transformation of variable can be used to ensure the validity of the
+of a non-negative tuning parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+and are given in <span class="citation">Wakefield, Gelfand, and Smith
+(1991)</span>. If a density has heavy tails then it may not be possible
+to form the bounding cuboid if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+is too small. In <em>rust</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">r = 1/2</annotation></semantics></math>
+is used as a default because it is optimal for a Gaussian density, but a
+larger value, such as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">r = 1</annotation></semantics></math>
+or greater may be needed if the density has heavy tails. Alternatively,
+a transformation of variable can be used to ensure the validity of the
 method and/or improve the efficiency of the algorithm. See the
 <em>Introducing rust: Ratio-of-Uniforms Simulation with
 Transformation</em> vignette of the <em>rust</em> package for details.
-These strategies (increasing <span class="math inline">\(r\)</span> or
-transformation of variable) are illustrated in the vignette <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of
+These strategies (increasing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+or transformation of variable) are illustrated in the vignette <a href="bang-c-anova-vignette.html">Hierarchical 1-way Analysis of
 Variance</a></p>
 <p>Only in some simple special cases is it possible to find
 algebraically the dimensions of the smallest possible bounding cuboid.
@@ -155,6 +155,7 @@ following code reproduces (up to a shift in origin) the content of
 Figure 5.3 of <span class="citation">Gelman et al. (2014)</span>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'bang' was built under R version 4.5.2</span></span>
 <span><span class="co"># To produce a plot akin to Figure 5.3 of Gelman et al. (2014) we</span></span>
 <span><span class="co"># (a) Use the same prior for (alpha, beta)</span></span>
 <span><span class="co"># (b) Don't use axis rotation (rotate = FALSE)</span></span>

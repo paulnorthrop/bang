@@ -6,13 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Hierarchical 1-way Analysis of Variance • bang</title>
-<!-- mathjax math --><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script><script>
-  window.MathJax = {
-    chtml: {
-      fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
-    }
-  };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -80,42 +74,65 @@ Northrop</h4>
 <p>The <em>bang</em> package simulates from the posterior distributions
 involved in certain Bayesian models. See the vignette <a href="bang-a-vignette.html">Introducing bang: Bayesian Analysis, No
 Gibbs</a> for an introduction. In this vignette we consider the
-hierarchical 1-way Analysis of variance (ANOVA) model: <span class="math display">\[\begin{equation*}
-Y_{ij} = \mu + \alpha_i + \epsilon_{ij} = \theta_i + \epsilon_{ij},
-\quad\mbox{for} \,\, i = 1, \ldots, I, \, j = 1, \ldots, n_i,
-\end{equation*}\]</span> where <span class="math inline">\(\alpha_i \sim
-N(0, \sigma_\alpha^2)\)</span>, so that <span class="math inline">\(\theta_i = \mu + \alpha_i \sim N(\mu,
-\sigma_\alpha^2)\)</span>, and <span class="math inline">\(\epsilon_{ij}
-\sim N(0, \sigma^2)\)</span> and all random variables are independent.
-Variability of the response variable <span class="math inline">\(Y\)</span> about an overall level <span class="math inline">\(\mu\)</span> is decomposed into contributions
-<span class="math inline">\(\alpha_i, i = 1, \ldots, I\)</span> from an
-explanatory factor indicating membership of group <span class="math inline">\(i\)</span> and a random error term <span class="math inline">\(\epsilon_{ij}\)</span>.</p>
-<p>This model has <span class="math inline">\(I + 3\)</span> parameters:
-<span class="math inline">\(\boldsymbol{\mathbf{\phi}} = (\mu,
-\sigma_\alpha, \sigma)\)</span> and <span class="math inline">\(\boldsymbol{\mathbf{\alpha}} = (\alpha_1, \ldots,
-\alpha_I)\)</span>. Equivalently, we could replace <span class="math inline">\(\boldsymbol{\mathbf{\alpha}}\)</span> by <span class="math inline">\(\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots,
-\theta_I)\)</span>. The full posterior <span class="math inline">\(\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}}
-\mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\alpha}} \mid
-\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}}) \,
-\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})\)</span>
+hierarchical 1-way Analysis of variance (ANOVA) model:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>μ</mi><mo>+</mo><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>θ</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>,</mo><mspace width="1.0em"></mspace><mtext mathvariant="normal">for</mtext><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>I</mi><mo>,</mo><mspace width="0.167em"></mspace><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>n</mi><mi>i</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation*}
+Y_{ij} = \mu + \alpha_i + \epsilon_{ij} = \theta_i + \epsilon_{ij}, \quad\mbox{for} \,\, i = 1, \ldots, I, \, j = 1, \ldots, n_i, 
+\end{equation*}</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_i \sim N(0, \sigma_\alpha^2)</annotation></semantics></math>,
+so that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>i</mi></msub><mo>=</mo><mi>μ</mi><mo>+</mo><msub><mi>α</mi><mi>i</mi></msub><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta_i = \mu + \alpha_i \sim N(\mu, \sigma_\alpha^2)</annotation></semantics></math>,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\epsilon_{ij} \sim N(0, \sigma^2)</annotation></semantics></math>
+and all random variables are independent. Variability of the response
+variable
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Y</mi><annotation encoding="application/x-tex">Y</annotation></semantics></math>
+about an overall level
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+is decomposed into contributions
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>,</mo><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">\alpha_i, i = 1, \ldots, I</annotation></semantics></math>
+from an explanatory factor indicating membership of group
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+and a random error term
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">\epsilon_{ij}</annotation></semantics></math>.</p>
+<p>This model has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>+</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">I + 3</annotation></semantics></math>
+parameters:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝛟</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}} = (\mu, \sigma_\alpha, \sigma)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝛂</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>α</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>α</mi><mi>I</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\alpha}} = (\alpha_1, \ldots, \alpha_I)</annotation></semantics></math>.
+Equivalently, we could replace
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛂</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\alpha}}</annotation></semantics></math>
+by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝛉</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>θ</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>θ</mi><mi>I</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\theta}} = (\theta_1, \ldots, \theta_I)</annotation></semantics></math>.
+The full posterior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛂</mi><mo>,</mo><mi>𝛟</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛂</mi><mo>∣</mo><mi>𝛟</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}}) = \pi(\boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}}) \, \pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
 can be factorized into products of lower-dimensional densities. See the
 <a href="#appendix">Appendix</a> for details. If it is assumed that
-<span class="math inline">\(\mu\)</span> and <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> are independent
-<em>a priori</em> and a normal prior is set for <span class="math inline">\(\mu\)</span> then the only challenging part of
-sampling from <span class="math inline">\(\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}}
-\mid \boldsymbol{\mathbf{y}})\)</span> is to simulate from the
-two-dimensional density <span class="math inline">\(\pi(\sigma_\alpha,
-\sigma \mid \boldsymbol{\mathbf{y}})\)</span>. Otherwise, we need to
-simulate from <span class="math inline">\(\pi(\mu, \sigma_\alpha, \sigma
-\mid \boldsymbol{\mathbf{y}})\)</span>. The <em>bang</em> function
-<code>hanova1</code> uses the <em>rust</em> package <span class="citation">(Northrop 2017)</span> to simulate from these
-densities. In sampling from the marginal posterior density <span class="math inline">\(\pi(\phi \mid \boldsymbol{\mathbf{y}})\)</span> we
-use a parameterization designed to improve the efficiency of sampling.
-In this case we work with <span class="math inline">\((\log\sigma_\alpha, \log\sigma)\)</span>. We
-illustrate the use of <code>hanova1</code> using two example datasets.
-Unless stated otherwise we use the default hyperprior <span class="math inline">\(\pi(\mu, \sigma_\alpha, \sigma) \propto
-1/\sigma\)</span>, that is, a uniform prior for <span class="math inline">\((\mu, \sigma_\alpha, \log\sigma)\)</span> for
-<span class="math inline">\(\sigma_\alpha&gt;0, \sigma&gt;0\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\sigma_\alpha, \sigma)</annotation></semantics></math>
+are independent <em>a priori</em> and a normal prior is set for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+then the only challenging part of sampling from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛂</mi><mo>,</mo><mi>𝛟</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+is to simulate from the two-dimensional density
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>.
+Otherwise, we need to simulate from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>.
+The <em>bang</em> function <code>hanova1</code> uses the <em>rust</em>
+package <span class="citation">(Northrop 2017)</span> to simulate from
+these densities. In sampling from the marginal posterior density
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>ϕ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\phi \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+we use a parameterization designed to improve the efficiency of
+sampling. In this case we work with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mo>log</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\log\sigma_\alpha, \log\sigma)</annotation></semantics></math>.
+We illustrate the use of <code>hanova1</code> using two example
+datasets. Unless stated otherwise we use the default hyperprior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∝</mo><mn>1</mn><mi>/</mi><mi>σ</mi></mrow><annotation encoding="application/x-tex">\pi(\mu, \sigma_\alpha, \sigma) \propto 1/\sigma</annotation></semantics></math>,
+that is, a uniform prior for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mo>log</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu, \sigma_\alpha, \log\sigma)</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>α</mi></msub><mo>&gt;</mo><mn>0</mn><mo>,</mo><mi>σ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\sigma_\alpha&gt;0, \sigma&gt;0</annotation></semantics></math>
 (see Sections 5.7 and 11.6 of <span class="citation">Gelman et al.
 (2014)</span>). A user-defined prior can be set using
 <code>set_user_prior</code>.</p>
@@ -129,14 +146,23 @@ Intercomparison Project (CMIP5). The dataset is the union of four
 subsets, each based on a different greenhouse gas emissions scenario
 called a Representative Concentration Pathway (RCP). Here we analyse
 only data for RCP2.6. Of course, inferences about the overall
-temperature change parameter <span class="math inline">\(\mu\)</span>
+temperature change parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
 are important, but it is also interesting to compare the magnitudes of
-<span class="math inline">\(\sigma_\alpha\)</span> and <span class="math inline">\(\sigma\)</span>. If, for example, if <span class="math inline">\(\sigma_\alpha\)</span> is much greater than <span class="math inline">\(\sigma\)</span> then uncertainty about temperature
-projection associated with choice of GCM is greater than that associated
-with the choice of simulation run from a particular GCM. See <span class="citation">Northrop and Chandler (2014)</span> for more
-information.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>.
+If, for example, if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+is much greater than
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
+then uncertainty about temperature projection associated with choice of
+GCM is greater than that associated with the choice of simulation run
+from a particular GCM. See <span class="citation">Northrop and Chandler
+(2014)</span> for more information.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'bang' was built under R version 4.5.2</span></span>
 <span><span class="co"># Extract RCP2.6 data</span></span>
 <span><span class="va">RCP26_2</span> <span class="op">&lt;-</span> <span class="va">temp2</span><span class="op">[</span><span class="va">temp2</span><span class="op">$</span><span class="va">RCP</span> <span class="op">==</span> <span class="st">"rcp26"</span>, <span class="op">]</span></span></code></pre></div>
 <p>There are 61 observations in total distributed rather unevenly across
@@ -170,10 +196,13 @@ RCP2.6.</p>
 <span><span class="co">#&gt; [1] 28</span></span></code></pre></div>
 <p>We use <code>hanova1</code> to sample from the posterior distribution
 of the parameters based on the (default) improper uniform prior for
-<span class="math inline">\((\mu, \log\sigma_\alpha, \sigma)\)</span>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><mo>log</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu, \log\sigma_\alpha, \sigma)</annotation></semantics></math>,
 described in Section 11.6 of <span class="citation">Gelman et al.
 (2014)</span>. This prior fits in to the special case considered in the
-<a href="#appendix">Appendix</a>, with an infinite prior variance <span class="math inline">\(\sigma_0^2\)</span> for <span class="math inline">\(\mu\)</span>.</p>
+<a href="#appendix">Appendix</a>, with an infinite prior variance
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>σ</mi><mn>0</mn><mn>2</mn></msubsup><annotation encoding="application/x-tex">\sigma_0^2</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The response is the index, the explanatory factor is the GCM</span></span>
 <span><span class="va">temp_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"index"</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">RCP26_2</span><span class="op">[</span>, <span class="st">"GCM"</span><span class="op">]</span><span class="op">)</span></span>
@@ -182,15 +211,21 @@ described in Section 11.6 of <span class="citation">Gelman et al.
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temp_res</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-5-1.png" width="331.2"><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-5-2.png" width="331.2"></p>
 <p>The plot on the left shows the values sampled from the posterior
-distribution of <span class="math inline">\((\sigma_\alpha,
-\sigma)\)</span> with superimposed density contours. We see that the
-posterior distribution is located at values for which <span class="math inline">\(\sigma_\alpha\)</span> is much greater than <span class="math inline">\(\sigma\)</span>, by a factor of nearly 10. On the
-right is a similar plot displayed on the scale used for sampling, <span class="math inline">\((\rho_1, \rho_2)=(\log \sigma_\alpha, \log
-\sigma)\)</span>, after relocation of the posterior mode to the origin
-and rotation and scaling to near circularity of the density
-contours.</p>
-<p>We summarize the marginal posterior distribution of <span class="math inline">\(\mu\)</span> using a histogram with a superimposed
-kernel density estimate.</p>
+distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\sigma_\alpha, \sigma)</annotation></semantics></math>
+with superimposed density contours. We see that the posterior
+distribution is located at values for which
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+is much greater than
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>,
+by a factor of nearly 10. On the right is a similar plot displayed on
+the scale used for sampling,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>ρ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>ρ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mo>log</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">(\rho_1, \rho_2)=(\log \sigma_\alpha, \log \sigma)</annotation></semantics></math>,
+after relocation of the posterior mode to the origin and rotation and
+scaling to near circularity of the density contours.</p>
+<p>We summarize the marginal posterior distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+using a histogram with a superimposed kernel density estimate.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">[</span>, <span class="st">"mu"</span><span class="op">]</span>,  main <span class="op">=</span> <span class="st">""</span>, xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">mu</span><span class="op">)</span>, prob <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">temp_res</span><span class="op">$</span><span class="va">sim_vals</span><span class="op">[</span>, <span class="st">"mu"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -205,27 +240,33 @@ densities of the mean index for each GCM.</p>
 <h2 id="coagulation-time-data">Coagulation time data<a class="anchor" aria-label="anchor" href="#coagulation-time-data"></a>
 </h2>
 <p>In the temperature projection example sampling was conducted on the
-scale <span class="math inline">\((\log\sigma_\alpha,
-\log\alpha)\)</span> and was unproblematic. It would also have been
-unproblematic had we sampled on the original <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> scale. To show
-that there are examples where the latter is not the case we consider a
-small dataset presented in Section 11.6 of <span class="citation">Gelman
-et al. (2014)</span>. The response variable is the coagulation time of
-blood drawn from 24 animals allocated to different diets. The crucial
-aspect of this dataset is that the explanatory factor (diet) has only 4
-levels. This means that there is little information about <span class="math inline">\(\sigma_\alpha\)</span> in the data. Unless some
-prior information about <span class="math inline">\(\sigma_\alpha\)</span> is provided the posterior
-distribution for <span class="math inline">\(\sigma_\alpha\)</span> will
-tend to have a heavy upper tail <span class="citation">(Gelman
+scale
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mo>log</mo><mi>α</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\log\sigma_\alpha, \log\alpha)</annotation></semantics></math>
+and was unproblematic. It would also have been unproblematic had we
+sampled on the original
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\sigma_\alpha, \sigma)</annotation></semantics></math>
+scale. To show that there are examples where the latter is not the case
+we consider a small dataset presented in Section 11.6 of <span class="citation">Gelman et al. (2014)</span>. The response variable is
+the coagulation time of blood drawn from 24 animals allocated to
+different diets. The crucial aspect of this dataset is that the
+explanatory factor (diet) has only 4 levels. This means that there is
+little information about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+in the data. Unless some prior information about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+is provided the posterior distribution for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+will tend to have a heavy upper tail <span class="citation">(Gelman
 2006)</span>.</p>
 <p>The generalized ratio-of-uniforms method used by <em>rust</em> can
 fail for heavy-tailed densities and this is indeed the case for these
-data if we try to sample directly from <span class="math inline">\(\pi(\sigma_\alpha, \sigma \mid
-\boldsymbol{\mathbf{y}})\)</span> using the <em>rust</em> package’s
-default settings for the generalized ratio-of-uniforms algorithm. One
-solution is to reparameterize to <span class="math inline">\((\log\sigma_\alpha, \log\sigma)\)</span>, which
-<code>hanova1</code> implements by default. Another possibility is to
-increase the generalized ratio-of-uniforms tuning parameter
+data if we try to sample directly from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+using the <em>rust</em> package’s default settings for the generalized
+ratio-of-uniforms algorithm. One solution is to reparameterize to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mo>log</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\log\sigma_\alpha, \log\sigma)</annotation></semantics></math>,
+which <code>hanova1</code> implements by default. Another possibility is
+to increase the generalized ratio-of-uniforms tuning parameter
 <code>r</code> from the default value of 1/2 used in <em>rust</em>.
 These approaches are illustrated below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -236,10 +277,11 @@ These approaches are illustrated below.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">coag1</span>, ru_scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-8-1.png" width="331.2"><img src="bang-c-anova-vignette_files/figure-html/unnamed-chunk-8-2.png" width="331.2"></p>
 <p>The heaviness of the upper tail of the marginal posterior density of
-<span class="math inline">\(\sigma_\alpha\)</span> is evident in the
-plot on the left. Parameter transformation to <span class="math inline">\((\rho_1, \rho_2)=(\log\sigma_\alpha,
-\log\sigma)\)</span> results in a density (in the plot on the right)
-from which it is easier to simulate.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+is evident in the plot on the left. Parameter transformation to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>ρ</mi><mn>1</mn></msub><mo>,</mo><msub><mi>ρ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mo>log</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mo>log</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">(\rho_1, \rho_2)=(\log\sigma_\alpha, \log\sigma)</annotation></semantics></math>
+results in a density (in the plot on the right) from which it is easier
+to simulate.</p>
 <p>We produce some summaries of the posterior sample stored in
 <code>coag1</code>. The summaries calculated from <code>coag2</code> are
 very similar.</p>
@@ -256,19 +298,31 @@ very similar.</p>
 <span><span class="co">#&gt; sigma[alpha]  2.0  3.5  5.0  7.9  27.0</span></span>
 <span><span class="co">#&gt; sigma         1.8  2.2  2.4  2.7   3.4</span></span></code></pre></div>
 <p>These posterior summaries are similar to those presented in Table
-11.3 of <span class="citation">Gelman et al. (2014)</span> (where <span class="math inline">\(\sigma_\alpha\)</span> is denoted <span class="math inline">\(\tau\)</span>), which were obtained using Gibbs
-sampling.</p>
+11.3 of <span class="citation">Gelman et al. (2014)</span> (where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+is denoted
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>),
+which were obtained using Gibbs sampling.</p>
 <p>When the number of groups is small <span class="citation">Gelman
-(2006)</span> advocates the use of a half-Cauchy prior for <span class="math inline">\(\sigma_\alpha\)</span>. The code below implements
-this using independent half-Cauchy priors for <span class="math inline">\(\sigma_\alpha\)</span> and <span class="math inline">\(\sigma\)</span>, that is, <span class="math display">\[
-\pi(\sigma_\alpha, \sigma) \propto
+(2006)</span> advocates the use of a half-Cauchy prior for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>.
+The code below implements this using independent half-Cauchy priors for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>,
+that is,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∝</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><msubsup><mi>A</mi><mi>α</mi><mn>2</mn></msubsup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>−</mi><mn>1</mn></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mfrac><msup><mi>σ</mi><mn>2</mn></msup><msup><mi>A</mi><mn>2</mn></msup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>σ</mi><mi>α</mi></msub><mo>&gt;</mo><mn>0</mn><mo>,</mo><mspace width="0.167em"></mspace><mi>σ</mi><mo>&gt;</mo><mn>0</mn><mi>.</mi></mrow><annotation encoding="application/x-tex"> 
+\pi(\sigma_\alpha, \sigma) \propto 
 \left(1 + \frac{\sigma_\alpha^2}{A_\alpha^2}\right)^{-1}
-\left(1 + \frac{\sigma^2}{A^2}\right)^{-1}, \quad \sigma_\alpha&gt;0, \,
-\sigma&gt;0.
-\]</span> We choose, somewhat arbitrarily, <span class="math inline">\(\sigma_\alpha = 10\)</span>: in practice <span class="math inline">\(\sigma_\alpha\)</span> should be set by
-considering the problem in hand. See <span class="citation">Gelman
-(2006)</span> for details. We set <span class="math inline">\(A\)</span>
-to be large enough to result in an effectively flat prior for <span class="math inline">\(\sigma\)</span>.</p>
+\left(1 + \frac{\sigma^2}{A^2}\right)^{-1}, \quad \sigma_\alpha&gt;0, \, \sigma&gt;0.
+</annotation></semantics></math> We choose, somewhat arbitrarily,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>α</mi></msub><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">\sigma_\alpha = 10</annotation></semantics></math>:
+in practice
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>α</mi></msub><annotation encoding="application/x-tex">\sigma_\alpha</annotation></semantics></math>
+should be set by considering the problem in hand. See <span class="citation">Gelman (2006)</span> for details. We set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+to be large enough to result in an effectively flat prior for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coag3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hanova1.html">hanova1</a></span><span class="op">(</span>resp <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, fac <span class="op">=</span> <span class="va">coagulation</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,</span>
 <span>                 param <span class="op">=</span> <span class="st">"original"</span>, prior <span class="op">=</span> <span class="st">"cauchy"</span>, hpars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1e6</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -276,158 +330,177 @@ to be large enough to result in an effectively flat prior for <span class="math 
 <div class="section level2">
 <h2 id="appendix">Appendix<a class="anchor" aria-label="anchor" href="#appendix"></a>
 </h2>
-<p>Consider the hierarchical 1-way ANOVA model <span class="math display">\[\begin{equation*}
-Y_{ij} = \mu + \alpha_i + \epsilon_{ij}, \quad\mbox{for} \,\, i = 1,
-\ldots, I, \,
+<p>Consider the hierarchical 1-way ANOVA model
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>μ</mi><mo>+</mo><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>,</mo><mspace width="1.0em"></mspace><mtext mathvariant="normal">for</mtext><mspace width="0.167em"></mspace><mspace width="0.167em"></mspace><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>I</mi><mo>,</mo><mspace width="0.167em"></mspace><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>n</mi><mi>i</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation*}
+Y_{ij} = \mu + \alpha_i + \epsilon_{ij}, \quad\mbox{for} \,\, i = 1, \ldots, I, \, 
 j = 1, \ldots, n_i,  \label{eqn:1way}
-\end{equation*}\]</span> where <span class="math inline">\(\alpha_i \sim
-N(0, \sigma_\alpha^2)\)</span> and <span class="math inline">\(\epsilon_{ij} \sim N(0, \sigma^2)\)</span> and all
-random variables are independent. We specify a prior density <span class="math inline">\(\pi(\boldsymbol{\mathbf{\phi}})\)</span> for <span class="math inline">\(\boldsymbol{\mathbf{\phi}} = (\mu, \sigma_\alpha,
-\sigma)\)</span>. Let <span class="math inline">\(\boldsymbol{\mathbf{y}} = \{y_{ij}, i=1, \ldots,
-I, j = 1, \ldots, n_i\}\)</span> and <span class="math inline">\(\boldsymbol{\mathbf{\alpha}} = (\alpha_1, \ldots,
-\alpha_I)\)</span>.</p>
+\end{equation*}</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_i \sim N(0, \sigma_\alpha^2)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ϵ</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo>,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\epsilon_{ij} \sim N(0, \sigma^2)</annotation></semantics></math>
+and all random variables are independent. We specify a prior density
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\boldsymbol{\mathbf{\phi}})</annotation></semantics></math>
+for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝛟</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}} = (\mu, \sigma_\alpha, \sigma)</annotation></semantics></math>.
+Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝐲</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>,</mo><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>I</mi><mo>,</mo><mi>j</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>n</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{y}} = \{y_{ij}, i=1, \ldots, I, j = 1, \ldots, n_i\}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝛂</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>α</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>α</mi><mi>I</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\alpha}} = (\alpha_1, \ldots, \alpha_I)</annotation></semantics></math>.</p>
 <div class="section level3">
-<h3 id="marginal-posterior-density-of-boldsymbolmathbfphi">Marginal posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span><a class="anchor" aria-label="anchor" href="#marginal-posterior-density-of-boldsymbolmathbfphi"></a>
+<h3 id="marginal-posterior-density-of-boldsymbolmathbfphi">Marginal posterior density of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛟</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}}</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#marginal-posterior-density-of-boldsymbolmathbfphi"></a>
 </h3>
-<p>The joint posterior density of <span class="math inline">\((\boldsymbol{\mathbf{\phi}},
-\boldsymbol{\mathbf{\alpha}})\)</span> satisfies <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}}
-\mid \boldsymbol{\mathbf{y}}) &amp;\propto
+<p>The joint posterior density of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>,</mo><mi>𝛂</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}})</annotation></semantics></math>
+satisfies
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛂</mi><mo>,</mo><mi>𝛟</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo stretchy="true" form="postfix">)</mo></mrow><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><munderover><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mi>σ</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>μ</mi><mo>−</mo><msub><mi>α</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup></mrow></mfrac><msubsup><mi>α</mi><mi>i</mi><mn>2</mn></msubsup><mo stretchy="true" form="postfix">]</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>−</mi><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mi>I</mi></mrow></msubsup><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>μ</mi><mo>−</mo><msub><mi>α</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><msubsup><mi>α</mi><mi>i</mi><mn>2</mn></msubsup><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">}</mo></mrow><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\pi(\boldsymbol{\mathbf{\alpha}},\boldsymbol{\mathbf{\phi}} 
+\mid \boldsymbol{\mathbf{y}}) &amp;\propto 
 \pi(\boldsymbol{\mathbf{\phi}})
-\prod\limits_{i=1}^{I}\prod\limits_{j=1}^{n_i}
-\sigma^{-1} \exp \left[-\frac{1}{2\sigma^2}(y_{ij} - \mu -
-\alpha_i)^2\right]
-\prod_{i=1}^{I}
-\sigma_\alpha^{-1}
-\exp\left[-\frac{1}{2\sigma^2_\alpha}\alpha_i^2\right]  \nonumber \\
-&amp;= \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \,
-\sigma_\alpha^{-I}
-\prod_{i=1}^I \exp \left\{ -\frac12 \left[ \sigma^{-2} \sum_{j=1}^{n_i}
-(y_{ij} - \mu - \alpha_i)^2
+\prod\limits_{i=1}^{I}\prod\limits_{j=1}^{n_i} 
+\sigma^{-1} \exp \left[-\frac{1}{2\sigma^2}(y_{ij} - \mu - \alpha_i)^2\right]
+\prod_{i=1}^{I} 
+\sigma_\alpha^{-1} \exp\left[-\frac{1}{2\sigma^2_\alpha}\alpha_i^2\right]  \nonumber \\
+&amp;= \pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
+\prod_{i=1}^I \exp \left\{ -\frac12 \left[ \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu - \alpha_i)^2 
 +\sigma_\alpha^{-2} \alpha_i^2 \right] \right\},
 \label{eqn:joint}
-\end{align*}\]</span></p>
-<p>where <span class="math inline">\(n_\cdot = \sum_{i=1}^{I}
-n_i\)</span>. Let <span class="math inline">\(\bar{y}_{i\cdot} = (1/n_i)
-\sum_{j=1}^{n_i} y_{ij}\)</span>. Completing the square in <span class="math inline">\(\alpha_i\)</span> in the term in square brackets
-gives <span class="math display">\[\begin{align*}
-&amp;\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu - \alpha_i)^2 +
-\sigma_\alpha^{-2} \alpha_i^2 \\
+\end{align*}</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mo>⋅</mo></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></msubsup><msub><mi>n</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">n_\cdot = \sum_{i=1}^{I} n_i</annotation></semantics></math>.
+Let
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></msubsup><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\bar{y}_{i\cdot} = (1/n_i) \sum_{j=1}^{n_i} y_{ij}</annotation></semantics></math>.
+Completing the square in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\alpha_i</annotation></semantics></math>
+in the term in square brackets gives
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>μ</mi><mo>−</mo><msub><mi>α</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><msubsup><mi>α</mi><mi>i</mi><mn>2</mn></msubsup></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>−</mo><mn>2</mn><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>α</mi><mi>i</mi></msub><mo>+</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><msubsup><mi>α</mi><mi>i</mi><mn>2</mn></msubsup></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><msub><mi>n</mi><mi>i</mi></msub><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><msup><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>α</mi><mi>i</mi></msub><mo>−</mo><mfrac><mrow><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mrow></mfrac><mo stretchy="true" form="postfix">]</mo></mrow><mn>2</mn></msup><mo>−</mo><mfrac><mrow><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><msup><mi>σ</mi><mrow><mi>−</mi><mn>4</mn></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><mrow><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mrow></mfrac><mo>+</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>a</mi><mi>i</mi></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>α</mi><mi>i</mi></msub><mo>−</mo><msub><mi>b</mi><mi>i</mi></msub><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msub><mi>c</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>b</mi><mi>i</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+&amp;\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu - \alpha_i)^2 + \sigma_\alpha^{-2} \alpha_i^2 \\
 &amp;=
-\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2
-- 2 n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu) \alpha_i + (n_i \sigma^{-2}
-+ \sigma_\alpha^{-2})\alpha_i^2 \\
-&amp;= (\sigma^{-2} n_i + \sigma_{\alpha}^{-2})
-\left[ \alpha_i - \frac{n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu)}{n_i
-\sigma^{-2} + \sigma_{\alpha}^{-2}} \right]^2
-- \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}{n_i \sigma^{-2} +
-\sigma_{\alpha}^{-2}}
+\sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2 
+- 2 n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu) \alpha_i + (n_i \sigma^{-2} + \sigma_\alpha^{-2})\alpha_i^2 \\
+&amp;= (\sigma^{-2} n_i + \sigma_{\alpha}^{-2}) 
+\left[ \alpha_i - \frac{n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu)}{n_i \sigma^{-2} + \sigma_{\alpha}^{-2}} \right]^2
+- \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}{n_i \sigma^{-2} + \sigma_{\alpha}^{-2}}
 + \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2 \\
 &amp;= a_i (\alpha_i - b_i / a_i)^2 + c_i - b_i^2 / a_i,
-\end{align*}\]</span> where <span class="math inline">\(a_i = n_i
-\sigma^{-2} + \sigma_\alpha^{-2},
-b_i = n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu)\)</span> and <span class="math inline">\(c_i = \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} -
-\mu)^2\)</span>. Therefore, <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid
-\boldsymbol{\mathbf{y}})
-&amp;\propto
-\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \,
-\sigma_\alpha^{-I}
-\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right)
-\right]
-\exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2
-\right]. \\
-\end{align*}\]</span></p>
-<p>The marginal posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> is given by
-<span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})
+\end{align*}</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>=</mo><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo>,</mo><msub><mi>b</mi><mi>i</mi></msub><mo>=</mo><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">a_i = n_i \sigma^{-2} + \sigma_\alpha^{-2},
+b_i = n_i \sigma^{-2} (\bar{y}_{i\cdot} - \mu)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub><mo>=</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></msubsup><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">c_i = \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2</annotation></semantics></math>.
+Therefore,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>,</mo><mi>𝛂</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>−</mi><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mi>I</mi></mrow></msubsup><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>c</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>b</mi><mi>i</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>α</mi><mi>i</mi></msub><mo>−</mo><msub><mi>b</mi><mi>i</mi></msub><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}}) 
+&amp;\propto 
+\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
+\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right]
+\exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right]. \\
+\end{align*}</annotation></semantics></math></p>
+<p>The marginal posterior density of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛟</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}}</annotation></semantics></math>
+is given by
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mi>⋯</mi><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛂</mi><mo>,</mo><mi>𝛟</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mtext mathvariant="normal"> d</mtext><msub><mi>α</mi><mn>1</mn></msub><mi>⋯</mi><mtext mathvariant="normal"> d</mtext><msub><mi>α</mi><mi>I</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>−</mi><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mi>I</mi></mrow></msubsup><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>c</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>b</mi><mi>i</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>α</mi><mi>i</mi></msub><mo>−</mo><msub><mi>b</mi><mi>i</mi></msub><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mtext mathvariant="normal"> d</mtext><msub><mi>α</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>−</mi><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mi>I</mi></mrow></msubsup><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msubsup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>c</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>b</mi><mi>i</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>I</mi><mo>−</mo><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mi>−</mi><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>c</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>b</mi><mi>i</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}}) 
 &amp;=
 \int_{-\infty}^{\infty}\cdots\int_{-\infty}^{\infty}
-\pi(\boldsymbol{\mathbf{\alpha}}, \boldsymbol{\mathbf{\phi}}
-\mid \boldsymbol{\mathbf{y}}) {\rm ~d}\alpha_1 \cdots {\rm ~d}\alpha_I
-\\
-&amp;\propto
-\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \,
-\sigma_\alpha^{-I}
-\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right)
-\right]
-\int_{-\infty}^{\infty} \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i
-- b_i / a_i \right)^2 \right] {\rm ~d}\alpha_i \\
-&amp;\propto
-\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \,
-\sigma_\alpha^{-I}
-\prod_{i=1}^I a_i^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i
-\right) \right] \\
-&amp;\propto
-\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{I-n_\cdot} \,
-\prod_{i=1}^I (\sigma_\alpha^2+\sigma^2/n_i)^{-1/2} \exp\left[ -\frac12
-\left( c_i - b_i ^2 / a_i \right) \right].
-\end{align*}\]</span> Manipulating <span class="math inline">\(c_i - b_i
-^2 / a_i\)</span> gives <span class="math display">\[\begin{align*}
-c_i - b_i ^ 2 / a_i
-  &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2
+\pi(\boldsymbol{\mathbf{\alpha}}, \boldsymbol{\mathbf{\phi}} 
+\mid \boldsymbol{\mathbf{y}}) \text{~d}\alpha_1 \cdots \text{~d}\alpha_I \\
+&amp;\propto 
+\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
+\prod_{i=1}^I \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right]
+\int_{-\infty}^{\infty} \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right] \text{~d}\alpha_i \\
+&amp;\propto 
+\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{-n_\cdot} \, \sigma_\alpha^{-I} 
+\prod_{i=1}^I a_i^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^ 2 / a_i \right) \right] \\
+&amp;\propto 
+\pi(\boldsymbol{\mathbf{\phi}}) \, \sigma^{I-n_\cdot} \, 
+\prod_{i=1}^I (\sigma_\alpha^2+\sigma^2/n_i)^{-1/2} \exp\left[ -\frac12 \left( c_i - b_i ^2 / a_i \right) \right].
+\end{align*}</annotation></semantics></math> Manipulating
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>b</mi><mi>i</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_i - b_i ^2 / a_i</annotation></semantics></math>
+gives
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>c</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>b</mi><mi>i</mi><mn>2</mn></msubsup><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>−</mo><mfrac><mrow><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><msup><mi>σ</mi><mrow><mi>−</mi><mn>4</mn></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><mrow><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mrow></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">[</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msub><mi>n</mi><mi>i</mi></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mo>−</mo><mfrac><mrow><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><msup><mi>σ</mi><mrow><mi>−</mi><mn>4</mn></mrow></msup><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><mrow><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mrow></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><mfrac><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><msubsup><mi>n</mi><mi>i</mi><mn>2</mn></msubsup><msup><mi>σ</mi><mrow><mi>−</mi><mn>4</mn></mrow></msup><mo stretchy="true" form="postfix">]</mo></mrow><mrow><msub><mi>n</mi><mi>i</mi></msub><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><mo>+</mo><msubsup><mi>σ</mi><mi>α</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mi>σ</mi><mrow><mi>−</mi><mn>2</mn></mrow></msup><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><mfrac><mn>1</mn><mrow><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+c_i - b_i ^ 2 / a_i 
+  &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \mu)^2 
    - \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}
   {n_i \sigma^{-2} + \sigma_\alpha^{-2}} \\
-  &amp;= \sigma^{-2} \left[ \sum_{j=1}^{n_i} (y_{ij} -
-\bar{y}_{i\cdot})^2
+  &amp;= \sigma^{-2} \left[ \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2 
    + n_i (\bar{y}_{i\cdot} - \mu)^2 \right]
    - \frac{n_i^2 \sigma^{-4} (\bar{y}_{i\cdot} - \mu)^2}
   {n_i \sigma^{-2} + \sigma_\alpha^{-2}} \\
   &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2 +
-   \frac{\left[ n_i \sigma^{-2} \left(n_i
-\sigma^{-2}+\sigma_\alpha^{-2}\right)
+   \frac{\left[ n_i \sigma^{-2} \left(n_i \sigma^{-2}+\sigma_\alpha^{-2}\right)
     - n_i^2 \sigma^{-4} \right]}{n_i \sigma^{-2} + \sigma_\alpha^{-2}}
     (\bar{y}_{i\cdot} - \mu)^2 \\
-  &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2
-   + \frac{1}{\sigma_\alpha^2 + \sigma^2 / n_i} (\mu -
-\bar{y}_{i\cdot})^2.
-\end{align*}\]</span> Therefore, the joint posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> satisfies
-<span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})
-&amp;\propto
-\pi(\boldsymbol{\mathbf{\phi}}) \,
-\sigma^{I-n_\cdot} \,
+  &amp;= \sigma^{-2} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2 
+   + \frac{1}{\sigma_\alpha^2 + \sigma^2 / n_i} (\mu - \bar{y}_{i\cdot})^2.
+\end{align*}</annotation></semantics></math> Therefore, the joint
+posterior density of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛟</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}}</annotation></semantics></math>
+satisfies
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>I</mi><mo>−</mo><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mi>S</mi><mo stretchy="true" form="postfix">)</mo></mrow><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msubsup><mi>σ</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>μ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}}) 
+&amp;\propto 
+\pi(\boldsymbol{\mathbf{\phi}}) \, 
+\sigma^{I-n_\cdot} \, 
 \exp\left( -\frac{1}{2\sigma^{2}} S \right)
-\prod_{i=1}^I \sigma_i^{-1}
+\prod_{i=1}^I \sigma_i^{-1} 
 \exp\left[ -\frac{1}{2 \sigma_i^2} (\mu - \mu_i)^2 \right],
-\end{align*}\]</span> where <span class="math inline">\(S = \sum_{i=1}^I
-\sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2\)</span>, <span class="math inline">\(\mu_i = \bar{y}_{i\cdot}\)</span> and <span class="math inline">\(\sigma_i^2 = \sigma_\alpha^2 +
-\sigma^2/n_i\)</span>.</p>
+\end{align*}</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></msubsup><msubsup><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>i</mi></msub></msubsup><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">S = \sum_{i=1}^I \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i\cdot})^2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mi>i</mi></msub><mo>=</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub></mrow><annotation encoding="application/x-tex">\mu_i = \bar{y}_{i\cdot}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>σ</mi><mi>i</mi><mn>2</mn></msubsup><mo>=</mo><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\sigma_i^2 = \sigma_\alpha^2 + \sigma^2/n_i</annotation></semantics></math>.</p>
 <div class="section level4">
 <h4 id="a-special-case">A special case<a class="anchor" aria-label="anchor" href="#a-special-case"></a>
 </h4>
-<p>Suppose that a <span class="math inline">\(N(\mu_0,
-\sigma_0^2\)</span>) prior distribution is specified for <span class="math inline">\(\mu\)</span>, so that <span class="math inline">\(\pi(\mu) \propto \exp[-\sigma_0^{-2}(\mu-\mu_0)^2)
-/ 2]\)</span> and that <span class="math inline">\(\mu\)</span> and
-<span class="math inline">\((\sigma_\alpha, \sigma)\)</span> are
-independent <em>a priori</em>. We derive the marginal posterior density
-for <span class="math inline">\((\sigma_\alpha, \sigma)\)</span> in this
-case and the conditional posterior density of <span class="math inline">\(\mu\)</span> given <span class="math inline">\((\sigma_\alpha, \sigma)\)</span>. The joint
-posterior density for <span class="math inline">\((\mu, \sigma_\alpha,
-\sigma)\)</span> satisfies <span class="math display">\[\begin{align*}
+<p>Suppose that a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mn>0</mn></msub><mo>,</mo><msubsup><mi>σ</mi><mn>0</mn><mn>2</mn></msubsup></mrow><annotation encoding="application/x-tex">N(\mu_0, \sigma_0^2</annotation></semantics></math>)
+prior distribution is specified for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>,
+so that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>∝</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><msubsup><mi>σ</mi><mn>0</mn><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mn>2</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\mu) \propto \exp[-\sigma_0^{-2}(\mu-\mu_0)^2) / 2]</annotation></semantics></math>
+and that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\sigma_\alpha, \sigma)</annotation></semantics></math>
+are independent <em>a priori</em>. We derive the marginal posterior
+density for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\sigma_\alpha, \sigma)</annotation></semantics></math>
+in this case and the conditional posterior density of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\sigma_\alpha, \sigma)</annotation></semantics></math>.
+The joint posterior density for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\mu, \sigma_\alpha, \sigma)</annotation></semantics></math>
+satisfies
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>I</mi><mo>−</mo><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mi>S</mi><mo stretchy="true" form="postfix">)</mo></mrow><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msubsup><mi>σ</mi><mi>i</mi><mn>2</mn></msubsup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>μ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>I</mi><mo>−</mo><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mi>S</mi><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mn>2</mn></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>μ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
 \pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
-&amp;\propto \pi(\mu) \, \pi(\sigma_\alpha, \sigma) \,
-\sigma^{I-n_\cdot} \,
+&amp;\propto \pi(\mu) \, \pi(\sigma_\alpha, \sigma) \, 
+\sigma^{I-n_\cdot} \, 
 \exp\left( -\frac{1}{2\sigma^{2}} S \right)
-\prod_{i=1}^I \sigma_i^{-1}
+\prod_{i=1}^I \sigma_i^{-1} 
 \exp\left[ -\frac{1}{2 \sigma_i^2} (\mu - \mu_i)^2 \right], \\
 &amp;=
-\pi(\sigma_\alpha, \sigma) \,
-\sigma^{I-n_\cdot} \,
+\pi(\sigma_\alpha, \sigma) \, 
+\sigma^{I-n_\cdot} \, 
 \exp\left( -\frac{1}{2\sigma^{2}} S \right)
 \left(\prod_{i=1}^I \sigma_i^{-1} \right)
 \exp\left[
--\frac{1}{2} \sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2
+-\frac{1}{2} \sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2 
 \right],
-\end{align*}\]</span> Completing the square in <span class="math inline">\(\mu\)</span> in <span class="math inline">\(\sum_{i=0}^{I} \sigma_i^{-2} (\mu -
-\mu_i)^2\)</span> gives <span class="math display">\[\begin{align*}
-\sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2
-&amp;=
+\end{align*}</annotation></semantics></math> Completing the square in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></msubsup><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>μ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2</annotation></semantics></math>
+gives
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>μ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>μ</mi><mn>2</mn></msup><mo>−</mo><mn>2</mn><mi>μ</mi><msub><mi>μ</mi><mi>i</mi></msub><mo>+</mo><msubsup><mi>μ</mi><mi>i</mi><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msup><mi>μ</mi><mn>2</mn></msup><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo>−</mo><mn>2</mn><mi>μ</mi><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msub><mi>μ</mi><mi>i</mi></msub><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>μ</mi><mi>i</mi><mn>2</mn></msubsup><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msub><mi>μ</mi><mi>i</mi></msub><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mrow><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mspace width="-0.167em"></mspace><mspace width="-0.167em"></mspace><mn>2</mn></mrow></msup><mo>−</mo><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msub><mi>μ</mi><mi>i</mi></msub><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mrow></mfrac><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></munderover><msubsup><mi>μ</mi><mi>i</mi><mn>2</mn></msubsup><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msub><mi>S</mi><mn>0</mn></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>S</mi><mn>1</mn></msub><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>−</mo><msubsup><mi>S</mi><mn>1</mn><mn>2</mn></msubsup><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo>+</mo><msub><mi>S</mi><mn>2</mn></msub><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\sum_{i=0}^{I} \sigma_i^{-2} (\mu - \mu_i)^2 
+&amp;= 
 \sum_{i=0}^{I} \sigma_i^{-2} (\mu^2 - 2 \mu \mu_i + \mu_i^2) \\
 &amp;=
-\mu^2 \sum_{i=0}^{I} \sigma_i^{-2}
-- 2 \mu \sum_{i=0}^{I} \mu_i \sigma_i^{-2}
-+ \sum_{i=0}^{I} \mu_i ^2 \sigma_i^{-2} \\
+\mu^2 \sum_{i=0}^{I} \sigma_i^{-2} 
+- 2 \mu \sum_{i=0}^{I} \mu_i \sigma_i^{-2} 
++ \sum_{i=0}^{I} \mu_i ^2 \sigma_i^{-2} \\ 
 &amp;=
 \left(\sum_{i=0}^{I} \sigma_i^{-2} \right)
 \left( \mu - \frac{\sum_{i=0}^{I} \mu_i \sigma_i^{-2}}
@@ -435,105 +508,125 @@ posterior density for <span class="math inline">\((\mu, \sigma_\alpha,
 - \frac{\left( \sum_{i=0}^{I} \mu_i \sigma_i^{-2} \right)^2}
 {\sum_{i=0}^{I} \sigma_i^{-2}}
 + \sum_{i=0}^{I} \mu_i^{2} \sigma_i^{-2} \\
-&amp;=
+&amp;= 
 S_0 (\mu - S_1 S_0^{-1})^2
 - S_1^2 S_0^{-1} + S_2, \\
-\end{align*}\]</span> where <span class="math inline">\(S_j =
-\sum_{i=0}^{I} \mu_i^{j} \sigma_i^{-2}, \, j = 0, 1, 2\)</span>.
-Therefore, <span class="math display">\[\begin{align*}
+\end{align*}</annotation></semantics></math> where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mi>j</mi></msub><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>I</mi></msubsup><msubsup><mi>μ</mi><mi>i</mi><mi>j</mi></msubsup><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>2</mn></mrow></msubsup><mo>,</mo><mspace width="0.167em"></mspace><mi>j</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>,</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">S_j = \sum_{i=0}^{I} \mu_i^{j} \sigma_i^{-2}, \, j = 0, 1, 2</annotation></semantics></math>.
+Therefore,
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mtext mathvariant="normal"> d</mtext><mi>μ</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>I</mi><mo>−</mo><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mi>S</mi><mo stretchy="true" form="postfix">}</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msubsup><mi>S</mi><mn>1</mn><mn>2</mn></msubsup><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>S</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mphantom><mo>∝</mo></mphantom><mo>×</mo><msubsup><mo>∫</mo><mrow><mi>−</mi><mi>∞</mi></mrow><mi>∞</mi></msubsup><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>S</mi><mn>1</mn></msub><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">}</mo></mrow><mtext mathvariant="normal"> d</mtext><mi>μ</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>σ</mi><mrow><mi>I</mi><mo>−</mo><msub><mi>n</mi><mo>⋅</mo></msub></mrow></msup><mspace width="0.167em"></mspace><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mi>S</mi><mo stretchy="true" form="postfix">}</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><msubsup><mi>σ</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msubsup><mi>S</mi><mn>1</mn><mn>2</mn></msubsup><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>S</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn><mi>/</mi><mn>2</mn></mrow></msubsup><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
 \pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
 &amp;=
-\int_{-\infty}^{\infty}
+\int_{-\infty}^{\infty} 
 \pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
-{\rm ~d}\mu \\
+\text{~d}\mu \\
 &amp;\propto
-\pi(\sigma_\alpha, \sigma) \,
-\sigma^{I-n_\cdot} \,
+\pi(\sigma_\alpha, \sigma) \, 
+\sigma^{I-n_\cdot} \, 
 \exp\left\{ -\frac{1}{2\sigma^{2}} S \right\}
 \left(\prod_{i=1}^I \sigma_i^{-1} \right)
 \exp\left( \frac12 S_1^2 S_0^{-1} - \frac12 S_2 \right) \\
-&amp;\phantom{\propto} \times
-\int_{-\infty}^{\infty}
+&amp;\phantom{\propto} \times 
+\int_{-\infty}^{\infty} 
 \exp\left\{ -\frac{1}{2 S_0^{-1}} (\mu - S_1 S_0^{-1})^2
 \right\}
-{\rm ~d}\mu \\
+\text{~d}\mu \\
 &amp;\propto
-\pi(\sigma_\alpha, \sigma) \,
-\sigma^{I-n_\cdot} \,
+\pi(\sigma_\alpha, \sigma) \, 
+\sigma^{I-n_\cdot} \, 
 \exp\left\{ -\frac{1}{2\sigma^{2}} S \right\}
 \left(\prod_{i=1}^I \sigma_i^{-1} \right)
-\exp\left( \frac12 S_1^2 S_0^{-1} - \frac12 S_2 \right)
+\exp\left( \frac12 S_1^2 S_0^{-1} - \frac12 S_2 \right) 
 S_0^{-1/2}.
-\end{align*}\]</span></p>
-<p>Retaining only the terms in <span class="math inline">\(\pi(\mu,
-\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})\)</span> that
-involve <span class="math inline">\(\mu\)</span> gives <span class="math display">\[\begin{align*}
-\pi(\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}})
-&amp;\propto
+\end{align*}</annotation></semantics></math></p>
+<p>Retaining only the terms in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>,</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\mu, \sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+that involve
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+gives
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>−</mo><msub><mi>S</mi><mn>1</mn></msub><mi>/</mi><msub><mi>S</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\pi(\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}}) 
+&amp;\propto 
 \exp\left[ -\frac{1}{2 S_0^{-1}} (\mu - S_1 / S_0)^2 \right].
-\end{align*}\]</span> Therefore, <span class="math inline">\(\mu \mid
-\sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}}
-\sim N(S_1 S_0^{-1}, S_0^{-1})\)</span>.</p>
+\end{align*}</annotation></semantics></math> Therefore,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>∣</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>,</mo><mi>𝐲</mi><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>S</mi><mn>1</mn></msub><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo>,</mo><msubsup><mi>S</mi><mn>0</mn><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}}
+\sim N(S_1 S_0^{-1}, S_0^{-1})</annotation></semantics></math>.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="the-conditional-posterior-density-of-boldsymbolmathbftheta-given-boldsymbolmathbfphi">The conditional posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\theta}}\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span><a class="anchor" aria-label="anchor" href="#the-conditional-posterior-density-of-boldsymbolmathbftheta-given-boldsymbolmathbfphi"></a>
+<h3 id="the-conditional-posterior-density-of-boldsymbolmathbftheta-given-boldsymbolmathbfphi">The conditional posterior density of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛉</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\theta}}</annotation></semantics></math>
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛟</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}}</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#the-conditional-posterior-density-of-boldsymbolmathbftheta-given-boldsymbolmathbfphi"></a>
 </h3>
-<p>The conditional posterior density of <span class="math inline">\(\boldsymbol{\mathbf{\alpha}}\)</span> given <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span> satisfies
-<span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{\phi}},
-\boldsymbol{\boldsymbol{\mathbf{y}}})
-&amp;\propto \prod_{i=1}^I \exp\left[ -\frac{1}{2a_i^{-1}} \left(
-\alpha_i - b_i / a_i \right)^2 \right],
-\end{align*}\]</span> because these are the only terms in <span class="math inline">\(\pi (\boldsymbol{\mathbf{\phi}},
-\boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}})\)</span> that
-involve <span class="math inline">\(\alpha_i, i = 1, \ldots, I\)</span>.
-Therefore, conditional on <span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span>, <span class="math inline">\(\alpha_1, \ldots, \alpha_I\)</span> are
-independent <em>a posteriori</em> and <span class="math inline">\(\alpha_i \mid \boldsymbol{\mathbf{\phi}},
-\boldsymbol{\mathbf{y}} \sim N(b_i a_i^{-1}, a_i^{-1})\)</span>, where
-<span class="math display">\[\begin{align*}
-b_i a_i^{-1} &amp;=
-\frac{\sigma_\alpha^2 \, (\bar{y}_{i\cdot} - \mu)}
+<p>The conditional posterior density of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛂</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\alpha}}</annotation></semantics></math>
+given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛟</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}}</annotation></semantics></math>
+satisfies
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛂</mi><mo>∣</mo><mi>𝛟</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∝</mo><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mfrac><mn>1</mn><mrow><mn>2</mn><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup></mrow></mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>α</mi><mi>i</mi></msub><mo>−</mo><msub><mi>b</mi><mi>i</mi></msub><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\pi(\boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{\phi}}, 
+\boldsymbol{\boldsymbol{\mathbf{y}}}) 
+&amp;\propto \prod_{i=1}^I \exp\left[ -\frac{1}{2a_i^{-1}} \left( \alpha_i - b_i / a_i \right)^2 \right],
+\end{align*}</annotation></semantics></math> because these are the only
+terms in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>,</mo><mi>𝛂</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi (\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+that involve
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>,</mo><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">\alpha_i, i = 1, \ldots, I</annotation></semantics></math>.
+Therefore, conditional on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛟</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mn>1</mn></msub><mo>,</mo><mi>…</mi><mo>,</mo><msub><mi>α</mi><mi>I</mi></msub></mrow><annotation encoding="application/x-tex">\alpha_1, \ldots, \alpha_I</annotation></semantics></math>
+are independent <em>a posteriori</em> and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>∣</mo><mi>𝛟</mi><mo>,</mo><mi>𝐲</mi><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>b</mi><mi>i</mi></msub><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo>,</mo><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\alpha_i \mid \boldsymbol{\mathbf{\phi}},
+\boldsymbol{\mathbf{y}} \sim N(b_i a_i^{-1}, a_i^{-1})</annotation></semantics></math>,
+where
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mi>b</mi><mi>i</mi></msub><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mspace width="0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><mo>−</mo><mi>μ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub></mrow></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub></mrow><mrow><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub></mrow></mfrac><mi>.</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+b_i a_i^{-1} &amp;= 
+\frac{\sigma_\alpha^2 \, (\bar{y}_{i\cdot} - \mu)} 
 {\sigma_\alpha^{2} + \sigma^2 / n_i} \\
 a_i^{-1} &amp;= \frac{\sigma_\alpha^2 \, \sigma^2 / n_i}
 {\sigma_\alpha^{2} + \sigma^2 / n_i}. \\
-\end{align*}\]</span> Noting that <span class="math inline">\(\theta_i =
-\mu + \alpha_i\)</span> gives <span class="math inline">\(\theta_i \mid
-\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}} \sim
-N(\hat{\theta}_i, a_i^{-1})\)</span>, where <span class="math display">\[\begin{align*}
-\hat{\theta}_i &amp;=
-\frac{\bar{y}_{i\cdot} \sigma_\alpha^2 + \mu \, \sigma ^ 2 / n_i}
+\end{align*}</annotation></semantics></math> Noting that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>i</mi></msub><mo>=</mo><mi>μ</mi><mo>+</mo><msub><mi>α</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\theta_i = \mu + \alpha_i</annotation></semantics></math>
+gives
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>i</mi></msub><mo>∣</mo><mi>𝛟</mi><mo>,</mo><mi>𝐲</mi><mo>∼</mo><mi>N</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mi>i</mi></msub><mo>,</mo><msubsup><mi>a</mi><mi>i</mi><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\theta_i \mid \boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{y}} \sim N(\hat{\theta}_i, a_i^{-1})</annotation></semantics></math>,
+where
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mover><mi>θ</mi><mo accent="true">̂</mo></mover><mi>i</mi></msub></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mfrac><mrow><msub><mover><mi>y</mi><mo accent="true">‾</mo></mover><mrow><mi>i</mi><mo>⋅</mo></mrow></msub><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo>+</mo><mi>μ</mi><mspace width="0.167em"></mspace><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub></mrow><mrow><msubsup><mi>σ</mi><mi>α</mi><mn>2</mn></msubsup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup><mi>/</mi><msub><mi>n</mi><mi>i</mi></msub></mrow></mfrac><mi>.</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\hat{\theta}_i &amp;= 
+\frac{\bar{y}_{i\cdot} \sigma_\alpha^2 + \mu \, \sigma ^ 2 / n_i} 
 {\sigma_\alpha^{2} + \sigma^2 / n_i}. \\
-\end{align*}\]</span></p>
+\end{align*}</annotation></semantics></math></p>
 </div>
 <div class="section level3">
 <h3 id="factorisations-for-simulation">Factorisations for simulation<a class="anchor" aria-label="anchor" href="#factorisations-for-simulation"></a>
 </h3>
-<p>In the most general case considered here the factorisation <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid
-\boldsymbol{\mathbf{y}})
+<p>In the most general case considered here the factorisation
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>,</mo><mi>𝛂</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>α</mi><mi>i</mi></msub><mo>∣</mo><mi>𝛟</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}})
 &amp;= \pi(\boldsymbol{\mathbf{\phi}} \mid \boldsymbol{\mathbf{y}})
-\, \prod_{i=1}^{I} \pi(\alpha_i \mid \boldsymbol{\mathbf{\phi}},
+\, \prod_{i=1}^{I} \pi(\alpha_i \mid \boldsymbol{\mathbf{\phi}}, 
 \boldsymbol{\boldsymbol{\mathbf{y}}})
-\end{align*}\]</span> means that we can simulate first from the
-three-dimensional <span class="math inline">\(\pi(\boldsymbol{\mathbf{\phi}}, \mid
-\boldsymbol{\mathbf{y}})\)</span> and then, conditional on the value of
-<span class="math inline">\(\boldsymbol{\mathbf{\phi}}\)</span>,
-simulate independently from each of the normal distributions of <span class="math inline">\(\alpha_i \mid \boldsymbol{\mathbf{\phi}},
-\boldsymbol{\boldsymbol{\mathbf{y}}}\)</span>.</p>
-<p>In the special case detailed above the factorisation becomes <span class="math display">\[\begin{align*}
-\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid
-\boldsymbol{\mathbf{y}})
+\end{align*}</annotation></semantics></math> means that we can simulate
+first from the three-dimensional
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>,</mo><mi>∣</mi><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\boldsymbol{\mathbf{\phi}}, \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+and then, conditional on the value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝛟</mi><annotation encoding="application/x-tex">\boldsymbol{\mathbf{\phi}}</annotation></semantics></math>,
+simulate independently from each of the normal distributions of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>i</mi></msub><mo>∣</mo><mi>𝛟</mi><mo>,</mo><mi>𝐲</mi></mrow><annotation encoding="application/x-tex">\alpha_i \mid \boldsymbol{\mathbf{\phi}}, \boldsymbol{\boldsymbol{\mathbf{y}}}</annotation></semantics></math>.</p>
+<p>In the special case detailed above the factorisation becomes
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>𝛟</mi><mo>,</mo><mi>𝛂</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>∣</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><munderover><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>I</mi></munderover><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>α</mi><mi>i</mi></msub><mo>∣</mo><mi>𝛟</mi><mo>,</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+\pi(\boldsymbol{\mathbf{\phi}}, \boldsymbol{\mathbf{\alpha}} \mid \boldsymbol{\mathbf{y}})
 &amp;= \pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})
 \, \pi(\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}})
-\, \prod_{i=1}^{I} \pi(\alpha_i \mid \boldsymbol{\mathbf{\phi}},
+\, \prod_{i=1}^{I} \pi(\alpha_i \mid \boldsymbol{\mathbf{\phi}}, 
 \boldsymbol{\boldsymbol{\mathbf{y}}}).
-\end{align*}\]</span> Therefore, the first stage can be performed by
-simulating from the two-dimensional <span class="math inline">\(\pi(\sigma_\alpha, \sigma \mid
-\boldsymbol{\mathbf{y}})\)</span> and then, conditional on the value of
-<span class="math inline">\((\sigma_\alpha, \sigma)\)</span>, from the
-normal distribution of <span class="math inline">\(\mu \mid
-\sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}}\)</span>.</p>
+\end{align*}</annotation></semantics></math> Therefore, the first stage
+can be performed by simulating from the two-dimensional
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>∣</mo><mi>𝐲</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi(\sigma_\alpha, \sigma \mid \boldsymbol{\mathbf{y}})</annotation></semantics></math>
+and then, conditional on the value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\sigma_\alpha, \sigma)</annotation></semantics></math>,
+from the normal distribution of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>∣</mo><msub><mi>σ</mi><mi>α</mi></msub><mo>,</mo><mi>σ</mi><mo>,</mo><mi>𝐲</mi></mrow><annotation encoding="application/x-tex">\mu \mid \sigma_\alpha, \sigma, \boldsymbol{\mathbf{y}}</annotation></semantics></math>.</p>
 </div>
 </div>
 <div class="section level2">
