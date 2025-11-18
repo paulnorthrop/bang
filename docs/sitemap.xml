@@ -1,90 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bang-a-vignette.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bang-b-hef-vignette.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bang-c-anova-vignette.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bang-d-ppc-vignette.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bang-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bang.html</loc>
-  </url>
-  <url>
-    <loc>/reference/coagulation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hanova1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hef.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.hef.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pp_check.hef.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.hef.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.summary.hef.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pump.html</loc>
-  </url>
-  <url>
-    <loc>/reference/rat.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_user_prior.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sim_pred_beta_binom.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sim_pred_gamma_pois.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sim_pred_hanova1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.hef.html</loc>
-  </url>
-  <url>
-    <loc>/reference/temp1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/temp2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/weight_gain.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://github.com/paulnorthrop/bang/404.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/articles/bang-a-vignette.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/articles/bang-b-hef-vignette.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/articles/bang-c-anova-vignette.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/articles/bang-d-ppc-vignette.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/articles/index.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/authors.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/index.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/LICENSE.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/news/index.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/bang-package.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/coagulation.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/hanova1.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/hef.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/index.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/plot.hef.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/pp_check.hef.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/print.hef.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/print.summary.hef.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/pump.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/rat.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/set_user_prior.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/sim_pred_beta_binom.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/sim_pred_gamma_pois.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/sim_pred_hanova1.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/summary.hef.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/temp1.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/temp2.html</loc></url>
+<url><loc>https://github.com/paulnorthrop/bang/reference/weight_gain.html</loc></url>
 </urlset>
+
