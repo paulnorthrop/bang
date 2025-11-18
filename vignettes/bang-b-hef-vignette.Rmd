@@ -41,7 +41,7 @@ The hyperprior for $(\alpha, \beta)$ used by default in `hef` is $\pi(\alpha, \b
 
 ```{r, fig.show='hold', fig.width = 3.45, fig.height = 3.45}
 library(bang)
-# Default prior, sampling on (rotated) (log(mean), log(alpha + beta)) scale
+# Default prior, sampling on (rotated) (logit(mean), log(alpha + beta)) scale
 rat_res <- hef(model = "beta_binom", data = rat, n = 10000)
 plot(rat_res)
 plot(rat_res, ru_scale = TRUE)
