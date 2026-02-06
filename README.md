@@ -1,10 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# bang
+# bang <a href="https://paulnorthrop.github.io/bang/"><img src="man/figures/bang_logo.png" align="right" style="float:right; height:150px;" alt="bang logo"/></a>
 
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/paulnorthrop/bang?branch=master&svg=true)](https://ci.appveyor.com/project/paulnorthrop/bang)
 [![R-CMD-check](https://github.com/paulnorthrop/bang/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/paulnorthrop/bang/actions/workflows/R-CMD-check.yaml)
 [![Coverage
 Status](https://codecov.io/github/paulnorthrop/bang/coverage.svg?branch=master)](https://app.codecov.io/github/paulnorthrop/bang?branch=master)
