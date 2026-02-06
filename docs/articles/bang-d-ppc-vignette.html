@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Paul J.
 Northrop</h4>
             
-            <h4 data-toc-skip class="date">2025-11-18</h4>
+            <h4 data-toc-skip class="date">2026-02-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/paulnorthrop/bang/blob/HEAD/vignettes/bang-d-ppc-vignette.Rmd"><code>vignettes/bang-d-ppc-vignette.Rmd</code></a></small>
       <div class="d-none name"><code>bang-d-ppc-vignette.Rmd</code></div>
@@ -92,7 +92,6 @@ fits well then the observed data should not appear unusual when compared
 to replicates from the posterior predictive distribution.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://paulnorthrop.github.io/bang/" class="external-link">bang</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'bang' was built under R version 4.5.2</span></span>
 <span><span class="co"># Beta-binomial rat tumor example</span></span>
 <span><span class="va">rat_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hef.html">hef</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"beta_binom"</span>, data <span class="op">=</span> <span class="va">rat</span>, nrep <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span>
 <span><span class="co"># Gamma-Poisson pump failure example</span></span>
@@ -111,12 +110,14 @@ their content. The commented lines above the calls to
 of successful trials.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mc-stan.org/bayesplot/" class="external-link">bayesplot</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; This is bayesplot version 1.14.0</span></span>
+<span><span class="co">#&gt; Warning: package 'bayesplot' was built under R version 4.5.2</span></span>
+<span><span class="co">#&gt; This is bayesplot version 1.15.0</span></span>
 <span><span class="co">#&gt; - Online documentation and vignettes at mc-stan.org/bayesplot</span></span>
 <span><span class="co">#&gt; - bayesplot theme set to bayesplot::theme_default()</span></span>
 <span><span class="co">#&gt;    * Does _not_ affect other ggplot2 plots</span></span>
 <span><span class="co">#&gt;    * See ?bayesplot_theme_set for details on theme setting</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'ggplot2' was built under R version 4.5.2</span></span>
 <span><span class="co"># Overlaid density estimates</span></span>
 <span><span class="fu"><a href="../reference/pp_check.hef.html">pp_check</a></span><span class="op">(</span><span class="va">rat_res</span><span class="op">)</span></span>
 <span><span class="co"># Overlaid distribution function estimates</span></span>
